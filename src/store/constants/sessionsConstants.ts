@@ -1,3 +1,3 @@
-export const SESSIONS_ADD = "[sessions] add";
-export const SESSIONS_DELETE = "[sessions] delete";
-export const SESSIONS_UPDATE = "[sessions] update";
+export const SESSIONS_ADD = "[SESSIONS] add";
+export const SESSIONS_DELETE = "[SESSIONS] delete";
+export const SESSIONS_UPDATE = "[SESSIONS] update";

@@ -1,3 +1,3 @@
-export const DRIVERS_ADD = "[sessions] add";
-export const DRIVERS_DELETE = "[sessions] delete";
-export const DRIVERS_UPDATE = "[sessions] update";
+export const DRIVERS_ADD = "[DRIVERS] add";
+export const DRIVERS_DELETE = "[DRIVERS] delete";
+export const DRIVERS_UPDATE = "[DRIVERS] update";
