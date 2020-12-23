@@ -1,16 +1,17 @@
 import { SESSIONS_ADD, SESSIONS_DELETE, SESSIONS_UPDATE } from "../constants/sessionsConstants";
+import { Session } from "../reducers/sessionsReducer";
 
-export const addSession = (session: any) => ({
+export const addSession = (session: Session) => ({
   type: SESSIONS_ADD,
   payload: session,
 });
 
-export const deleteSession = (session: any) => ({
+export const deleteSession = (session: Session) => ({
   type: SESSIONS_DELETE,
   payload: session,
 });
 
-export const updateSession = (session: any) => ({
+export const updateSession = (session: Session) => ({
   type: SESSIONS_UPDATE,
-  paylaod: session,
+  payload: session,
 });

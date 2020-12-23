@@ -4,6 +4,7 @@ import { Driver } from "./driversReducer";
 export type Race = {
   id: number;
   time: number;
+  session: number; // session id
   cars: {
     [x: number]: string; // index is the id of the driver
   }

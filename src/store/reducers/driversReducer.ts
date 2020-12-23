@@ -1,5 +1,9 @@
 import { Action } from "redux";
-import { DRIVERS_ADD, DRIVERS_DELETE } from "../constants/driversConstants";
+import {
+  DRIVERS_ADD,
+  DRIVERS_DELETE,
+  DRIVERS_UPDATE,
+} from "../constants/driversConstants";
 
 export type Driver = {
   id: number;
@@ -22,6 +26,12 @@ export const driversReducer = (state = initialState, action: Action<any>) => {
       let driver = action.payload;
       newState = { ...state };
       newState.drivers.push(driver);
+      return newState;
+    case DRIVERS_UPDATE:
+      driver = action.payload;
+      newState = { ...state };
+      const index = state.drivers.findIndex((item) => item.id === driver.id);
+      newState.drivers[index] = driver;
 
       return newState;
     case DRIVERS_DELETE:

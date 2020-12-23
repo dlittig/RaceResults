@@ -2,18 +2,19 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import DrawerNavigator from "./DrawerNavigator";
-import EditDriver from "../screens/EditDriver";
+import EditDriver from "../screens/Drivers/Edit";
 import {
   APP_EDIT_DRIVER,
+  APP_EDIT_SESSION,
   APP_HOME,
   APP_RANDOM_MAP,
   APP_SCOREBOARD,
   APP_VIEW_SESSION,
 } from "./RouteConstants";
-import SessionsStack from "./SessionsStack";
 import RandomMap from "../screens/RandomMap";
-import ViewSession from "../screens/ViewSession";
+import ViewSession from "../screens/Sessions/View";
 import Scoreboard from "../screens/Scoreboard";
+import EditSession from "../screens/Sessions/Edit";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ const Navigator = () => (
         component={DrawerNavigator}
       />
       <Stack.Screen name={APP_EDIT_DRIVER} component={EditDriver} />
+      <Stack.Screen name={APP_EDIT_SESSION} component={EditSession} />
       <Stack.Screen name={APP_RANDOM_MAP} component={RandomMap} />
       <Stack.Screen name={APP_VIEW_SESSION} component={ViewSession} />
       <Stack.Screen name={APP_SCOREBOARD} component={Scoreboard} />
