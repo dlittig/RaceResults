@@ -11,6 +11,11 @@ const ViewSessionStyle = StyleSheet.create({
     display: "flex",
     flex: 1,
   },
+  sessionLabel: {
+    fontSize: 16,
+    marginHorizontal: 72,
+    marginBottom: 12,
+  },
 });
 
 export default ViewSessionStyle;

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const EditSessionStyle = StyleSheet.create({
+const EditRaceStyle = StyleSheet.create({
   fab: {
     position: "absolute",
     margin: 16,
@@ -9,4 +9,4 @@ const EditSessionStyle = StyleSheet.create({
   },
 });
 
-export default EditSessionStyle;
+export default EditRaceStyle;

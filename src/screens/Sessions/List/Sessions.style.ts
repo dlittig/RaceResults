@@ -7,10 +7,6 @@ const SessionStyle = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  container: {
-    display: "flex",
-    flex: 1,
-  },
 });
 
 export default SessionStyle;

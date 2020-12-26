@@ -5,6 +5,7 @@ import DrawerNavigator from "./DrawerNavigator";
 import EditDriver from "../screens/Drivers/Edit";
 import {
   APP_EDIT_DRIVER,
+  APP_EDIT_RACE,
   APP_EDIT_SESSION,
   APP_HOME,
   APP_RANDOM_MAP,
@@ -15,6 +16,10 @@ import RandomMap from "../screens/RandomMap";
 import ViewSession from "../screens/Sessions/View";
 import Scoreboard from "../screens/Scoreboard";
 import EditSession from "../screens/Sessions/Edit";
+import EditRace from "../screens/Race/Edit";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { View } from "react-native";
+import { IconButton } from "react-native-paper";
 
 const Stack = createStackNavigator();
 
@@ -22,9 +27,15 @@ const options = {
   headerShown: false,
 };
 
+const headerStyle = {
+  elevation: 0, // remove shadow on Android
+  shadowOpacity: 0, // remove shadow on iOS
+  borderBottomWidth: 0,
+};
+
 const Navigator = () => (
   <NavigationContainer>
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerStyle }}>
       <Stack.Screen
         name={APP_HOME}
         options={options}
@@ -32,8 +43,30 @@ const Navigator = () => (
       />
       <Stack.Screen name={APP_EDIT_DRIVER} component={EditDriver} />
       <Stack.Screen name={APP_EDIT_SESSION} component={EditSession} />
+      <Stack.Screen name={APP_EDIT_RACE} component={EditRace} />
       <Stack.Screen name={APP_RANDOM_MAP} component={RandomMap} />
-      <Stack.Screen name={APP_VIEW_SESSION} component={ViewSession} />
+      <Stack.Screen
+        name={APP_VIEW_SESSION}
+        options={({ navigation, route }) => ({
+          headerRight: (props: any) => (
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <IconButton
+                icon="scoreboard"
+                accessibilityLabel="Scoreboard"
+                size={24}
+                onPress={() => navigation.navigate(APP_SCOREBOARD)}
+              />
+              <IconButton
+                icon="pencil"
+                accessibilityLabel="Edit"
+                size={24}
+                onPress={() => navigation.navigate(APP_EDIT_SESSION)}
+              />
+            </View>
+          ),
+        })}
+        component={ViewSession}
+      />
       <Stack.Screen name={APP_SCOREBOARD} component={Scoreboard} />
     </Stack.Navigator>
   </NavigationContainer>

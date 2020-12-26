@@ -3,6 +3,8 @@ import React from "react";
 import { View } from "react-native";
 import { FAB, List, Text } from "react-native-paper";
 import { useSelector } from "react-redux";
+import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
+import BaseView from "../../../components/BaseView/BaseView";
 import { APP_EDIT_DRIVER } from "../../../navigator/RouteConstants";
 import { RootReducerType } from "../../../store/reducers";
 import { Driver, DriversState } from "../../../store/reducers/driversReducer";
@@ -15,22 +17,23 @@ const Drivers = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      {driversState.drivers.map((driver, index) => (
-        <List.Item
-          key={index}
-          title={driver.name}
-          onPress={() => navigation.navigate(APP_EDIT_DRIVER, { ...driver })}
-        />
-      ))}
-
+    <BaseView>
+      <BaseScrollView>
+        {driversState.drivers.map((driver, index) => (
+          <List.Item
+            key={index}
+            title={driver.name}
+            onPress={() => navigation.navigate(APP_EDIT_DRIVER, { ...driver })}
+          />
+        ))}
+      </BaseScrollView>
       <FAB
         style={styles.fab}
         label="Add"
         icon="plus"
         onPress={() => navigation.navigate(APP_EDIT_DRIVER)}
       />
-    </View>
+    </BaseView>
   );
 };
 
