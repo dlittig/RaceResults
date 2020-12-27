@@ -18,15 +18,24 @@ const Drivers = () => {
 
   return (
     <BaseView>
-      <BaseScrollView>
-        {driversState.drivers.map((driver, index) => (
-          <List.Item
-            key={index}
-            title={driver.name}
-            onPress={() => navigation.navigate(APP_EDIT_DRIVER, { ...driver })}
-          />
-        ))}
-      </BaseScrollView>
+      {Object.keys(driversState.drivers).length === 0 && (
+        <View>
+          <Text>Get started by creating some drivers 🙂</Text>
+        </View>
+      )}
+      {Object.keys(driversState.drivers).length > 0 && (
+        <BaseScrollView>
+          {Object.values(driversState.drivers).map((driver, index) => (
+            <List.Item
+              key={index}
+              title={driver.name}
+              onPress={() =>
+                navigation.navigate(APP_EDIT_DRIVER, { ...driver })
+              }
+            />
+          ))}
+        </BaseScrollView>
+      )}
       <FAB
         style={styles.fab}
         label="Add"

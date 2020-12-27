@@ -12,6 +12,10 @@ import { useDispatch } from "react-redux";
 import { Driver } from "../../../store/reducers/driversReducer";
 import { addDriver, updateDriver } from "../../../store/actions/driversActions";
 import { useNavigation } from "@react-navigation/native";
+import BaseView from "../../../components/BaseView/BaseView";
+import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
+
+import style from "./EditDriver.style";
 
 const colors = [
   "#d73964",
@@ -75,34 +79,33 @@ const EditDriver = () => {
   };
 
   return (
-    <View>
-      <TextInput
-        label="Name"
-        value={name}
-        onChangeText={(text) => setName(text)}
+    <BaseView>
+      <BaseScrollView>
+        <TextInput
+          label="Name"
+          value={name}
+          onChangeText={(text) => setName(text)}
+        />
+
+        <Button onPress={() => setVisible(true)}>Set color</Button>
+
+        <Portal>
+          <Dialog visible={visible} onDismiss={() => setVisible(false)}>
+            <Dialog.ScrollArea>
+              <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
+                <Text>This is a scrollable area</Text>
+              </ScrollView>
+            </Dialog.ScrollArea>
+          </Dialog>
+        </Portal>
+      </BaseScrollView>
+      <FAB
+        style={style.fab}
+        label="Save"
+        icon="check"
+        onPress={() => onSave()}
       />
-
-      <Button onPress={() => setVisible(true)}>Set color</Button>
-
-      {/* <NativeColorPicker
-        colors={colors}
-        selectedColor={color}
-        onSelect={setColor}
-        animate="scale"
-        scrollEnabled={true}
-      /> */}
-      <Portal>
-        <Dialog visible={visible} onDismiss={() => setVisible(false)}>
-          <Dialog.ScrollArea>
-            <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
-              <Text>This is a scrollable area</Text>
-            </ScrollView>
-          </Dialog.ScrollArea>
-        </Dialog>
-      </Portal>
-
-      <FAB label="Save" icon="check" onPress={() => onSave()} />
-    </View>
+    </BaseView>
   );
 };
 

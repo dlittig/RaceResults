@@ -12,11 +12,13 @@ export type Driver = {
 };
 
 export type DriversState = {
-  drivers: Driver[];
+  drivers: {
+    [x: number]: Driver;
+  };
 };
 
 const initialState: DriversState = {
-  drivers: [],
+  drivers: {},
 };
 
 export const driversReducer = (state = initialState, action: Action<any>) => {
@@ -25,21 +27,22 @@ export const driversReducer = (state = initialState, action: Action<any>) => {
     case DRIVERS_ADD:
       let driver = action.payload;
       newState = { ...state };
-      newState.drivers.push(driver);
+      newState.drivers[driver.id] = driver;
       return newState;
     case DRIVERS_UPDATE:
       driver = action.payload;
       newState = { ...state };
-      const index = state.drivers.findIndex((item) => item.id === driver.id);
-      newState.drivers[index] = driver;
+      newState.drivers[driver.id] = driver;
 
       return newState;
     case DRIVERS_DELETE:
+      // TODO check if user is referenced somewhere else and cancel deletion if so
       driver = action.payload;
       newState = {
         ...state,
-        drivers: state.drivers.filter((elem) => elem.id !== driver.id),
       };
+
+      delete newState.drivers[driver.id];
 
       return newState;
     default:

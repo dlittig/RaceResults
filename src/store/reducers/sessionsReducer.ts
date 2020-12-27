@@ -7,7 +7,7 @@ import { Driver } from "./driversReducer";
 
 export type Session = {
   id: number;
-  participants: Driver[];
+  participants: number[];
   pointScheme: "gapped" | "linear";
   label?: string;
   startTime: number;

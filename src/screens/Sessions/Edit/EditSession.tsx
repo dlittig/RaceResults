@@ -27,6 +27,7 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import style from "./EditSession.style";
 
 const TOGGLE_DRIVER = "[edit sessions] toggle driver";
+const SELECT_ALL_DRIVERS = "[edit sessions] select all drivers";
 
 const reducer = (state: Driver[], action: any) => {
   switch (action.type) {
@@ -38,6 +39,12 @@ const reducer = (state: Driver[], action: any) => {
         // remove
         return [...state.filter((item) => item !== action.driver.id)];
       }
+    case SELECT_ALL_DRIVERS:
+      const drivers = action.payload;
+
+      if (state.length === drivers.length) {
+        return [];
+      } else return drivers.map((driver) => driver.id);
     default:
       throw new Error();
   }
@@ -99,16 +106,25 @@ const EditDriver = () => {
 
         <Portal>
           <Dialog visible={visible} onDismiss={() => setVisible(false)}>
-            <Button onPress={() => {}}>Toggle all</Button>
+            <Button
+              onPress={() =>
+                dispatchParticipants({
+                  type: SELECT_ALL_DRIVERS,
+                  payload: Object.values(driversReducer.drivers),
+                })
+              }
+            >
+              Toggle all
+            </Button>
             <Dialog.ScrollArea>
               <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
-                {driversReducer.drivers.map((driver, index) => (
+                {Object.values(driversReducer.drivers).map((driver, index) => (
                   <Checkbox.Item
                     key={index}
                     label={driver.name}
                     status={
                       participants.filter(
-                        (participant) => participant.id === driver.id
+                        (participant: number) => participant === driver.id
                       ).length === 1
                         ? "checked"
                         : "unchecked"

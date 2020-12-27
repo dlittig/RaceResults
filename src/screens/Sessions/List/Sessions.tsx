@@ -12,6 +12,7 @@ import { SessionsState } from "../../../store/reducers/sessionsReducer";
 import { RootReducerType } from "../../../store/reducers";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import BaseView from "../../../components/BaseView/BaseView";
+import { View } from "react-native";
 
 const Sessions = () => {
   const navigation = useNavigation();
@@ -21,17 +22,24 @@ const Sessions = () => {
 
   return (
     <BaseView>
-      <BaseScrollView>
-        {sessionsReducer.sessions.map((session, index) => (
-          <SessionCard
-            key={index}
-            onPress={() =>
-              navigation.navigate(APP_VIEW_SESSION, { ...session })
-            }
-            session={session}
-          />
-        ))}
-      </BaseScrollView>
+      {sessionsReducer.sessions.length === 0 && (
+        <View>
+          <Text>Get started by creating some drivers via the hamburger menu 🙂</Text>
+        </View>
+      )}
+      {sessionsReducer.sessions.length > 0 && (
+        <BaseScrollView>
+          {sessionsReducer.sessions.map((session, index) => (
+            <SessionCard
+              key={index}
+              onPress={() =>
+                navigation.navigate(APP_VIEW_SESSION, { ...session })
+              }
+              session={session}
+            />
+          ))}
+        </BaseScrollView>
+      )}
       <FAB
         style={styles.fab}
         label="Add"

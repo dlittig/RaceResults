@@ -54,13 +54,18 @@ const Navigator = () => (
                 icon="scoreboard"
                 accessibilityLabel="Scoreboard"
                 size={24}
-                onPress={() => navigation.navigate(APP_SCOREBOARD)}
+                onPress={() =>
+                  navigation.navigate(APP_SCOREBOARD, { ...route.params })
+                }
               />
               <IconButton
                 icon="pencil"
                 accessibilityLabel="Edit"
                 size={24}
-                onPress={() => navigation.navigate(APP_EDIT_SESSION)}
+                onPress={() => {
+                  console.log("R", route);
+                  navigation.navigate(APP_EDIT_SESSION, { ...route.params });
+                }}
               />
             </View>
           ),

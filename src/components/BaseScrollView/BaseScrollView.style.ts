@@ -5,6 +5,7 @@ const BaseScrollViewStyle = StyleSheet.create({
     backgroundColor: "white",
     display: "flex",
     flex: 1,
+    margin: 16,
   },
 });
 

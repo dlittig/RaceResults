@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
 import { Alert, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
@@ -22,10 +23,13 @@ const SessionCard: FC = ({ session, onPress }) => {
           onPress: () => {},
           style: "cancel",
         },
-        { text: "OK", onPress: () => {
-          dispatch(deleteSession(session))
-          dispatch(deleteRaceBySession(sessionId))
-        } },
+        {
+          text: "OK",
+          onPress: () => {
+            dispatch(deleteSession(session));
+            dispatch(deleteRaceBySession(sessionId));
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -39,8 +43,11 @@ const SessionCard: FC = ({ session, onPress }) => {
       style={style.touchableFeedback}
     >
       <View style={style.container}>
-        <Text>{session.label}</Text>
-        <Text>Started: {humanReadableDate(session.startTime)}</Text>
+        <Text style={style.boldText}>{session.label}</Text>
+        <Text>
+          <MaterialCommunityIcons name="clock-time-five-outline" />
+          {` ${humanReadableDate(session.startTime)}`}
+        </Text>
       </View>
     </TouchableOpacity>
   );

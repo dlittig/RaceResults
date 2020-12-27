@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const SessionStyle = StyleSheet.create({
   container: {
-    margin: 15,
+    margin: 5,
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderRadius: 10,
@@ -19,6 +19,9 @@ const SessionStyle = StyleSheet.create({
   touchableFeedback: {
     borderRadius: 10,
   },
+  boldText: {
+    fontWeight: "bold"
+  }
 });
 
 export default SessionStyle;

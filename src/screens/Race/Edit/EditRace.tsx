@@ -42,9 +42,12 @@ const EditRace = () => {
 
   const initCars = () => {
     const cars = take("cars", {});
-    driversReducer.drivers.forEach((driver) => {
-      cars[driver.id] = "";
-    });
+
+    if (Object.keys(cars).length === 0) {
+      Object.keys(driversReducer.drivers).forEach((driverId) => {
+        cars[driverId] = "";
+      });
+    }
 
     return cars;
   };
@@ -52,11 +55,12 @@ const EditRace = () => {
   const [location, setLocation] = useState<string>(
     take("location", RACE_CURCUIT[0])
   );
-  const [drivers, setDrivers] = useState<Driver[]>(
-    take("order", driversReducer.drivers)
+  const [drivers, setDrivers] = useState<number[]>(
+    take("order", Object.keys(driversReducer.drivers))
   );
   const [cars, setCars] = useState<{ [x: string]: any }>(initCars());
 
+  console.log("CARS", cars)
   const onSave = () => {
     const race: Race = {
       id: take("id", Date.now()),
@@ -76,11 +80,12 @@ const EditRace = () => {
     navigation.goBack();
   };
 
-  const renderItem = ({ item, index, drag, isActive }) => (
+  const renderItem = ({ item: id, index, drag, isActive }) => (
     <TouchableOpacity
-      key={item.id}
+      key={id}
       style={{
-        backgroundColor: isActive ? "blue" : item?.backgroundColor,
+        backgroundColor: isActive ? "#F0F0F0" : id?.backgroundColor,
+        borderRadius: 10,
         flexDirection: "row",
       }}
       onLongPress={drag}
@@ -95,17 +100,17 @@ const EditRace = () => {
             color: "#333",
           }}
         >
-          {`${index + 1}: ${item.name}`}
+          {`${index + 1}: ${driversReducer.drivers[id].name}`}
         </Text>
         <TextInput
           mode="flat"
-          label={`Car of ${item.name}`}
+          label={`Car of ${driversReducer.drivers[id].name}`}
           dense={true}
-          value={cars[item.id]}
+          value={cars[id]}
           onChangeText={(text) =>
             setCars({
               ...cars,
-              [item.id]: text,
+              [id]: text,
             })
           }
         />
@@ -119,8 +124,8 @@ const EditRace = () => {
         <DraggableFlatList
           data={drivers}
           renderItem={renderItem}
-          keyExtractor={(item: Driver, index: number) =>
-            `draggable-item-${item.id}-${index}`
+          keyExtractor={(item: number, index: number) =>
+            `draggable-item-${item}-${index}`
           }
           onDragEnd={({ data }) => setDrivers(data)}
         />
