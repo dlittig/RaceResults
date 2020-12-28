@@ -121,7 +121,7 @@ const Navigator = () => (
                 icon="export"
                 accessibilityLabel="Export"
                 size={24}
-                onPress={() => exportSession(route.params as Session)}
+                onPress={() => exportSession(route.params.session as number)}
               />
             </View>
           ),

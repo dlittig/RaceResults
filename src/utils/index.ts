@@ -42,6 +42,7 @@ export const getPointsMap = (
 };
 
 export const calculateScores = (s: Session) => {
+  console.log("S", s);
   const state = store.getState();
   // Get all races of this session
   const races = state.raceReducer.races.filter((race) => race.session === s.id);
@@ -78,12 +79,15 @@ export const calculateScores = (s: Session) => {
   return { finalOrder, races, results, pointsMap };
 };
 
-export const exportSession = (s: Session) => {
+export const exportSession = (s: number) => {
   const state = store.getState();
+  const session = state.sessionsReducer.sessions.filter(
+    (item) => item.id === s
+  )[0];
 
-  const { finalOrder, races, pointsMap } = calculateScores(s);
+  const { finalOrder, races, pointsMap } = calculateScores(session);
 
-  let resultString = `Name: ${s.label}\n\n`;
+  let resultString = `Name: ${session.label}\n\n`;
 
   races.forEach((race: Race, index: number) => {
     resultString += `Track: ${race.location}\n`;
@@ -109,7 +113,7 @@ export const exportSession = (s: Session) => {
 
   resultString += `\nCongrats ${
     state.driversReducer.drivers[finalOrder[0].id].name
-  } 🎉`;
+  }!`;
 
   Clipboard.setString(resultString);
   ToastAndroid.showWithGravity(

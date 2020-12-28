@@ -23,8 +23,10 @@ const Drivers = () => {
   return (
     <BaseView>
       {Object.keys(driversState.drivers).length === 0 && (
-        <View>
-          <Text>Get started by creating some drivers 🙂</Text>
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyStateText}>
+            Get started by creating some drivers.
+          </Text>
         </View>
       )}
       {Object.keys(driversState.drivers).length > 0 && (

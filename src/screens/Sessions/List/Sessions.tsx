@@ -13,6 +13,7 @@ import { RootReducerType } from "../../../store/reducers";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import BaseView from "../../../components/BaseView/BaseView";
 import { View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Sessions = () => {
   const navigation = useNavigation();
@@ -23,8 +24,11 @@ const Sessions = () => {
   return (
     <BaseView>
       {sessionsReducer.sessions.length === 0 && (
-        <View>
-          <Text>Get started by creating some drivers via the hamburger menu 🙂</Text>
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyStateText}>
+            Get started by creating some drivers via the hamburger menu{" "}
+            <MaterialCommunityIcons name="menu" size={16} />
+          </Text>
         </View>
       )}
       {sessionsReducer.sessions.length > 0 && (
