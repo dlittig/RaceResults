@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { ScrollView, View } from "react-native";
 import {
+  Badge,
   Button,
   Dialog,
   FAB,
+  List,
   Portal,
   Text,
   TextInput,
@@ -19,25 +21,13 @@ import style from "./EditDriver.style";
 
 const colors = [
   "#d73964",
-  "#d23440",
-  "#db643a",
-  "#e88334",
-  "#e2a71e",
+  "#f6c244",
   "#e25241",
   "#d0da59",
-  "#4053ae",
   "#70b949",
-  "#73564a",
-  "#67ab5a",
-  "#8f36aa",
-  "#f6c244",
-  "#52b9d0",
-  "#4595ec",
   "#009688",
-  "#5abeA7",
-  "#59bccd",
   "#4a97e4",
-  "#2d68cd",
+  "#4053ae",
   "#9946c7",
   "#d9639e",
   "#6d6f74",
@@ -59,14 +49,15 @@ const EditDriver = () => {
       : fallback;
 
   const [name, setName] = useState<string>(take("name", ""));
-  const [color, setColor] = useState<string>(take("color", "#d73964"));
-  const [visible, setVisible] = useState<boolean>(false);
+  const [selectedColor, setSelectedColor] = useState<string>(
+    take("color", "#d73964")
+  );
 
   const onSave = () => {
     const driver: Driver = {
       id: take("id", Date.now()),
       name,
-      color,
+      color: selectedColor,
     };
 
     if (typeof routeParams !== "undefined") {
@@ -87,17 +78,28 @@ const EditDriver = () => {
           onChangeText={(text) => setName(text)}
         />
 
-        <Button onPress={() => setVisible(true)}>Set color</Button>
-
-        <Portal>
-          <Dialog visible={visible} onDismiss={() => setVisible(false)}>
-            <Dialog.ScrollArea>
-              <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
-                <Text>This is a scrollable area</Text>
-              </ScrollView>
-            </Dialog.ScrollArea>
-          </Dialog>
-        </Portal>
+        <List.Accordion
+          title="Driver color"
+          description={
+            <Text size={10} style={{ color: selectedColor }}>
+              Selected color
+            </Text>
+          }
+        >
+          {colors.map((color, index) => (
+            <List.Item
+              key={index}
+              title="Color"
+              titleStyle={{ color: color }}
+              right={(props) =>
+                selectedColor === color ? (
+                  <List.Icon {...props} icon="check" />
+                ) : null
+              }
+              onPress={() => setSelectedColor(color)}
+            />
+          ))}
+        </List.Accordion>
       </BaseScrollView>
       <FAB
         style={style.fab}

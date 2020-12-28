@@ -32,8 +32,6 @@ const EditRace = () => {
 
   const routeParams = state.routes[state.index].params as EditRaceRouteParams;
 
-  console.log("RP", routeParams);
-
   const take = (key: string, fallback: any) =>
     typeof routeParams?.race !== "undefined" &&
     typeof routeParams?.race[key] !== undefined
@@ -60,12 +58,11 @@ const EditRace = () => {
   );
   const [cars, setCars] = useState<{ [x: string]: any }>(initCars());
 
-  console.log("CARS", cars)
   const onSave = () => {
     const race: Race = {
       id: take("id", Date.now()),
       time: take("time", Date.now()),
-      session: routeParams.session.id,
+      session: take("session", routeParams.session.id),
       location,
       cars,
       order: drivers,

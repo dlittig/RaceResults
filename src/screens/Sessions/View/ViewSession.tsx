@@ -6,6 +6,7 @@ import styles from "./ViewSession.style";
 import {
   APP_EDIT_RACE,
   APP_RANDOM_MAP,
+  APP_VIEW_RACE,
 } from "../../../navigator/RouteConstants";
 import {
   Session,
@@ -18,63 +19,55 @@ import BaseView from "../../../components/BaseView/BaseView";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import NavSeparator from "../../../components/NavSeparator/NavSeparator";
 import Race from "../../../components/Cards/Race";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const ViewSession = () => {
+  const navigation = useNavigation();
+  const state = navigation.dangerouslyGetState();
+  const routeParams = state.routes[state.index].params as Session;
   const sessionsReducer = useSelector<RootReducerType, SessionsState>(
     (state) => state.sessionsReducer
   );
   const raceReducer = useSelector<RootReducerType, RaceState>(
     (state) => state.raceReducer
   );
-  const currentSession = (): Session =>
-    sessionsReducer.sessions.filter((el) => el.id === routeParams.id)[0];
-
-  const navigation = useNavigation();
-  const state = navigation.dangerouslyGetState();
-  const routeParams = state.routes[state.index].params as Session;
-  const [session, setSession] = useState<Session>(currentSession());
-
-  useEffect(() => {
-    setSession(currentSession());
-  }, [sessionsReducer]);
+  const session = sessionsReducer.sessions.filter(
+    (el) => el.id === routeParams.id
+  )[0];
+  const races = raceReducer.races.filter((race) => race.session === session.id);
 
   return (
     <BaseView>
-      <Text style={styles.sessionLabel}>Name: {session.label}</Text>
+      <Text style={styles.sessionLabel}>
+        <MaterialCommunityIcons name="tag" color={"#333"} size={16} />
+        {` ${session.label}`}
+      </Text>
       <NavSeparator />
       <BaseScrollView>
-        {raceReducer.races.length === 0 && (
-          <View>
-            <Text>Start your session with a random map :)</Text>
+        {races.length === 0 && (
+          <View style={styles.emptyState}>
+            <Text style={styles.text}>
+              Start your session with a random map 😎
+            </Text>
             <Button
               mode="contained"
               onPress={() => navigation.navigate(APP_RANDOM_MAP)}
             >
-              Random map
+              <MaterialCommunityIcons name="sync" size={16} />
+              {` Random map`}
             </Button>
           </View>
         )}
-        {raceReducer.races.map((race, index) => (
+        {races.map((race, index) => (
           <Race
             key={race.id}
             position={index + 1}
             race={race}
             onPress={() =>
-              navigation.navigate(APP_EDIT_RACE, { session, race })
+              navigation.navigate(APP_VIEW_RACE, { race, session })
             }
           />
         ))}
-        {/* <Button
-        mode="contained"
-        onPress={() => navigation.navigate(APP_SCOREBOARD)}
-      >
-        Scoreboard
-      </Button>
-      <Button
-        onPress={() => navigation.navigate(APP_EDIT_SESSION, { ...session })}
-      >
-        Edit
-      </Button> */}
       </BaseScrollView>
       <FAB
         style={styles.fab}

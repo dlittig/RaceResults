@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, View } from "react-native";
-import { Text } from "react-native-paper";
+import { View } from "react-native";
+import { Fontisto } from "@expo/vector-icons";
+import BaseView from "../../components/BaseView";
+import { Text, Button } from "react-native-paper";
 import { RACE_CURCUIT } from "../../store/constants/racesConstants";
+
+import style from "./RandomMap.style";
 
 type CurrentTrackType = {
   id: number;
@@ -19,10 +23,7 @@ const RandomMap = () => {
     let random = Math.floor(Math.random() * RACE_CURCUIT.length);
     while (random === currentTrackId) {
       random = Math.floor(Math.random() * RACE_CURCUIT.length);
-      console.log("in while");
     }
-
-    console.log(`Got random track ${random}`);
 
     setCurrentTrack({
       id: random,
@@ -32,16 +33,27 @@ const RandomMap = () => {
 
   useEffect(() => {
     getRandomTrack();
-    console.log("First render");
   }, []);
 
   return (
-    <View>
-      <Text>Random map</Text>
-      <Button title="Regenerate" onPress={() => getRandomTrack()}>Regenrate</Button>
-      {currentTrack === null && <Text>Getting random map</Text>}
-      {currentTrack !== null && <Text>{currentTrack?.track}</Text>}
-    </View>
+    <BaseView>
+      <View style={style.container}>
+        <Fontisto name="map" size={64} color={"#555"} />
+        {currentTrack === null && (
+          <Text style={style.text}>Getting random map...</Text>
+        )}
+        {currentTrack !== null && (
+          <Text style={style.text}>{currentTrack?.track}</Text>
+        )}
+        <Button
+          title="Regenerate"
+          mode="contained"
+          onPress={() => getRandomTrack()}
+        >
+          Regenrate
+        </Button>
+      </View>
+    </BaseView>
   );
 };
 

@@ -6,7 +6,7 @@ const SessionStyle = StyleSheet.create({
     marginBottom: 12,
     paddingHorizontal: 15,
     paddingVertical: 15,
-    borderRadius: 10,
+    borderRadius: 5,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -16,6 +16,12 @@ const SessionStyle = StyleSheet.create({
     elevation: 4,
     backgroundColor: "white",
     shadowColor: "#333",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "baseline"
+  },
+  badge: {
+    marginEnd: 15,
   },
   touchableFeedback: {
     borderRadius: 10,

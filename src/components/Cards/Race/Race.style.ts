@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
 
-const SessionStyle = StyleSheet.create({
+const RaceStyle = StyleSheet.create({
   container: {
     margin: 5,
+    marginBottom: 12,
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderRadius: 5,
@@ -24,4 +25,4 @@ const SessionStyle = StyleSheet.create({
   }
 });
 
-export default SessionStyle;
+export default RaceStyle;

@@ -13,9 +13,7 @@ export type Race = {
   cars: {
     [x: number]: string; // index is the id of the driver
   };
-  order: {
-    [x: number]: number; // index is the order from 1-X, second number is the id
-  };
+  order: number[]; // index is the order from 1-X, second number is the id
   fastest?: number; // id of the fastest driver
   location: string;
 };
@@ -30,7 +28,7 @@ const initialState: RaceState = {
 
 export const raceReducer = (state = initialState, action) => {
   let newState: RaceState = { races: [] };
-  console.log("RACE", state, action.payload);
+
   switch (action.type) {
     case RACE_ADD:
       let race = action.payload;

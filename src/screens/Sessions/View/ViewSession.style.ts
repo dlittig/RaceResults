@@ -16,6 +16,15 @@ const ViewSessionStyle = StyleSheet.create({
     marginHorizontal: 72,
     marginBottom: 12,
   },
+  emptyState: {
+    display: "flex",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    marginBottom: 12,
+  }
 });
 
 export default ViewSessionStyle;

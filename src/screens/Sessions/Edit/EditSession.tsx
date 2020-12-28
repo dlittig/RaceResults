@@ -8,6 +8,8 @@ import {
   Text,
   Checkbox,
   TextInput,
+  Chip,
+  Badge,
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,10 +31,10 @@ import style from "./EditSession.style";
 const TOGGLE_DRIVER = "[edit sessions] toggle driver";
 const SELECT_ALL_DRIVERS = "[edit sessions] select all drivers";
 
-const reducer = (state: Driver[], action: any) => {
+const reducer = (state: number[], action: any) => {
   switch (action.type) {
     case TOGGLE_DRIVER:
-      if (!state.includes(action.driver)) {
+      if (!state.includes(action.driver.id)) {
         // add
         return [...state, action.driver.id];
       } else {
@@ -50,7 +52,7 @@ const reducer = (state: Driver[], action: any) => {
   }
 };
 
-const EditDriver = () => {
+const EditSession = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const driversReducer = useSelector<RootReducerType, DriversState>(
@@ -74,6 +76,8 @@ const EditDriver = () => {
     reducer,
     take("participants", [])
   );
+
+  console.log("PART", participants);
 
   const onSave = () => {
     const session: Session = {
@@ -104,20 +108,30 @@ const EditDriver = () => {
 
         <Button onPress={() => setVisible(true)}>Select drivers</Button>
 
+        <View style={style.participants}>
+          {participants.map((participant, index) => (
+            <Chip
+              mode="outlined"
+              avatar={
+                <Badge
+                  size={10}
+                  style={{
+                    backgroundColor: driversReducer.drivers[participant].color,
+                  }}
+                ></Badge>
+              }
+              key={`${participant}-${index}`}
+            >
+              {driversReducer.drivers[participant].name}
+            </Chip>
+          ))}
+        </View>
+
         <Portal>
           <Dialog visible={visible} onDismiss={() => setVisible(false)}>
-            <Button
-              onPress={() =>
-                dispatchParticipants({
-                  type: SELECT_ALL_DRIVERS,
-                  payload: Object.values(driversReducer.drivers),
-                })
-              }
-            >
-              Toggle all
-            </Button>
-            <Dialog.ScrollArea>
-              <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
+            <Dialog.Title>Select drivers</Dialog.Title>
+            <Dialog.Content>
+              <Dialog.ScrollArea>
                 {Object.values(driversReducer.drivers).map((driver, index) => (
                   <Checkbox.Item
                     key={index}
@@ -134,9 +148,21 @@ const EditDriver = () => {
                     }
                   />
                 ))}
-              </ScrollView>
+              </Dialog.ScrollArea>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                onPress={() =>
+                  dispatchParticipants({
+                    type: SELECT_ALL_DRIVERS,
+                    payload: Object.values(driversReducer.drivers),
+                  })
+                }
+              >
+                Toggle all
+              </Button>
               <Button onPress={() => setVisible(false)}>Close</Button>
-            </Dialog.ScrollArea>
+            </Dialog.Actions>
           </Dialog>
         </Portal>
       </BaseScrollView>
@@ -150,4 +176,4 @@ const EditDriver = () => {
   );
 };
 
-export default EditDriver;
+export default EditSession;

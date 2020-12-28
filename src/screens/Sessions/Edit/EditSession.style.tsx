@@ -7,6 +7,12 @@ const EditSessionStyle = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  participants: {
+    display: "flex",
+    flex: 1,
+    flexWrap: "wrap",
+    flexGrow: 2,
+  },
 });
 
 export default EditSessionStyle;
