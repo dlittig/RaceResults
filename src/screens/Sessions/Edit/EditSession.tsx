@@ -58,13 +58,21 @@ const EditSession = () => {
   const driversReducer = useSelector<RootReducerType, DriversState>(
     (state) => state.driversReducer
   );
+  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
+    (state) => state.sessionsReducer
+  );
 
   const state = navigation.dangerouslyGetState();
-  const routeParams = state.routes[state.index].params as Session;
+  const { session: sessionId } = state.routes[state.index].params || {
+    session: undefined,
+  };
+  const session = sessionsReducer.sessions.filter(
+    (item) => item.id === sessionId
+  )[0];
 
   const take = (key: string, fallback: any) =>
-    typeof routeParams !== "undefined" && typeof routeParams[key] !== undefined
-      ? routeParams[key]
+    typeof session !== "undefined" && typeof session[key] !== "undefined"
+      ? session[key]
       : fallback;
 
   const [visible, setVisible] = useState<boolean>(false);
@@ -77,8 +85,6 @@ const EditSession = () => {
     take("participants", [])
   );
 
-  console.log("PART", participants);
-
   const onSave = () => {
     const session: Session = {
       id: take("id", Date.now()),
@@ -88,7 +94,7 @@ const EditSession = () => {
       pointScheme,
     };
 
-    if (typeof routeParams !== "undefined") {
+    if (typeof sessionId !== "undefined") {
       dispatch(updateSession(session));
     } else {
       dispatch(addSession(session));

@@ -24,7 +24,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const ViewSession = () => {
   const navigation = useNavigation();
   const state = navigation.dangerouslyGetState();
-  const routeParams = state.routes[state.index].params as Session;
+  const { session: sessionId } = state.routes[state.index].params;
   const sessionsReducer = useSelector<RootReducerType, SessionsState>(
     (state) => state.sessionsReducer
   );
@@ -32,7 +32,7 @@ const ViewSession = () => {
     (state) => state.raceReducer
   );
   const session = sessionsReducer.sessions.filter(
-    (el) => el.id === routeParams.id
+    (el) => el.id === sessionId
   )[0];
   const races = raceReducer.races.filter((race) => race.session === session.id);
 
@@ -64,7 +64,10 @@ const ViewSession = () => {
             position={index + 1}
             race={race}
             onPress={() =>
-              navigation.navigate(APP_VIEW_RACE, { race, session })
+              navigation.navigate(APP_VIEW_RACE, {
+                race: race.id,
+                session: session.id,
+              })
             }
           />
         ))}
@@ -73,7 +76,9 @@ const ViewSession = () => {
         style={styles.fab}
         label="Race"
         icon="plus"
-        onPress={() => navigation.navigate(APP_EDIT_RACE, { session })}
+        onPress={() =>
+          navigation.navigate(APP_EDIT_RACE, { session: session.id })
+        }
       />
     </BaseView>
   );

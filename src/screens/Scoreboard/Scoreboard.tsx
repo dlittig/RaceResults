@@ -8,24 +8,26 @@ import BaseView from "../../components/BaseView/BaseView";
 import { RootReducerType } from "../../store/reducers";
 import { DriversState } from "../../store/reducers/driversReducer";
 import { RaceState } from "../../store/reducers/raceReducer";
-import { Session } from "../../store/reducers/sessionsReducer";
+import { Session, SessionsState } from "../../store/reducers/sessionsReducer";
 import { calculateScores, getPointsMap } from "../../utils";
 
 const Scoreboard = () => {
   const navigation = useNavigation();
   const state = navigation?.dangerouslyGetState();
-  const session = state.routes[state.index].params as Session;
-
+  const { session: sessionId } = state.routes[state.index].params;
+  const driversReducer = useSelector<RootReducerType, DriversState>(
+    (state) => state.driversReducer
+  );
+  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
+    (state) => state.sessionsReducer
+  );
   const [doneLoading, setDoneLoading] = useState<boolean>(false);
   const [sessionResults, setSessionResults] = useState<
     Array<{ [x: number]: number }>
   >([]);
-  const raceReducer = useSelector<RootReducerType, RaceState>(
-    (state) => state.raceReducer
-  );
-  const driversReducer = useSelector<RootReducerType, DriversState>(
-    (state) => state.driversReducer
-  );
+  const session = sessionsReducer.sessions.filter(
+    (item) => item.id === sessionId
+  )[0];
 
   useEffect(() => {
     const { finalOrder } = calculateScores(session);

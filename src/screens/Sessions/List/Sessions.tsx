@@ -33,7 +33,7 @@ const Sessions = () => {
             <SessionCard
               key={index}
               onPress={() =>
-                navigation.navigate(APP_VIEW_SESSION, { ...session })
+                navigation.navigate(APP_VIEW_SESSION, { session: session.id })
               }
               session={session}
             />

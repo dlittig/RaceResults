@@ -10,14 +10,15 @@ import {
   Text,
   TextInput,
 } from "react-native-paper";
-import { useDispatch } from "react-redux";
-import { Driver } from "../../../store/reducers/driversReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { Driver, DriversState } from "../../../store/reducers/driversReducer";
 import { addDriver, updateDriver } from "../../../store/actions/driversActions";
 import { useNavigation } from "@react-navigation/native";
 import BaseView from "../../../components/BaseView/BaseView";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditDriver.style";
+import { RootReducerType } from "../../../store/reducers";
 
 const colors = [
   "#d73964",
@@ -41,11 +42,17 @@ const EditDriver = () => {
 
   const state = navigation?.dangerouslyGetState();
 
-  const routeParams = state.routes[state.index].params as Driver;
+  const { driver: driverId } = state.routes[state.index].params || {
+    driver: undefined,
+  };
+  const driversReducer = useSelector<RootReducerType, DriversState>(
+    (state) => state.driversReducer
+  );
 
   const take = (key: string, fallback: any) =>
-    typeof routeParams !== "undefined" && typeof routeParams[key] !== undefined
-      ? routeParams[key]
+    typeof driverId !== "undefined" &&
+    typeof driversReducer.drivers[driverId][key] !== "undefined"
+      ? driversReducer.drivers[driverId][key]
       : fallback;
 
   const [name, setName] = useState<string>(take("name", ""));
@@ -60,7 +67,7 @@ const EditDriver = () => {
       color: selectedColor,
     };
 
-    if (typeof routeParams !== "undefined") {
+    if (typeof driverId !== "undefined") {
       dispatch(updateDriver(driver));
     } else {
       dispatch(addDriver(driver));

@@ -33,7 +33,7 @@ const Drivers = () => {
             <DriverCard
               key={index}
               onPress={() =>
-                navigation.navigate(APP_VIEW_DRIVER, { ...driver })
+                navigation.navigate(APP_VIEW_DRIVER, { driver: driver.id })
               }
               driver={driver}
             />

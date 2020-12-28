@@ -13,14 +13,17 @@ import { LineChart } from "react-native-chart-kit";
 import BaseScrollView from "../../../components/BaseScrollView";
 import BaseView from "../../../components/BaseView";
 import { RootReducerType } from "../../../store/reducers";
-import { Driver } from "../../../store/reducers/driversReducer";
 import { Race, RaceState } from "../../../store/reducers/raceReducer";
 import { Dimensions, View } from "react-native";
 
 const ViewDriver = () => {
   const navigation = useNavigation();
   const state = navigation.dangerouslyGetState();
-  const driver = state.routes[state.index].params as Driver;
+  const { driver } = state.routes[state.index].params;
+  const driversReducer = useSelector<RootReducerType, DriversState>(
+    (state) => state.driversReducer
+  );
+
   const raceReducer = useSelector<RootReducerType, RaceState>(
     (state) => state.raceReducer
   );
@@ -33,8 +36,8 @@ const ViewDriver = () => {
     // Collect history of all races of that user
     for (let i = 0; i < raceReducer.races.length; i++) {
       const race: Race = raceReducer.races[i];
-      if (race.order.includes(`${driver.id}`)) {
-        pos.push(race.order.findIndex((item) => item === `${driver.id}`) + 1);
+      if (race.order.includes(`${driver}`)) {
+        pos.push(race.order.findIndex((item) => item === `${driver}`) + 1);
       }
     }
 
@@ -51,9 +54,9 @@ const ViewDriver = () => {
         </View>
       )}
       <BaseScrollView>
-        <DriverCard driver={driver} />
+        <DriverCard driver={driversReducer.drivers[driver]} />
 
-        {showChart && (
+        {showChart && positions.length !== 0 && (
           <View>
             <Subheading>History</Subheading>
             <LineChart

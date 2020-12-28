@@ -8,15 +8,18 @@ import BaseView from "../../../components/BaseView/BaseView";
 import NavSeparator from "../../../components/NavSeparator/NavSeparator";
 import { RootReducerType } from "../../../store/reducers";
 import { DriversState } from "../../../store/reducers/driversReducer";
-import { Race } from "../../../store/reducers/raceReducer";
-import { Session } from "../../../store/reducers/sessionsReducer";
+import { Race, RaceState } from "../../../store/reducers/raceReducer";
+import {
+  Session,
+  SessionsState,
+} from "../../../store/reducers/sessionsReducer";
 import { getPointsMap } from "../../../utils";
 
 import style from "./ViewRace.style";
 
 type ViewRaceRouteParams = {
-  session: Session;
-  race?: Race;
+  session: number;
+  race?: number;
 };
 
 const ViewRace = () => {
@@ -25,12 +28,26 @@ const ViewRace = () => {
   const driversReducer = useSelector<RootReducerType, DriversState>(
     (state) => state.driversReducer
   );
+  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
+    (state) => state.sessionsReducer
+  );
+  const raceReducer = useSelector<RootReducerType, RaceState>(
+    (state) => state.raceReducer
+  );
 
   const routeParams = state.routes[state.index].params as ViewRaceRouteParams;
 
+  const session = sessionsReducer.sessions.filter(
+    (item) => item.id === routeParams.session
+  )[0];
+
+  const race = raceReducer.races.filter(
+    (item) => item.id === routeParams.race
+  )[0];
+
   const pointsMap = getPointsMap(
-    routeParams.session.pointScheme,
-    routeParams.session.participants.length
+    session.pointScheme,
+    session.participants.length
   );
   //const pointsMap = {};
 
@@ -38,7 +55,7 @@ const ViewRace = () => {
     <BaseView>
       <Text style={style.raceTrack}>
         <MaterialCommunityIcons name="map" color={"#333"} size={16} />
-        {` ${routeParams.race?.location}`}
+        {` ${race.location}`}
       </Text>
       <NavSeparator />
       <BaseScrollView>
@@ -49,7 +66,7 @@ const ViewRace = () => {
             <DataTable.Title numeric>Points</DataTable.Title>
           </DataTable.Header>
 
-          {Object.values(routeParams.race?.order).map((driverId, index) => (
+          {race.order.map((driverId, index) => (
             <DataTable.Row key={index}>
               <DataTable.Cell>{index + 1}</DataTable.Cell>
               <DataTable.Cell>

@@ -3,12 +3,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { RootReducerType } from "../../../store/reducers";
-import { Race } from "../../../store/reducers/raceReducer";
+import { Race, RaceState } from "../../../store/reducers/raceReducer";
 import BaseView from "../../../components/BaseView/BaseView";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { FAB, List, Text, TextInput } from "react-native-paper";
 import { ScrollView, View, TouchableOpacity } from "react-native";
-import { Session } from "../../../store/reducers/sessionsReducer";
+import {
+  Session,
+  SessionsState,
+} from "../../../store/reducers/sessionsReducer";
 import { RACE_CURCUIT } from "../../../store/constants/racesConstants";
 import { addRace, updateRace } from "../../../store/actions/raceActions";
 import { Driver, DriversState } from "../../../store/reducers/driversReducer";
@@ -17,8 +20,8 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import style from "./EditRace.style";
 
 type EditRaceRouteParams = {
-  session: Session;
-  race?: Race;
+  session: number;
+  race?: number;
 };
 
 const EditRace = () => {
@@ -27,15 +30,20 @@ const EditRace = () => {
   const driversReducer = useSelector<RootReducerType, DriversState>(
     (state) => state.driversReducer
   );
+  const raceReducer = useSelector<RootReducerType, RaceState>(
+    (state) => state.raceReducer
+  );
 
   const state = navigation?.dangerouslyGetState();
-
   const routeParams = state.routes[state.index].params as EditRaceRouteParams;
 
+  const race = raceReducer.races.filter(
+    (item) => item.id === routeParams.race
+  )[0];
+
   const take = (key: string, fallback: any) =>
-    typeof routeParams?.race !== "undefined" &&
-    typeof routeParams?.race[key] !== undefined
-      ? routeParams?.race[key]
+    typeof race !== "undefined" && typeof race[key] !== "undefined"
+      ? race[key]
       : fallback;
 
   const initCars = () => {
@@ -62,7 +70,7 @@ const EditRace = () => {
     const race: Race = {
       id: take("id", Date.now()),
       time: take("time", Date.now()),
-      session: take("session", routeParams.session.id),
+      session: take("session", routeParams.session),
       location,
       cars,
       order: drivers,
