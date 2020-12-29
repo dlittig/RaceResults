@@ -10,6 +10,9 @@ import {
   TextInput,
   Chip,
   Badge,
+  Subheading,
+  RadioButton,
+  IconButton,
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,7 +24,7 @@ import {
   updateSession,
 } from "../../../store/actions/sessionsActions";
 import { useNavigation } from "@react-navigation/native";
-import { Driver, DriversState } from "../../../store/reducers/driversReducer";
+import { DriversState } from "../../../store/reducers/driversReducer";
 import { RootReducerType } from "../../../store/reducers";
 import BaseView from "../../../components/BaseView/BaseView";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
@@ -112,25 +115,59 @@ const EditSession = () => {
           onChangeText={(text) => setLabel(text)}
         />
 
-        <Button onPress={() => setVisible(true)}>Select drivers</Button>
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 20,
+            }}
+          >
+            <Subheading style={{ marginVertical: 10 }}>Drivers</Subheading>
+            <IconButton
+              icon="plus"
+              size={16}
+              onPress={() => setVisible(true)}
+            />
+          </View>
 
-        <View style={style.participants}>
-          {participants.map((participant, index) => (
-            <Chip
-              mode="outlined"
-              avatar={
-                <Badge
-                  size={10}
-                  style={{
-                    backgroundColor: driversReducer.drivers[participant].color,
-                  }}
-                ></Badge>
-              }
-              key={`${participant}-${index}`}
-            >
-              {driversReducer.drivers[participant].name}
-            </Chip>
-          ))}
+          <View style={style.participants}>
+            {participants.map((participant, index) => (
+              <Chip
+                mode="outlined"
+                avatar={
+                  <Badge
+                    size={10}
+                    style={{
+                      backgroundColor:
+                        driversReducer.drivers[participant].color,
+                    }}
+                  ></Badge>
+                }
+                key={`${participant}-${index}`}
+              >
+                {driversReducer.drivers[participant].name}
+              </Chip>
+            ))}
+          </View>
+        </View>
+
+        <View>
+          <Subheading style={{ marginVertical: 10 }}>Point scheme</Subheading>
+          <RadioButton.Group
+            onValueChange={(newValue) => setPointScheme(newValue)}
+            value={pointScheme}
+          >
+            <View style={style.radioButtonField}>
+              <RadioButton value="linear" />
+              <Text onPress={() => setPointScheme("linear")}>Linear</Text>
+            </View>
+            <View style={style.radioButtonField}>
+              <RadioButton value="gapped" />
+              <Text onPress={() => setPointScheme("gapped")}>Gapped</Text>
+            </View>
+          </RadioButton.Group>
+          {/* </View> */}
         </View>
 
         <Portal>
