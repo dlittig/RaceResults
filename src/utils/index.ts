@@ -69,7 +69,8 @@ export const calculateScores = (s: Session) => {
             pointsMap[position + 1] + pointsForFastestRound(race, driverId),
         };
       } else {
-        results[driverId].points += pointsMap[position + 1];
+        results[driverId].points +=
+          pointsMap[position + 1] + pointsForFastestRound(race, driverId);
       }
     });
   });
@@ -101,7 +102,7 @@ export const exportSession = (s: number) => {
         state.driversReducer.drivers[driverId].name
       } (${
         pointsMap[index + 1] + pointsForFastestRound(race, driverId)
-      } Points ${pointsForFastestRound(race, driverId) === 1 ? "*" : ""})\n`;
+      } Points${pointsForFastestRound(race, driverId) === 1 ? " *" : ""})\n`;
     });
 
     resultString += "\n";

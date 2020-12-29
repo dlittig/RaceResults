@@ -47,7 +47,7 @@ const ViewSession = () => {
         {races.length === 0 && (
           <View style={styles.emptyState}>
             <Text style={styles.text}>
-              Start your session with a random map 😎
+              Start your session with a random map!
             </Text>
             <Button
               mode="contained"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { Fontisto } from "@expo/vector-icons";
+import { Fontisto, MaterialCommunityIcons } from "@expo/vector-icons";
 import BaseView from "../../components/BaseView";
 import { Text, Button } from "react-native-paper";
 import { RACE_CURCUIT } from "../../store/constants/racesConstants";
@@ -46,11 +46,12 @@ const RandomMap = () => {
           <Text style={style.text}>{currentTrack?.track}</Text>
         )}
         <Button
-          title="Regenerate"
+          title="Generate"
           mode="contained"
           onPress={() => getRandomTrack()}
         >
-          Regenrate
+          <MaterialCommunityIcons name="sync" size={16} />
+          {` Generate`}
         </Button>
       </View>
     </BaseView>
