@@ -2,9 +2,15 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import SessionsList from "../screens/Sessions/List";
 import DriversList from "../screens/Drivers/List";
-import { APP_DRIVERS, APP_RANDOM_MAP, APP_SESSIONS } from "./RouteConstants";
+import {
+  APP_ABOUT,
+  APP_DRIVERS,
+  APP_RANDOM_MAP,
+  APP_SESSIONS,
+} from "./RouteConstants";
 import RandomMap from "../screens/RandomMap";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import About from "../screens/About";
 
 const Drawer = createDrawerNavigator();
 
@@ -28,9 +34,13 @@ const Navigator = () => (
       options={{
         ...options,
         drawerIcon: ({ focused, color, size }) => (
-          <MaterialCommunityIcons name="gamepad-variant" color={color} size={size} />
-        )}
-      }
+          <MaterialCommunityIcons
+            name="gamepad-variant"
+            color={color}
+            size={size}
+          />
+        ),
+      }}
       component={SessionsList}
     />
     <Drawer.Screen
@@ -38,9 +48,13 @@ const Navigator = () => (
       options={{
         ...options,
         drawerIcon: ({ focused, color, size }) => (
-          <MaterialCommunityIcons name="racing-helmet" color={color} size={size} />
-        )}
-      }
+          <MaterialCommunityIcons
+            name="racing-helmet"
+            color={color}
+            size={size}
+          />
+        ),
+      }}
       component={DriversList}
     />
     <Drawer.Screen
@@ -49,9 +63,19 @@ const Navigator = () => (
         ...options,
         drawerIcon: ({ focused, color, size }) => (
           <MaterialCommunityIcons name="map" color={color} size={size} />
-        )}
-      }
+        ),
+      }}
       component={RandomMap}
+    />
+    <Drawer.Screen
+      name={APP_ABOUT}
+      component={About}
+      options={{
+        ...options,
+        drawerIcon: ({ focused, color, size }) => (
+          <MaterialCommunityIcons name="information-outline" color={color} size={size} />
+        ),
+      }}
     />
   </Drawer.Navigator>
 );
