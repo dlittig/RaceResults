@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { View, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { RootReducerType } from "../../../store/reducers";
-import { Race, RaceState } from "../../../store/reducers/raceReducer";
-import BaseView from "../../../components/BaseView/BaseView";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { FAB, List, Text, TextInput } from "react-native-paper";
-import { ScrollView, View, TouchableOpacity } from "react-native";
 import {
-  Session,
-  SessionsState,
-} from "../../../store/reducers/sessionsReducer";
+  FAB,
+  List,
+  Text,
+  TextInput,
+  Checkbox,
+  Banner,
+} from "react-native-paper";
+
+import { RootReducerType } from "../../../store/reducers";
+import BaseView from "../../../components/BaseView/BaseView";
+import { DriversState } from "../../../store/reducers/driversReducer";
+import { Race, RaceState } from "../../../store/reducers/raceReducer";
 import { RACE_CURCUIT } from "../../../store/constants/racesConstants";
 import { addRace, updateRace } from "../../../store/actions/raceActions";
-import { Driver, DriversState } from "../../../store/reducers/driversReducer";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditRace.style";
@@ -58,6 +62,9 @@ const EditRace = () => {
     return cars;
   };
 
+  const [fastestDrivers, setFastestDrivers] = useState<number[]>(
+    take("fastest", [])
+  );
   const [location, setLocation] = useState<string>(
     take("location", RACE_CURCUIT[0])
   );
@@ -65,6 +72,7 @@ const EditRace = () => {
     take("order", Object.keys(driversReducer.drivers))
   );
   const [cars, setCars] = useState<{ [x: string]: any }>(initCars());
+  const [bannerVisible, setBannerVisible] = useState<boolean>(true);
 
   const onSave = () => {
     const race: Race = {
@@ -74,6 +82,7 @@ const EditRace = () => {
       location,
       cars,
       order: drivers,
+      fastest: fastestDrivers,
     };
 
     if (typeof routeParams.race !== "undefined") {
@@ -92,6 +101,7 @@ const EditRace = () => {
         backgroundColor: isActive ? "#F0F0F0" : id?.backgroundColor,
         borderRadius: 10,
         flexDirection: "row",
+        alignItems: "center",
       }}
       onLongPress={drag}
       delayLongPress={200}
@@ -120,12 +130,42 @@ const EditRace = () => {
           }
         />
       </View>
+      <View>
+        <Checkbox
+          status={fastestDrivers.includes(id) ? "checked" : "unchecked"}
+          onPress={() => {
+            if (fastestDrivers.includes(id)) {
+              setFastestDrivers(fastestDrivers.filter((item) => item !== id));
+            } else {
+              setFastestDrivers([...fastestDrivers, id]);
+            }
+          }}
+        />
+      </View>
     </TouchableOpacity>
   );
 
   return (
     <BaseView>
       <BaseScrollView>
+        <Banner
+          style={{
+            elevation: 4,
+            margin: 8,
+            marginBottom: 20,
+            borderRadius: 8,
+          }}
+          visible={bannerVisible}
+          actions={[
+            {
+              label: "Got it",
+              onPress: () => setBannerVisible(false),
+            },
+          ]}
+        >
+          With the checkbox you can keep track of the fastest round driven.
+        </Banner>
+
         <DraggableFlatList
           data={drivers}
           renderItem={renderItem}

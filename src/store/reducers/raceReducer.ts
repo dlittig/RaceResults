@@ -14,7 +14,7 @@ export type Race = {
     [x: number]: string; // index is the id of the driver
   };
   order: number[]; // index is the order from 1-X, second number is the id
-  fastest?: number; // id of the fastest driver
+  fastest?: number[]; // id of the fastest driver
   location: string;
 };
 

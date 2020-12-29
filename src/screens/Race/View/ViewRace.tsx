@@ -49,7 +49,9 @@ const ViewRace = () => {
     session.pointScheme,
     session.participants.length
   );
-  //const pointsMap = {};
+
+  const pointsForFastestRound = (driverId: number): number =>
+    race.fastest?.includes(driverId) ? 1 : 0;
 
   return (
     <BaseView>
@@ -72,7 +74,9 @@ const ViewRace = () => {
               <DataTable.Cell>
                 {driversReducer.drivers[driverId].name}
               </DataTable.Cell>
-              <DataTable.Cell numeric>{pointsMap[index + 1]}</DataTable.Cell>
+              <DataTable.Cell numeric>
+                {pointsMap[index + 1] + pointsForFastestRound(driverId)}
+              </DataTable.Cell>
             </DataTable.Row>
           ))}
         </DataTable>

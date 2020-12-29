@@ -41,8 +41,10 @@ export const getPointsMap = (
   return pointsMap;
 };
 
+const pointsForFastestRound = (race: Race, driverId: number): number =>
+  race.fastest?.includes(driverId) ? 1 : 0;
+
 export const calculateScores = (s: Session) => {
-  console.log("S", s);
   const state = store.getState();
   // Get all races of this session
   const races = state.raceReducer.races.filter((race) => race.session === s.id);
@@ -63,7 +65,8 @@ export const calculateScores = (s: Session) => {
       if (typeof results[driverId] === "undefined") {
         results[driverId] = {
           id: driverId,
-          points: pointsMap[position + 1],
+          points:
+            pointsMap[position + 1] + pointsForFastestRound(race, driverId),
         };
       } else {
         results[driverId].points += pointsMap[position + 1];
@@ -96,7 +99,9 @@ export const exportSession = (s: number) => {
     Object.values(race.order).forEach((driverId, index) => {
       resultString += `${index + 1}. ${
         state.driversReducer.drivers[driverId].name
-      } (${pointsMap[index + 1]} Points)\n`;
+      } (${
+        pointsMap[index + 1] + pointsForFastestRound(race, driverId)
+      } Points ${pointsForFastestRound(race, driverId) === 1 ? "*" : ""})\n`;
     });
 
     resultString += "\n";

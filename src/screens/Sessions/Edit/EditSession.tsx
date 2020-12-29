@@ -119,11 +119,13 @@ const EditSession = () => {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
               marginTop: 20,
+              alignItems: "center",
             }}
           >
-            <Subheading style={{ marginVertical: 10 }}>Drivers</Subheading>
+            <Subheading style={{ marginVertical: 10, marginEnd: 10 }}>
+              Drivers
+            </Subheading>
             <IconButton
               icon="plus"
               size={16}
