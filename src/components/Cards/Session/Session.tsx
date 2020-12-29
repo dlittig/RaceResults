@@ -7,6 +7,7 @@ import { deleteRaceBySession } from "../../../store/actions/raceActions";
 import { deleteSession } from "../../../store/actions/sessionsActions";
 import { Session } from "../../../store/reducers/sessionsReducer";
 import { humanReadableDate } from "../../../utils";
+import BaseCard from "../BaseCard";
 
 import style from "./Session.style";
 
@@ -37,11 +38,7 @@ const SessionCard: FC = ({ session, onPress }) => {
   const dispatch = useDispatch();
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      onLongPress={() => confirmDelete(session)}
-      style={style.touchableFeedback}
-    >
+    <BaseCard onPress={onPress} onLongPress={() => confirmDelete(session)}>
       <View style={style.container}>
         <Text style={style.boldText}>{session.label}</Text>
         <Text>
@@ -49,7 +46,7 @@ const SessionCard: FC = ({ session, onPress }) => {
           {` ${humanReadableDate(session.startTime)}`}
         </Text>
       </View>
-    </TouchableOpacity>
+    </BaseCard>
   );
 };
 

@@ -1,17 +1,22 @@
 import React, { FC } from "react";
-import { Alert, TouchableOpacity, View, ToastAndroid } from "react-native";
 import { Badge, Text } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDriver } from "../../../store/actions/driversActions";
-import { deleteRace } from "../../../store/actions/raceActions";
+import { Alert, View, ToastAndroid } from "react-native";
+import BaseCard from "../BaseCard";
 import { RootReducerType } from "../../../store/reducers";
-import { Race } from "../../../store/reducers/raceReducer";
+import { Driver } from "../../../store/reducers/driversReducer";
+import { deleteDriver } from "../../../store/actions/driversActions";
 import { SessionsState } from "../../../store/reducers/sessionsReducer";
-import { humanReadableDate } from "../../../utils";
 
 import style from "./Driver.style";
 
-const DriverCard: FC = ({ driver, onPress, position }) => {
+type DriverCardType = {
+  driver: Driver;
+  onPress: () => void;
+  allowDelete: boolean;
+};
+
+const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
   const sessionsReducer = useSelector<RootReducerType, SessionsState>(
     (state) => state.sessionsReducer
   );
@@ -49,10 +54,9 @@ const DriverCard: FC = ({ driver, onPress, position }) => {
   const dispatch = useDispatch();
 
   return (
-    <TouchableOpacity
+    <BaseCard
       onPress={onPress}
-      onLongPress={() => confirmDelete()}
-      style={style.touchableFeedback}
+      onLongPress={() => (allowDelete ? confirmDelete() : null)}
     >
       <View style={style.container}>
         <Badge
@@ -61,7 +65,7 @@ const DriverCard: FC = ({ driver, onPress, position }) => {
         ></Badge>
         <Text>{driver.name}</Text>
       </View>
-    </TouchableOpacity>
+    </BaseCard>
   );
 };
 

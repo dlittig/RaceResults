@@ -1,8 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
-import { FAB, List, Text } from "react-native-paper";
 import { useSelector } from "react-redux";
+import { FAB, Text } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import BaseView from "../../../components/BaseView/BaseView";
 import DriverCard from "../../../components/Cards/Driver";
@@ -11,7 +11,8 @@ import {
   APP_VIEW_DRIVER,
 } from "../../../navigator/RouteConstants";
 import { RootReducerType } from "../../../store/reducers";
-import { Driver, DriversState } from "../../../store/reducers/driversReducer";
+import { DriversState } from "../../../store/reducers/driversReducer";
+
 import styles from "./Drivers.style";
 
 const Drivers = () => {
@@ -34,6 +35,7 @@ const Drivers = () => {
           {Object.values(driversState.drivers).map((driver, index) => (
             <DriverCard
               key={index}
+              allowDelete={true}
               onPress={() =>
                 navigation.navigate(APP_VIEW_DRIVER, { driver: driver.id })
               }

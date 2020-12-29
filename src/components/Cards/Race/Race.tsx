@@ -5,10 +5,17 @@ import { useDispatch } from "react-redux";
 import { deleteRace } from "../../../store/actions/raceActions";
 import { Race } from "../../../store/reducers/raceReducer";
 import { humanReadableDate } from "../../../utils";
+import BaseCard from "../BaseCard";
 
 import style from "./Race.style";
 
-const RaceCard: FC = ({ race, onPress, position }) => {
+type RaceCardType = {
+  race: Race;
+  onPress: () => void;
+  position: number;
+};
+
+const RaceCard: FC<RaceCardType> = ({ race, onPress, position }) => {
   const confirmDelete = () => {
     Alert.alert(
       "Confirm deletion",
@@ -30,16 +37,14 @@ const RaceCard: FC = ({ race, onPress, position }) => {
   const dispatch = useDispatch();
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      onLongPress={() => confirmDelete()}
-      style={style.touchableFeedback}
-    >
+    <BaseCard onPress={onPress} onLongPress={() => confirmDelete()}>
       <View style={style.container}>
-        <Text style={style.boldText}>{`Race ${position}: ${race.location}`}</Text>
+        <Text
+          style={style.boldText}
+        >{`Race ${position}: ${race.location}`}</Text>
         <Text>Started: {humanReadableDate(race.time)}</Text>
       </View>
-    </TouchableOpacity>
+    </BaseCard>
   );
 };
 

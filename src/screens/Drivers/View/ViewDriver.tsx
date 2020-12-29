@@ -54,7 +54,11 @@ const ViewDriver = () => {
         </View>
       )}
       <BaseScrollView>
-        <DriverCard driver={driversReducer.drivers[driver]} />
+        <DriverCard
+          driver={driversReducer.drivers[driver]}
+          allowDelete={false}
+          onPress={() => {}}
+        />
 
         {showChart && positions.length !== 0 && (
           <View>
