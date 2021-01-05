@@ -78,6 +78,7 @@ const EditRace = () => {
   );
   const [cars, setCars] = useState<{ [x: string]: any }>(initCars());
   const [bannerVisible, setBannerVisible] = useState<boolean>(true);
+  const [accordionOpen, setAccordionOpen] = useState<boolean>(false);
 
   const onSave = () => {
     const race: Race = {
@@ -184,7 +185,12 @@ const EditRace = () => {
           onDragEnd={({ data }) => setDrivers(data)}
         />
 
-        <List.Accordion title="Race track" description={location}>
+        <List.Accordion
+          title="Race track"
+          description={location}
+          expanded={accordionOpen}
+          onPress={() => setAccordionOpen(!accordionOpen)}
+        >
           {RACE_CURCUIT.map((track, index) => (
             <List.Item
               key={index}
@@ -194,7 +200,9 @@ const EditRace = () => {
                   <List.Icon {...props} icon="check" />
                 ) : null
               }
-              onPress={() => setLocation(track)}
+              onPress={() => {
+                setLocation(track), setAccordionOpen(false);
+              }}
             />
           ))}
         </List.Accordion>
