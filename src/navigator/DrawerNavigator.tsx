@@ -7,10 +7,12 @@ import {
   APP_DRIVERS,
   APP_RANDOM_MAP,
   APP_SESSIONS,
+  APP_SETTINGS,
 } from "./RouteConstants";
 import RandomMap from "../screens/RandomMap";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import About from "../screens/About";
+import Settings from "../screens/Settings";
 
 const Drawer = createDrawerNavigator();
 
@@ -68,12 +70,26 @@ const Navigator = () => (
       component={RandomMap}
     />
     <Drawer.Screen
+      name={APP_SETTINGS}
+      options={{
+        ...options,
+        drawerIcon: ({ focused, color, size }) => (
+          <MaterialCommunityIcons name="cog" color={color} size={size} />
+        ),
+      }}
+      component={Settings}
+    />
+    <Drawer.Screen
       name={APP_ABOUT}
       component={About}
       options={{
         ...options,
         drawerIcon: ({ focused, color, size }) => (
-          <MaterialCommunityIcons name="information-outline" color={color} size={size} />
+          <MaterialCommunityIcons
+            name="information-outline"
+            color={color}
+            size={size}
+          />
         ),
       }}
     />

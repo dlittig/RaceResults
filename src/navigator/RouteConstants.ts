@@ -14,5 +14,6 @@ export const APP_EDIT_RACE = "Edit race";
 
 export const APP_RANDOM_MAP = "Random map";
 export const APP_SCOREBOARD = "Scoreboard";
+export const APP_SETTINGS = "Settings"
 
 export const APP_ABOUT = "About"

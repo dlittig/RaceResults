@@ -25,6 +25,8 @@ import ViewRace from "../screens/Race/View";
 import { Session } from "../store/reducers/sessionsReducer";
 import { exportSession } from "../utils";
 import ViewDriver from "../screens/Drivers/View";
+import ThemeProvider from "../provider/ThemeProvider/ThemeProvider";
+import getNavigationTheme from "../theme/navigation";
 
 const Stack = createStackNavigator();
 
@@ -39,97 +41,105 @@ const headerStyle = {
 };
 
 const Navigator = () => (
-  <NavigationContainer>
-    <Stack.Navigator screenOptions={{ headerStyle }}>
-      <Stack.Screen
-        name={APP_HOME}
-        options={options}
-        component={DrawerNavigator}
-      />
-      <Stack.Screen
-        name={APP_VIEW_DRIVER}
-        options={({ navigation, route }) => ({
-          headerRight: (props: any) => (
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <IconButton
-                icon="pencil"
-                accessibilityLabel="Edit"
-                size={24}
-                onPress={() =>
-                  navigation.navigate(APP_EDIT_DRIVER, { ...route.params })
-                }
-              />
-            </View>
-          ),
-        })}
-        component={ViewDriver}
-      />
-      <Stack.Screen name={APP_EDIT_DRIVER} component={EditDriver} />
-      <Stack.Screen name={APP_EDIT_SESSION} component={EditSession} />
-      <Stack.Screen
-        name={APP_VIEW_RACE}
-        component={ViewRace}
-        options={({ navigation, route }) => ({
-          headerRight: (props: any) => (
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <IconButton
-                icon="pencil"
-                accessibilityLabel="Edit"
-                size={24}
-                onPress={() =>
-                  navigation.navigate(APP_EDIT_RACE, { ...route.params })
-                }
-              />
-            </View>
-          ),
-        })}
-      />
-      <Stack.Screen name={APP_EDIT_RACE} component={EditRace} />
-      <Stack.Screen name={APP_RANDOM_MAP} component={RandomMap} />
-      <Stack.Screen
-        name={APP_VIEW_SESSION}
-        options={({ navigation, route }) => ({
-          headerRight: (props: any) => (
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <IconButton
-                icon="scoreboard"
-                accessibilityLabel="Scoreboard"
-                size={24}
-                onPress={() =>
-                  navigation.navigate(APP_SCOREBOARD, { ...route.params })
-                }
-              />
-              <IconButton
-                icon="pencil"
-                accessibilityLabel="Edit"
-                size={24}
-                onPress={() => {
-                  navigation.navigate(APP_EDIT_SESSION, { ...route.params });
-                }}
-              />
-            </View>
-          ),
-        })}
-        component={ViewSession}
-      />
-      <Stack.Screen
-        name={APP_SCOREBOARD}
-        options={({ navigation, route }) => ({
-          headerRight: (props: any) => (
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <IconButton
-                icon="export"
-                accessibilityLabel="Export"
-                size={24}
-                onPress={() => exportSession(route.params.session as number)}
-              />
-            </View>
-          ),
-        })}
-        component={Scoreboard}
-      />
-    </Stack.Navigator>
-  </NavigationContainer>
+  <ThemeProvider.Consumer>
+    {(theme) => (
+      <NavigationContainer theme={getNavigationTheme(theme)}>
+        <Stack.Navigator screenOptions={{ headerStyle }}>
+          <Stack.Screen
+            name={APP_HOME}
+            options={options}
+            component={DrawerNavigator}
+          />
+          <Stack.Screen
+            name={APP_VIEW_DRIVER}
+            options={({ navigation, route }) => ({
+              headerRight: (props: any) => (
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                  <IconButton
+                    icon="pencil"
+                    accessibilityLabel="Edit"
+                    size={24}
+                    onPress={() =>
+                      navigation.navigate(APP_EDIT_DRIVER, { ...route.params })
+                    }
+                  />
+                </View>
+              ),
+            })}
+            component={ViewDriver}
+          />
+          <Stack.Screen name={APP_EDIT_DRIVER} component={EditDriver} />
+          <Stack.Screen name={APP_EDIT_SESSION} component={EditSession} />
+          <Stack.Screen
+            name={APP_VIEW_RACE}
+            component={ViewRace}
+            options={({ navigation, route }) => ({
+              headerRight: (props: any) => (
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                  <IconButton
+                    icon="pencil"
+                    accessibilityLabel="Edit"
+                    size={24}
+                    onPress={() =>
+                      navigation.navigate(APP_EDIT_RACE, { ...route.params })
+                    }
+                  />
+                </View>
+              ),
+            })}
+          />
+          <Stack.Screen name={APP_EDIT_RACE} component={EditRace} />
+          <Stack.Screen name={APP_RANDOM_MAP} component={RandomMap} />
+          <Stack.Screen
+            name={APP_VIEW_SESSION}
+            options={({ navigation, route }) => ({
+              headerRight: (props: any) => (
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                  <IconButton
+                    icon="scoreboard"
+                    accessibilityLabel="Scoreboard"
+                    size={24}
+                    onPress={() =>
+                      navigation.navigate(APP_SCOREBOARD, { ...route.params })
+                    }
+                  />
+                  <IconButton
+                    icon="pencil"
+                    accessibilityLabel="Edit"
+                    size={24}
+                    onPress={() => {
+                      navigation.navigate(APP_EDIT_SESSION, {
+                        ...route.params,
+                      });
+                    }}
+                  />
+                </View>
+              ),
+            })}
+            component={ViewSession}
+          />
+          <Stack.Screen
+            name={APP_SCOREBOARD}
+            options={({ navigation, route }) => ({
+              headerRight: (props: any) => (
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                  <IconButton
+                    icon="export"
+                    accessibilityLabel="Export"
+                    size={24}
+                    onPress={() =>
+                      exportSession(route.params.session as number)
+                    }
+                  />
+                </View>
+              ),
+            })}
+            component={Scoreboard}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )}
+  </ThemeProvider.Consumer>
 );
 
 export default Navigator;

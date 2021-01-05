@@ -9,7 +9,6 @@ import {
 } from "react-native-paper";
 import { useSelector } from "react-redux";
 import DriverCard from "../../../components/Cards/Driver";
-import { LineChart } from "react-native-chart-kit";
 import BaseScrollView from "../../../components/BaseScrollView";
 import BaseView from "../../../components/BaseView";
 import { RootReducerType } from "../../../store/reducers";
@@ -22,6 +21,8 @@ import {
   VictoryAxis,
 } from "victory-native";
 import { DriversState } from "../../../store/reducers/driversReducer";
+import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
+import { THEMES } from "../../../store/constants/settingsConstants";
 
 const ViewDriver = () => {
   const navigation = useNavigation();
@@ -64,83 +65,80 @@ const ViewDriver = () => {
 
   return (
     <BaseView>
-      {!showChart && (
-        <View>
-          <ProgressBar indeterminate={true} />
-        </View>
-      )}
-      <BaseScrollView>
-        <DriverCard
-          driver={driversReducer.drivers[driver]}
-          allowDelete={false}
-          onPress={() => {}}
-        />
+      <ThemeProvider.Consumer>
+        {(theme) => (
+          <>
+            {!showChart && (
+              <View>
+                <ProgressBar indeterminate={true} />
+              </View>
+            )}
+            <BaseScrollView>
+              <DriverCard
+                driver={driversReducer.drivers[driver]}
+                allowDelete={false}
+                onPress={() => {}}
+              />
 
-        {showChart && positions.length > 1 && (
-          <View>
-            <Subheading>History</Subheading>
-            <VictoryChart>
-              <VictoryLine
-                theme={VictoryTheme.material}
-                data={positions}
-                animate={{
-                  duration: 500,
-                  onLoad: { duration: 500 },
-                }}
-                interpolation="natural"
-                domain={{
-                  x: [1, raceReducer.races.length],
-                  y: [1, Object.keys(driversReducer.drivers).length],
-                }}
-              />
-              <VictoryAxis tickFormat={() => ""} />
-              <VictoryAxis
-                dependentAxis={true}
-                invertAxis={true}
-                tickValues={Object.keys(driversReducer.drivers).map(
-                  (key, index) => index + 1
-                )}
-              />
-            </VictoryChart>
-            {/* <LineChart
-              labels={positions.map((item) => "")}
-              data={{
-                datasets: [
-                  {
-                    data: positions,
-                  },
-                ],
-              }}
-              width={Dimensions.get("window").width} // from react-native
-              height={220}
-              segments={positions.length}
-              fromZero={true}
-              yAxisInterval={1} // optional, defaults to 1
-              chartConfig={{
-                backgroundColor: "#FFF",
-                backgroundGradientFrom: "#FFF",
-                backgroundGradientTo: "#FFF",
-                decimalPlaces: 0, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(50, 50, 50, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(50, 50, 50, ${opacity})`,
-                style: {
-                  borderRadius: 16,
-                },
-                propsForDots: {
-                  r: "4",
-                  strokeWidth: "2",
-                  stroke: "#ffa726",
-                },
-              }}
-              bezier
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-            /> */}
-          </View>
+              {showChart && positions.length > 1 && (
+                <View>
+                  <Subheading>History</Subheading>
+                  <VictoryChart>
+                    <VictoryLine
+                      style={
+                        theme === THEMES.DARK
+                          ? {
+                              data: { stroke: "#fff" },
+                            }
+                          : {}
+                      }
+                      theme={VictoryTheme.grayscale}
+                      data={positions}
+                      animate={{
+                        duration: 500,
+                        onLoad: { duration: 500 },
+                      }}
+                      interpolation="natural"
+                      domain={{
+                        x: [0.5, raceReducer.races.length + 0.5],
+                        y: [
+                          0.5,
+                          Object.keys(driversReducer.drivers).length + 0.5,
+                        ],
+                      }}
+                    />
+                    <VictoryAxis
+                      tickFormat={() => ""}
+                      style={
+                        theme === THEMES.DARK
+                          ? { axis: { stroke: "#fff" } }
+                          : {}
+                      }
+                    />
+                    <VictoryAxis
+                      style={
+                        theme === THEMES.DARK
+                          ? {
+                              tickLabels: {
+                                fill: "#fff",
+                              },
+                              axis: { stroke: "#fff" },
+                            }
+                          : {}
+                      }
+                      dependentAxis={true}
+                      invertAxis={true}
+                      tickValues={Object.keys(driversReducer.drivers).map(
+                        (key, index) => index + 1
+                      )}
+                    />
+                  </VictoryChart>
+                </View>
+              )}
+            </BaseScrollView>
+          </>
         )}
-      </BaseScrollView>
+      </ThemeProvider.Consumer>
     </BaseView>
   );
 };

@@ -6,6 +6,9 @@ import { Text, Button } from "react-native-paper";
 import { RACE_CURCUIT } from "../../store/constants/racesConstants";
 
 import style from "./RandomMap.style";
+import { ThemeContext } from "../../provider/ThemeProvider/ThemeProvider";
+import { ThemeColors } from "../../theme/colors/values";
+import { THEMES } from "../../store/constants/settingsConstants";
 
 type CurrentTrackType = {
   id: number;
@@ -38,21 +41,35 @@ const RandomMap = () => {
   return (
     <BaseView>
       <View style={style.container}>
-        <Fontisto name="map" size={64} color={"#555"} />
-        {currentTrack === null && (
-          <Text style={style.text}>Getting random map...</Text>
-        )}
-        {currentTrack !== null && (
-          <Text style={style.text}>{currentTrack?.track}</Text>
-        )}
-        <Button
-          title="Generate"
-          mode="contained"
-          onPress={() => getRandomTrack()}
-        >
-          <MaterialCommunityIcons name="sync" size={16} />
-          {` Generate`}
-        </Button>
+        <ThemeContext.Consumer>
+          {(theme) => (
+            <>
+              <Fontisto
+                name="map"
+                size={64}
+                color={
+                  theme === THEMES.LIGHT
+                    ? ThemeColors.LightColors.textInactive
+                    : ThemeColors.DarkColors.textInactive
+                }
+              />
+              {currentTrack === null && (
+                <Text style={style.text}>Getting random map...</Text>
+              )}
+              {currentTrack !== null && (
+                <Text style={style.text}>{currentTrack?.track}</Text>
+              )}
+              <Button
+                title="Generate"
+                mode="contained"
+                onPress={() => getRandomTrack()}
+              >
+                <MaterialCommunityIcons name="sync" size={16} />
+                {` Generate`}
+              </Button>
+            </>
+          )}
+        </ThemeContext.Consumer>
       </View>
     </BaseView>
   );
