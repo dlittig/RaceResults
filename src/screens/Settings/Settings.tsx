@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import BaseView from "../../components/BaseView";
-import { setSettings } from "../../store/actions/settingsActions";
+import { applyTheme } from "../../store/actions/settingsActions";
 
 import { List } from "react-native-paper";
 import { connect } from "react-redux";
@@ -9,10 +9,10 @@ import { THEMES } from "../../store/constants/settingsConstants";
 
 interface ISettings {
   theme: string;
-  reduxSetSettings: (s: {}) => void;
+  reduxApplyTheme: (s: {}) => void;
 }
 
-const Settings: FC<ISettings> = ({ theme, reduxSetSettings }) => {
+const Settings: FC<ISettings> = ({ theme, reduxApplyTheme }) => {
   const leftProps = {
     [THEMES.LIGHT]: undefined,
     [THEMES.DARK]: undefined,
@@ -36,13 +36,13 @@ const Settings: FC<ISettings> = ({ theme, reduxSetSettings }) => {
             <List.Item
               title="Light"
               {...leftProps.light}
-              onPress={() => reduxSetSettings({ theme: THEMES.LIGHT })}
+              onPress={() => reduxApplyTheme(THEMES.LIGHT)}
             />
 
             <List.Item
               title="Dark"
               {...leftProps.dark}
-              onPress={() => reduxSetSettings({ theme: THEMES.DARK })}
+              onPress={() => reduxApplyTheme(THEMES.DARK)}
             />
           </List.Accordion>
         </List.Section>
@@ -54,7 +54,7 @@ const Settings: FC<ISettings> = ({ theme, reduxSetSettings }) => {
 const mapStateToProps = ({ settingsReducer: { theme } }) => ({ theme });
 
 const mapDispatchToProps = {
-  reduxSetSettings: setSettings,
+  reduxApplyTheme: applyTheme,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

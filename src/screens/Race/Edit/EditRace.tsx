@@ -22,6 +22,8 @@ import { addRace, updateRace } from "../../../store/actions/raceActions";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditRace.style";
+import { setSeenTipFastest } from "../../../store/actions/settingsActions";
+import { SettingsState } from "../../../store/reducers/settingsReducer";
 
 type EditRaceRouteParams = {
   session: number;
@@ -36,6 +38,9 @@ const EditRace = () => {
   );
   const raceReducer = useSelector<RootReducerType, RaceState>(
     (state) => state.raceReducer
+  );
+  const settingsReducer = useSelector<RootReducerType, SettingsState>(
+    (state) => state.settingsReducer
   );
 
   const state = navigation?.dangerouslyGetState();
@@ -148,23 +153,27 @@ const EditRace = () => {
   return (
     <BaseView>
       <BaseScrollView>
-        <Banner
-          style={{
-            elevation: 4,
-            margin: 8,
-            marginBottom: 20,
-            borderRadius: 8,
-          }}
-          visible={bannerVisible}
-          actions={[
-            {
-              label: "Got it",
-              onPress: () => setBannerVisible(false),
-            },
-          ]}
-        >
-          With the checkbox you can keep track of the fastest round driven.
-        </Banner>
+        {settingsReducer.tipFastestSeen === false && (
+          <Banner
+            style={{
+              elevation: 4,
+              margin: 8,
+              marginBottom: 20,
+              borderRadius: 8,
+            }}
+            visible={bannerVisible}
+            actions={[
+              {
+                label: "Got it",
+                onPress: () => {
+                  setBannerVisible(false), dispatch(setSeenTipFastest());
+                },
+              },
+            ]}
+          >
+            With the checkbox you can keep track of the fastest round driven.
+          </Banner>
+        )}
 
         <DraggableFlatList
           data={drivers}
