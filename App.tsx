@@ -28,6 +28,25 @@ const App = () => {
   // Keep this line to signal that i18n should be initialized
   i18n;
 
+  useEffect(() => {
+    Updates.addListener((event) => {
+      if (Updates.UpdateEventType.UPDATE_AVAILABLE === event.type) {
+        Alert.alert(
+          "Update",
+          "A new update of this app is available. Do you want to apply it now?",
+          [
+            {
+              text: "Later",
+              onPress: () => console.log("Applying later."),
+            },
+            { text: "OK", onPress: () => Updates.reloadAsync() },
+          ],
+          { cancelable: false }
+        );
+      }
+    });
+  }, []);
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
