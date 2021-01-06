@@ -1,19 +1,18 @@
 export const APP_HOME = "Home";
 
-export const APP_DRIVERS = "Drivers";
-export const APP_VIEW_DRIVER = "View driver";
-export const APP_EDIT_DRIVER = "Edit driver";
+export const APP_DRIVERS = "screens.drivers.list";
+export const APP_VIEW_DRIVER = "screens.drivers.view";
+export const APP_EDIT_DRIVER = "screens.drivers.edit";
 
-export const APP_SESSIONS = "Sessions";
-export const APP_VIEW_SESSION = "View session";
-export const APP_EDIT_SESSION = "Edit session";
+export const APP_SESSIONS = "screens.sessions.list";
+export const APP_VIEW_SESSION = "screens.sessions.view";
+export const APP_EDIT_SESSION = "screens.sessions.edit";
 
-export const APP_RACE = "Races";
-export const APP_VIEW_RACE = "View race";
-export const APP_EDIT_RACE = "Edit race";
+export const APP_VIEW_RACE = "screens.races.view";
+export const APP_EDIT_RACE = "screens.races.edit";
 
-export const APP_RANDOM_MAP = "Random map";
-export const APP_SCOREBOARD = "Scoreboard";
-export const APP_SETTINGS = "Settings"
+export const APP_RANDOM_MAP = "screens.random_map";
+export const APP_SCOREBOARD = "screens.scoreboard";
+export const APP_SETTINGS = "screens.settings"
 
-export const APP_ABOUT = "About"
+export const APP_ABOUT = "screens.about"

@@ -19,6 +19,7 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditDriver.style";
 import { RootReducerType } from "../../../store/reducers";
+import { useTranslation } from "react-i18next";
 
 const colors = [
   "#d73964",
@@ -39,6 +40,7 @@ const colors = [
 const EditDriver = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const state = navigation?.dangerouslyGetState();
 
@@ -80,23 +82,23 @@ const EditDriver = () => {
     <BaseView>
       <BaseScrollView>
         <TextInput
-          label="Name"
+          label={t("form.name")}
           value={name}
           onChangeText={(text) => setName(text)}
         />
 
         <List.Accordion
-          title="Driver color"
+          title={t("form.driver_color")}
           description={
             <Text size={10} style={{ color: selectedColor }}>
-              Selected color
+              {t("form.selected_color")}
             </Text>
           }
         >
           {colors.map((color, index) => (
             <List.Item
               key={index}
-              title="Color"
+              title={t("text.driver.color")}
               titleStyle={{ color: color }}
               right={(props) =>
                 selectedColor === color ? (
@@ -110,7 +112,7 @@ const EditDriver = () => {
       </BaseScrollView>
       <FAB
         style={style.fab}
-        label="Save"
+        label={t("actions.save")}
         icon="check"
         onPress={() => onSave()}
       />

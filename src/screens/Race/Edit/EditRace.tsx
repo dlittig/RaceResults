@@ -24,6 +24,9 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import style from "./EditRace.style";
 import { setSeenTipFastest } from "../../../store/actions/settingsActions";
 import { SettingsState } from "../../../store/reducers/settingsReducer";
+import { useTranslation } from "react-i18next";
+import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
+import { THEMES } from "../../../store/constants/settingsConstants";
 
 type EditRaceRouteParams = {
   session: number;
@@ -33,6 +36,7 @@ type EditRaceRouteParams = {
 const EditRace = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const driversReducer = useSelector<RootReducerType, DriversState>(
     (state) => state.driversReducer
   );
@@ -58,10 +62,27 @@ const EditRace = () => {
   const initCars = () => {
     const cars = take("cars", {});
 
+    // If we are creating a new race, get the "winning" cars from the previous race of that session
     if (Object.keys(cars).length === 0) {
-      Object.keys(driversReducer.drivers).forEach((driverId) => {
-        cars[driverId] = "";
-      });
+      const sessionRaces = raceReducer.races.filter(
+        (race) => race.session === routeParams.session
+      );
+
+      // If there are no previous sessions, initialize with default
+      if (sessionRaces.length === 0) {
+        Object.keys(driversReducer.drivers).forEach((driverId) => {
+          cars[driverId] = "";
+        });
+      } else {
+        // If sessions are available, read cars from previous races
+        const lastRace = sessionRaces[sessionRaces.length - 1];
+        lastRace.order.forEach((driverId, index, array) => {
+          console.log(driverId, index, array.length - 1);
+          if (index === array.length - 1) {
+            cars[driverId] = "";
+          } else cars[driverId] = lastRace.cars[driverId];
+        });
+      }
     }
 
     return cars;
@@ -101,54 +122,68 @@ const EditRace = () => {
   };
 
   const renderItem = ({ item: id, index, drag, isActive }) => (
-    <TouchableOpacity
-      key={id}
-      style={{
-        backgroundColor: isActive ? "#F0F0F0" : id?.backgroundColor,
-        borderRadius: 10,
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-      onLongPress={drag}
-      delayLongPress={200}
-    >
-      <View style={{ width: 40, justifyContent: "center" }}>
-        <MaterialIcons name="drag-handle" size={24}></MaterialIcons>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text
+    <ThemeProvider.Consumer>
+      {(theme) => (
+        <TouchableOpacity
+          key={id}
           style={{
-            color: "#333",
+            backgroundColor: isActive
+              ? theme === THEMES.LIGHT
+                ? "#F0F0F0"
+                : "#666666"
+              : id?.backgroundColor,
+            borderRadius: 10,
+            flexDirection: "row",
+            alignItems: "center",
           }}
+          onLongPress={drag}
+          delayLongPress={200}
         >
-          {`${index + 1}: ${driversReducer.drivers[id].name}`}
-        </Text>
-        <TextInput
-          mode="flat"
-          label={`Car of ${driversReducer.drivers[id].name}`}
-          dense={true}
-          value={cars[id]}
-          onChangeText={(text) =>
-            setCars({
-              ...cars,
-              [id]: text,
-            })
-          }
-        />
-      </View>
-      <View>
-        <Checkbox
-          status={fastestDrivers.includes(id) ? "checked" : "unchecked"}
-          onPress={() => {
-            if (fastestDrivers.includes(id)) {
-              setFastestDrivers(fastestDrivers.filter((item) => item !== id));
-            } else {
-              setFastestDrivers([...fastestDrivers, id]);
-            }
-          }}
-        />
-      </View>
-    </TouchableOpacity>
+          <View style={{ width: 40, justifyContent: "center" }}>
+            <MaterialIcons
+              name="drag-handle"
+              size={24}
+              color={theme === THEMES.LIGHT ? "#333" : "#fff"}
+            ></MaterialIcons>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                color: theme === THEMES.LIGHT ? "#333" : "#fff",
+              }}
+            >
+              {`${index + 1}: ${driversReducer.drivers[id].name}`}
+            </Text>
+            <TextInput
+              mode="flat"
+              label={`${t("form.car")} ${driversReducer.drivers[id].name}`}
+              dense={true}
+              value={cars[id]}
+              onChangeText={(text) =>
+                setCars({
+                  ...cars,
+                  [id]: text,
+                })
+              }
+            />
+          </View>
+          <View>
+            <Checkbox
+              status={fastestDrivers.includes(id) ? "checked" : "unchecked"}
+              onPress={() => {
+                if (fastestDrivers.includes(id)) {
+                  setFastestDrivers(
+                    fastestDrivers.filter((item) => item !== id)
+                  );
+                } else {
+                  setFastestDrivers([...fastestDrivers, id]);
+                }
+              }}
+            />
+          </View>
+        </TouchableOpacity>
+      )}
+    </ThemeProvider.Consumer>
   );
 
   return (
@@ -165,14 +200,14 @@ const EditRace = () => {
             visible={bannerVisible}
             actions={[
               {
-                label: "Got it",
+                label: t("actions.got_it"),
                 onPress: () => {
                   setBannerVisible(false), dispatch(setSeenTipFastest());
                 },
               },
             ]}
           >
-            With the checkbox you can keep track of the fastest round driven.
+            {t("banner.fastest_lap")}
           </Banner>
         )}
 
@@ -186,7 +221,7 @@ const EditRace = () => {
         />
 
         <List.Accordion
-          title="Race track"
+          title={t("form.race_track")}
           description={location}
           expanded={accordionOpen}
           onPress={() => setAccordionOpen(!accordionOpen)}
@@ -209,7 +244,7 @@ const EditRace = () => {
       </BaseScrollView>
       <FAB
         style={style.fab}
-        label="Save"
+        label={t("actions.save")}
         icon="check"
         onPress={() => onSave()}
       />

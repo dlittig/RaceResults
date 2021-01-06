@@ -6,6 +6,7 @@ import { List } from "react-native-paper";
 import { connect } from "react-redux";
 import BaseScrollView from "../../components/BaseScrollView";
 import { THEMES } from "../../store/constants/settingsConstants";
+import { useTranslation } from "react-i18next";
 
 interface ISettings {
   theme: string;
@@ -17,6 +18,7 @@ const Settings: FC<ISettings> = ({ theme, reduxApplyTheme }) => {
     [THEMES.LIGHT]: undefined,
     [THEMES.DARK]: undefined,
   };
+  const { t } = useTranslation();
 
   leftProps[theme] = {
     left: (props) => (
@@ -29,18 +31,18 @@ const Settings: FC<ISettings> = ({ theme, reduxApplyTheme }) => {
       <BaseScrollView>
         <List.Section>
           <List.Accordion
-            title="Display theme"
-            description="Adjust how the appearance of the app should look like"
+            title={t("text.settings.theme.title")}
+            description={t("text.settings.theme.description")}
             left={(props) => <List.Icon {...props} icon="theme-light-dark" />}
           >
             <List.Item
-              title="Light"
+              title={t("text.settings.theme.light")}
               {...leftProps.light}
               onPress={() => reduxApplyTheme(THEMES.LIGHT)}
             />
 
             <List.Item
-              title="Dark"
+              title={t("text.settings.theme.dark")}
               {...leftProps.dark}
               onPress={() => reduxApplyTheme(THEMES.DARK)}
             />

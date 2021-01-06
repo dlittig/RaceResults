@@ -1,15 +1,15 @@
 import i18n from "i18next";
 import translations from ".";
-import { currentLocale } from "../utils";
 import { initReactI18next } from "react-i18next";
+import * as ExpoLocalization from "expo-localization";
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources: translations,
-    lng: currentLocale,
-    preload: ["en_US", "de_DE"],
-    fallbackLng: "en_US",
+    lng: ExpoLocalization.locale,
+    preload: ["en-US", "de-DE"],
+    fallbackLng: "en-US",
     interpolation: {
       escapeValue: false,
     },

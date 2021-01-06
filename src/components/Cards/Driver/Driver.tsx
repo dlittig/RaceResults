@@ -9,6 +9,7 @@ import { deleteDriver } from "../../../store/actions/driversActions";
 import { SessionsState } from "../../../store/reducers/sessionsReducer";
 
 import style from "./Driver.style";
+import { useTranslation } from "react-i18next";
 
 type DriverCardType = {
   driver: Driver;
@@ -20,6 +21,7 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
   const sessionsReducer = useSelector<RootReducerType, SessionsState>(
     (state) => state.sessionsReducer
   );
+  const { t } = useTranslation();
 
   const confirmDelete = () => {
     const participating = sessionsReducer.sessions.filter((session) =>
@@ -28,16 +30,16 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
 
     if (participating.length === 0) {
       Alert.alert(
-        "Confirm deletion",
-        `Are you sure you want to delete "${driver.name}"?`,
+        t("dialogs.delete_driver.title"),
+        `${t("dialogs.delete_driver.content")} "${driver.name}"?`,
         [
           {
-            text: "Cancel",
+            text: t("actions.cancel"),
             onPress: () => {},
             style: "cancel",
           },
           {
-            text: "OK",
+            text: t("actions.accept"),
             onPress: () => dispatch(deleteDriver(driver)),
           },
         ],
@@ -45,7 +47,7 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
       );
     } else {
       ToastAndroid.showWithGravity(
-        "Can not delete driver who participated in sessions",
+        t("toasts.delete_driver_in_use"),
         ToastAndroid.SHORT,
         ToastAndroid.BOTTOM
       );

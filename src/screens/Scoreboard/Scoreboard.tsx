@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { DataTable, ProgressBar, Text } from "react-native-paper";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { Session, SessionsState } from "../../store/reducers/sessionsReducer";
 import { calculateScores, getPointsMap } from "../../utils";
 
 const Scoreboard = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation?.dangerouslyGetState();
   const { session: sessionId } = state.routes[state.index].params;
@@ -50,8 +52,8 @@ const Scoreboard = () => {
           <DataTable>
             <DataTable.Header>
               <DataTable.Title>#</DataTable.Title>
-              <DataTable.Title>Driver</DataTable.Title>
-              <DataTable.Title numeric>Points</DataTable.Title>
+              <DataTable.Title>{t("text.scoreboard.driver")}</DataTable.Title>
+              <DataTable.Title numeric>{t("text.scoreboard.points")}</DataTable.Title>
             </DataTable.Header>
 
             {sessionResults.map((res, index) => (

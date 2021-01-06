@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -16,33 +17,37 @@ type RaceCardType = {
 };
 
 const RaceCard: FC<RaceCardType> = ({ race, onPress, position }) => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
   const confirmDelete = () => {
     Alert.alert(
-      "Confirm deletion",
-      `Are you sure you want to delete this race?`,
+      t("dialogs.delete_race.title"),
+      t("dialogs.delete_race.content"),
       [
         {
-          text: "Cancel",
+          text: t("actions.cancel"),
           onPress: () => {},
           style: "cancel",
         },
         {
-          text: "OK",
+          text: t("actions.accept"),
           onPress: () => dispatch(deleteRace(race)),
         },
       ],
       { cancelable: false }
     );
   };
-  const dispatch = useDispatch();
 
   return (
     <BaseCard onPress={onPress} onLongPress={() => confirmDelete()}>
       <View style={style.container}>
-        <Text
-          style={style.boldText}
-        >{`Race ${position}: ${race.location}`}</Text>
-        <Text>Started: {humanReadableDate(race.time)}</Text>
+        <Text style={style.boldText}>{`${t("text.race.race")} ${position}: ${
+          race.location
+        }`}</Text>
+        <Text>
+          {t("text.race.started")}: {humanReadableDate(race.time)}
+        </Text>
       </View>
     </BaseCard>
   );

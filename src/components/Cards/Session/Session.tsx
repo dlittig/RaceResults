@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -12,20 +13,23 @@ import BaseCard from "../BaseCard";
 import style from "./Session.style";
 
 const SessionCard: FC = ({ session, onPress }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const confirmDelete = (session: Session) => {
     const sessionId = session.id;
 
     Alert.alert(
-      "Confirm deletion",
-      `Are you sure you want to delete the session "${session.label}"?`,
+      t("dialogs.delete_session.title"),
+      `${t("dialogs.delete_session.content")} "${session.label}"?`,
       [
         {
-          text: "Cancel",
+          text: t("actions.cancel"),
           onPress: () => {},
           style: "cancel",
         },
         {
-          text: "OK",
+          text: t("actions.accept"),
           onPress: () => {
             dispatch(deleteSession(session));
             dispatch(deleteRaceBySession(sessionId));
@@ -35,7 +39,6 @@ const SessionCard: FC = ({ session, onPress }) => {
       { cancelable: false }
     );
   };
-  const dispatch = useDispatch();
 
   return (
     <BaseCard onPress={onPress} onLongPress={() => confirmDelete(session)}>

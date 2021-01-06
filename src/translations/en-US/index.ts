@@ -4,82 +4,98 @@ export const en_US = {
       add: "Add",
       cancel: "Cancel",
       accept: "OK",
-      set: "Set",
-      start: "Start",
-      reset: "Reset",
-      stop: "Stop",
-      lap: "Lap",
       save: "Save",
       edit: "Edit",
       delete: "Delete",
-      mute: "Mute",
-      unmute: "Unmute",
-      setup_schedule: "Setup schedule",
+      generate: "Generate",
+      addRace: "Race",
+      close: "Close",
+      toggle_all: "Toggle all",
+      got_it: "Got it",
+    },
+    empty: {
+      drivers: "Get started by creating some drivers.",
+      sessions: "Get started by creating some drivers via the hamburger menu ",
+      session_view: "Start your session with a random map!",
     },
     screens: {
-      all_alarms: "All Alarms",
-      muted_alarms: "Muted Alarms",
-      add_alarm: "Add Alarm",
-      alarms: "Alarms",
-      timer: "Timer",
-      stopwatch: "Stopwatch",
+      sessions: {
+        list: "Sessions",
+        view: "View session",
+        edit: "Edit session",
+      },
+      drivers: {
+        list: "Drivers",
+        view: "View driver",
+        edit: "Edit driver",
+      },
+      races: {
+        edit: "Edit race",
+        view: "View race",
+      },
+      random_map: "Random map",
+      scoreboard: "Scoreboard",
       settings: "Settings",
-      donate: "Donate",
       about: "About",
     },
-    descriptions: {
-      options: {
-        donate: "Buy me a coffee",
-        settings: "Configure app behaviour",
-        about: "License and more info",
-      },
-      settings: {
-        display_theme: "Adjust how the appearance of the app should look like",
-        automatic:
-          "The app will change its appearance based on your phone's settings",
-      },
+    about: {
+      greeting: "Built with ❤️ by dlittig",
+    },
+    form: {
+      name: "Name",
+      car: "Car of",
+      linear: "Linear",
+      gapped: "Gapped",
+      race_track: "Race track",
+      driver_color: "Driver color",
+      selected_color: "Selected color",
     },
     dialogs: {
-      timer: {
-        set: "Set timer",
+      select_drivers: "Select drivers",
+      delete_driver: {
+        title: "Confirm deletion",
+        content: "Are you sure you want to delete",
       },
-      custom_schedule: {
-        title: "Schedule",
-        every: "Every",
-        days: "Days",
-        weeks: "Weeks",
+      delete_race: {
+        title: "Confirm deletion",
+        content: "Are you sure you want to delete this race?",
       },
-    },
-    days: {
-      mo: "Monday",
-      tue: "Tueday",
-      wed: "Wednesday",
-      thu: "Thursday",
-      fri: "Friday",
-      sat: "Saturday",
-      sun: "Sunday",
-      short: {
-        mo: "M",
-        tue: "T",
-        wed: "W",
-        thu: "T",
-        fri: "F",
-        sat: "S",
-        sun: "S",
+      delete_session: {
+        title: "Confirm deletion",
+        content: "Are you sure you want to delete the session",
       },
     },
     toasts: {
-      alarm_name_required: "Please give your alarm a name",
+      delete_driver_in_use:
+        "Can not delete driver who participated in sessions",
     },
-    settings: {
-      display_theme: "Display theme",
-      light: "Light",
-      dark: "Dark",
-      black: "Black",
-      automatic: "Automatic",
+    banner: {
+      fastest_lap:
+        "With the checkbox you can keep track of the fastest round driven.",
     },
-    fields: {
-      name: "Name",
+    text: {
+      driver: {
+        history: "History",
+        color: "Color",
+      },
+      session: { pointScheme: "Point scheme" },
+      race: {
+        race: "Race",
+        started: "Started",
+      },
+      scoreboard: {
+        driver: "Driver",
+        points: "Points",
+        clipboard: "",
+      },
+      settings: {
+        theme: {
+          title: "Display theme",
+          description: "Adjust how the appearance of the app should look like",
+          light: "Light",
+          dark: "Dark",
+        },
+      },
     },
   },
 };

@@ -23,8 +23,10 @@ import {
 import { DriversState } from "../../../store/reducers/driversReducer";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
+import { useTranslation } from "react-i18next";
 
 const ViewDriver = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation.dangerouslyGetState();
   const { driver } = state.routes[state.index].params;
@@ -61,8 +63,6 @@ const ViewDriver = () => {
     setShowChart(true);
   }, []);
 
-  console.log("POS", positions);
-
   return (
     <BaseView>
       <ThemeProvider.Consumer>
@@ -82,7 +82,7 @@ const ViewDriver = () => {
 
               {showChart && positions.length > 1 && (
                 <View>
-                  <Subheading>History</Subheading>
+                  <Subheading>{t("text.driver.history")}</Subheading>
                   <VictoryChart>
                     <VictoryLine
                       style={

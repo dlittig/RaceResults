@@ -7,6 +7,6 @@ export const getResources = () => ({
 })
 
 export default {
-  "de_DE": de_DE,
-  "en_US": en_US,
+  "de-DE": de_DE,
+  "en-US": en_US,
 };

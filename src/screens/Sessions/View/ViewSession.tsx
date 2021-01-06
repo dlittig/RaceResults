@@ -20,9 +20,13 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import NavSeparator from "../../../components/NavSeparator/NavSeparator";
 import Race from "../../../components/Cards/Race";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
+import { THEMES } from "../../../store/constants/settingsConstants";
 
 const ViewSession = () => {
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const state = navigation.dangerouslyGetState();
   const { session: sessionId } = state.routes[state.index].params;
   const sessionsReducer = useSelector<RootReducerType, SessionsState>(
@@ -39,22 +43,28 @@ const ViewSession = () => {
   return (
     <BaseView>
       <Text style={styles.sessionLabel}>
-        <MaterialCommunityIcons name="tag" color={"#333"} size={16} />
+        <ThemeProvider.Consumer>
+          {(theme) => (
+            <MaterialCommunityIcons
+              name="tag"
+              color={theme === THEMES.LIGHT ? "#333" : "#fff"}
+              size={16}
+            />
+          )}
+        </ThemeProvider.Consumer>
         {` ${session.label}`}
       </Text>
       <NavSeparator />
       <BaseScrollView>
         {races.length === 0 && (
           <View style={styles.emptyState}>
-            <Text style={styles.text}>
-              Start your session with a random map!
-            </Text>
+            <Text style={styles.text}>{t("empty.session_view")}</Text>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate(APP_RANDOM_MAP)}
+              onPress={() => navigation.navigate(t(APP_RANDOM_MAP))}
             >
               <MaterialCommunityIcons name="sync" size={16} />
-              {` Random map`}
+              {` ${t("actions.generate")}`}
             </Button>
           </View>
         )}
@@ -64,7 +74,7 @@ const ViewSession = () => {
             position={index + 1}
             race={race}
             onPress={() =>
-              navigation.navigate(APP_VIEW_RACE, {
+              navigation.navigate(t(APP_VIEW_RACE), {
                 race: race.id,
                 session: session.id,
               })
@@ -74,10 +84,10 @@ const ViewSession = () => {
       </BaseScrollView>
       <FAB
         style={styles.fab}
-        label="Race"
+        label={t("actions.addRace")}
         icon="plus"
         onPress={() =>
-          navigation.navigate(APP_EDIT_RACE, { session: session.id })
+          navigation.navigate(t(APP_EDIT_RACE), { session: session.id })
         }
       />
     </BaseView>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Text, FAB, Button, List } from "react-native-paper";
+import { Text, FAB } from "react-native-paper";
 import styles from "./Sessions.style";
 import {
   APP_EDIT_SESSION,
@@ -14,8 +14,10 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import BaseView from "../../../components/BaseView/BaseView";
 import { View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 const Sessions = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const sessionsReducer = useSelector<RootReducerType, SessionsState>(
     (state) => state.sessionsReducer
@@ -26,7 +28,7 @@ const Sessions = () => {
       {sessionsReducer.sessions.length === 0 && (
         <View style={styles.emptyState}>
           <Text style={styles.emptyStateText}>
-            Get started by creating some drivers via the hamburger menu{" "}
+            {t("empty.sessions")}
             <MaterialCommunityIcons name="menu" size={16} />
           </Text>
         </View>
@@ -37,7 +39,9 @@ const Sessions = () => {
             <SessionCard
               key={index}
               onPress={() =>
-                navigation.navigate(APP_VIEW_SESSION, { session: session.id })
+                navigation.navigate(t(APP_VIEW_SESSION), {
+                  session: session.id,
+                })
               }
               session={session}
             />
@@ -46,9 +50,9 @@ const Sessions = () => {
       )}
       <FAB
         style={styles.fab}
-        label="Add"
+        label={t("actions.add")}
         icon="plus"
-        onPress={() => navigation.navigate(APP_EDIT_SESSION)}
+        onPress={() => navigation.navigate(t(APP_EDIT_SESSION))}
       />
     </BaseView>
   );

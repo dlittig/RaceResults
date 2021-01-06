@@ -1,11 +1,14 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { DataTable, Text } from "react-native-paper";
 import { useSelector } from "react-redux";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import BaseView from "../../../components/BaseView/BaseView";
 import NavSeparator from "../../../components/NavSeparator/NavSeparator";
+import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
+import { THEMES } from "../../../store/constants/settingsConstants";
 import { RootReducerType } from "../../../store/reducers";
 import { DriversState } from "../../../store/reducers/driversReducer";
 import { Race, RaceState } from "../../../store/reducers/raceReducer";
@@ -23,6 +26,7 @@ type ViewRaceRouteParams = {
 };
 
 const ViewRace = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation?.dangerouslyGetState();
   const driversReducer = useSelector<RootReducerType, DriversState>(
@@ -56,7 +60,15 @@ const ViewRace = () => {
   return (
     <BaseView>
       <Text style={style.raceTrack}>
-        <MaterialCommunityIcons name="map" color={"#333"} size={16} />
+        <ThemeProvider.Consumer>
+          {(theme) => (
+            <MaterialCommunityIcons
+              name="map"
+              color={theme === THEMES.LIGHT ? "#333" : "#fff"}
+              size={16}
+            />
+          )}
+        </ThemeProvider.Consumer>
         {` ${race.location}`}
       </Text>
       <NavSeparator />
@@ -64,8 +76,8 @@ const ViewRace = () => {
         <DataTable>
           <DataTable.Header>
             <DataTable.Title>#</DataTable.Title>
-            <DataTable.Title>Driver</DataTable.Title>
-            <DataTable.Title numeric>Points</DataTable.Title>
+            <DataTable.Title>{t("text.scoreboard.driver")}</DataTable.Title>
+            <DataTable.Title numeric>{t("text.scoreboard.points")}</DataTable.Title>
           </DataTable.Header>
 
           {race.order.map((driverId, index) => (

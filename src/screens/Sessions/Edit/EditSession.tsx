@@ -19,6 +19,7 @@ import {
   Session,
   SessionsState,
 } from "../../../store/reducers/sessionsReducer";
+import { useTranslation } from "react-i18next";
 import {
   addSession,
   updateSession,
@@ -56,6 +57,7 @@ const reducer = (state: number[], action: any) => {
 };
 
 const EditSession = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const driversReducer = useSelector<RootReducerType, DriversState>(
@@ -110,7 +112,7 @@ const EditSession = () => {
     <BaseView>
       <BaseScrollView>
         <TextInput
-          label="Label"
+          label={t("form.name")}
           value={label}
           onChangeText={(text) => setLabel(text)}
         />
@@ -124,7 +126,7 @@ const EditSession = () => {
             }}
           >
             <Subheading style={{ marginVertical: 10, marginEnd: 10 }}>
-              Drivers
+              {t("screens.drivers.list")}
             </Subheading>
             <IconButton
               icon="plus"
@@ -155,18 +157,24 @@ const EditSession = () => {
         </View>
 
         <View>
-          <Subheading style={{ marginVertical: 10 }}>Point scheme</Subheading>
+          <Subheading style={{ marginVertical: 10 }}>
+            {t("text.session.pointScheme")}
+          </Subheading>
           <RadioButton.Group
             onValueChange={(newValue) => setPointScheme(newValue)}
             value={pointScheme}
           >
             <View style={style.radioButtonField}>
               <RadioButton value="linear" />
-              <Text onPress={() => setPointScheme("linear")}>Linear</Text>
+              <Text onPress={() => setPointScheme("linear")}>
+                {t("form.linear")}
+              </Text>
             </View>
             <View style={style.radioButtonField}>
               <RadioButton value="gapped" />
-              <Text onPress={() => setPointScheme("gapped")}>Gapped</Text>
+              <Text onPress={() => setPointScheme("gapped")}>
+                {t("form.gapped")}
+              </Text>
             </View>
           </RadioButton.Group>
           {/* </View> */}
@@ -174,7 +182,7 @@ const EditSession = () => {
 
         <Portal>
           <Dialog visible={visible} onDismiss={() => setVisible(false)}>
-            <Dialog.Title>Select drivers</Dialog.Title>
+            <Dialog.Title>{t("dialogs.select_drivers")}</Dialog.Title>
             <Dialog.Content>
               <Dialog.ScrollArea>
                 {Object.values(driversReducer.drivers).map((driver, index) => (
@@ -204,16 +212,18 @@ const EditSession = () => {
                   })
                 }
               >
-                Toggle all
+                {t("actions.toggle_all")}
               </Button>
-              <Button onPress={() => setVisible(false)}>Close</Button>
+              <Button onPress={() => setVisible(false)}>
+                {t("actions.close")}
+              </Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
       </BaseScrollView>
       <FAB
         style={style.fab}
-        label="Save"
+        label={t("actions.save")}
         icon="check"
         onPress={() => onSave()}
       />

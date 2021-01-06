@@ -4,82 +4,101 @@ export const de_DE = {
       add: "Hinzufügen",
       cancel: "Abbrechen",
       accept: "OK",
-      set: "Übernehmen",
-      start: "Start",
-      reset: "Zurücksetzen",
-      stop: "Stop",
-      lap: "Runde",
       save: "Speichern",
       edit: "Ändern",
       delete: "Löschen",
-      mute: "Stumm",
-      unmute: "Aktivieren",
-      setup_schedule: "Zeitplan erstellen",
+      generate: "Generieren",
+      addRace: "Rennen",
+      close: "Schließen",
+      toggle_all: "Umschalten",
+      got_it: "Verstanden",
+    },
+    empty: {
+      drivers: "Starten Sie, indem Sie einige Fahrer anlegen.",
+      sessions:
+        "Starten Sie, indem Sie einige Fahrer mit dem Hauptmenü anlegen ",
+      session_view: "Starten Sie die Rennsitzung mit einer zufälligen Strecke!",
     },
     screens: {
-      all_alarms: "Alle Alarme",
-      muted_alarms: "Stumme Alarme",
-      add_alarm: "Alarm hinzufügen",
-      alarms: "Alarme",
-      timer: "Timer",
-      stopwatch: "Stoppuhr",
+      sessions: {
+        list: "Sitzungen",
+        view: "Sitzung ansehen",
+        edit: "Sitzung ändern",
+      },
+      drivers: {
+        list: "Fahrer",
+        view: "Fahrer ansehen",
+        edit: "Fahrer ändern",
+      },
+      races: {
+        edit: "Rennen ändern",
+        view: "Rennen ansehen",
+      },
+      random_map: "Zufällige Strecke",
+      scoreboard: "Punktetafel",
       settings: "Einstellungen",
-      donate: "Spenden",
       about: "Über",
     },
-    descriptions: {
-      options: {
-        donate: "Kauf' mir einen Kaffee",
-        settings: "Anwendungsverhalten anpassen",
-        about: "Lizenzen und weitere Informationen",
-      },
-      settings: {
-        display_theme: "Passe an, wie die App aussehen soll",
-        automatic:
-          "Die App ändert das Farbschema basierend auf den Einstellungen deines Smartphones",
-      },
+    about: {
+      greeting: "Mit ❤️ entwickelt von dlittig",
+    },
+    form: {
+      name: "Name",
+      car: "Fahrzeug von",
+      linear: "Linear",
+      gapped: "Mit Abstand",
+      race_track: "Rennstrecke",
+      driver_color: "Farbe des Fahrers",
+      selected_color: "Gewählte Farbe",
     },
     dialogs: {
-      timer: {
-        set: "Timer setzen",
+      select_drivers: "Fahrer wählen",
+      delete_driver: {
+        title: "Löschen bestätigen",
+        content:
+          "Sind Sie sicher, dass Sie den Fahrer löschen wollen mit dem Namen",
       },
-      custom_schedule: {
-        title: "Zeitplan",
-        every: "Jeden",
-        days: "Tage",
-        weeks: "Wochen",
+      delete_race: {
+        title: "Löschen bestätigen",
+        content: "Sind Sie sicher, dass Sie dieses Rennen löschen wollen?",
       },
-    },
-    days: {
-      mo: "Montag",
-      tue: "Dienstag",
-      wed: "Mittwoch",
-      thu: "Donnerstag",
-      fri: "Freitag",
-      sat: "Samstag",
-      sun: "Sonntag",
-      short: {
-        mo: "M",
-        tue: "D",
-        wed: "M",
-        thu: "D",
-        fri: "F",
-        sat: "S",
-        sun: "S",
+      delete_session: {
+        title: "Löschen bestätigen",
+        content:
+          "Sind Sie sicher, dass Sie diese Sitzung löschen wollen mit dem Namen",
       },
     },
     toasts: {
-      alarm_name_required: "Bitte vergebe einen Namen für den Alarm",
+      delete_driver_in_use:
+        "Der Fahrer kann nicht gelöscht werden, da dieser an einer Sitzung teilnimmt.",
     },
-    settings: {
-      display_theme: "Farbschema",
-      light: "Hell",
-      dark: "Dunkel",
-      black: "Schwarz",
-      automatic: "Automatisch",
+    banner: {
+      fastest_lap:
+        "Mit dem Häkchen können Sie festhalten, welcher Fahrer die schnellste Runde gefahren ist.",
     },
-    fields: {
-      name: "Name",
+    text: {
+      driver: {
+        history: "Verlauf",
+        color: "Farbe",
+      },
+      session: { pointScheme: "Punkteschema" },
+      race: {
+        race: "Rennen",
+        started: "Gestartet",
+      },
+      scoreboard: {
+        driver: "Fahrer",
+        points: "Punkte",
+        clipboard: "",
+      },
+      settings: {
+        theme: {
+          title: "Farbschema",
+          description: "Passen Sie an, wie die Anwendung aussehen soll",
+          light: "Hell",
+          dark: "Dunkel",
+        },
+      },
     },
   },
 };

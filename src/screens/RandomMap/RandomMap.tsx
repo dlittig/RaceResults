@@ -9,6 +9,7 @@ import style from "./RandomMap.style";
 import { ThemeContext } from "../../provider/ThemeProvider/ThemeProvider";
 import { ThemeColors } from "../../theme/colors/values";
 import { THEMES } from "../../store/constants/settingsConstants";
+import { useTranslation } from "react-i18next";
 
 type CurrentTrackType = {
   id: number;
@@ -16,6 +17,7 @@ type CurrentTrackType = {
 } | null;
 
 const RandomMap = () => {
+  const { t } = useTranslation();
   const [currentTrack, setCurrentTrack] = useState<CurrentTrackType>(null);
 
   const getRandomTrack = () => {
@@ -59,13 +61,9 @@ const RandomMap = () => {
               {currentTrack !== null && (
                 <Text style={style.text}>{currentTrack?.track}</Text>
               )}
-              <Button
-                title="Generate"
-                mode="contained"
-                onPress={() => getRandomTrack()}
-              >
+              <Button mode="contained" onPress={() => getRandomTrack()}>
                 <MaterialCommunityIcons name="sync" size={16} />
-                {` Generate`}
+                {` ${t("actions.generate")}`}
               </Button>
             </>
           )}

@@ -14,20 +14,20 @@ import { RootReducerType } from "../../../store/reducers";
 import { DriversState } from "../../../store/reducers/driversReducer";
 
 import styles from "./Drivers.style";
+import { useTranslation } from "react-i18next";
 
 const Drivers = () => {
   const driversState: DriversState = useSelector<RootReducerType, DriversState>(
     (state) => state.driversReducer
   );
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   return (
     <BaseView>
       {Object.keys(driversState.drivers).length === 0 && (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyStateText}>
-            Get started by creating some drivers.
-          </Text>
+          <Text style={styles.emptyStateText}>{t("empty.drivers")}</Text>
         </View>
       )}
       {Object.keys(driversState.drivers).length > 0 && (
@@ -37,7 +37,7 @@ const Drivers = () => {
               key={index}
               allowDelete={true}
               onPress={() =>
-                navigation.navigate(APP_VIEW_DRIVER, { driver: driver.id })
+                navigation.navigate(t(APP_VIEW_DRIVER), { driver: driver.id })
               }
               driver={driver}
             />
@@ -46,9 +46,9 @@ const Drivers = () => {
       )}
       <FAB
         style={styles.fab}
-        label="Add"
+        label={t("actions.add")}
         icon="plus"
-        onPress={() => navigation.navigate(APP_EDIT_DRIVER)}
+        onPress={() => navigation.navigate(t(APP_EDIT_DRIVER))}
       />
     </BaseView>
   );
