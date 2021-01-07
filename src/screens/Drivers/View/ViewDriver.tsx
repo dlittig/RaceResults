@@ -98,7 +98,6 @@ const ViewDriver = () => {
                         duration: 500,
                         onLoad: { duration: 500 },
                       }}
-                      interpolation="natural"
                       domain={{
                         x: [0.5, raceReducer.races.length + 0.5],
                         y: [
@@ -116,6 +115,7 @@ const ViewDriver = () => {
                       }
                     />
                     <VictoryAxis
+                      label={t("text.driver.positions")}
                       style={
                         theme === THEMES.DARK
                           ? {

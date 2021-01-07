@@ -20,6 +20,7 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import style from "./EditDriver.style";
 import { RootReducerType } from "../../../store/reducers";
 import { useTranslation } from "react-i18next";
+import { useConfirmation } from "../../../hooks/confirmation";
 
 const colors = [
   "#d73964",
@@ -38,6 +39,7 @@ const colors = [
 ];
 
 const EditDriver = () => {
+  useConfirmation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation();

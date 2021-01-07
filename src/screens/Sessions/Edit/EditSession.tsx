@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, ToastAndroid, View } from "react-native";
 import {
   Button,
   Dialog,
@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   Session,
+  sessionsReducer,
   SessionsState,
 } from "../../../store/reducers/sessionsReducer";
 import { useTranslation } from "react-i18next";
@@ -31,6 +32,8 @@ import BaseView from "../../../components/BaseView/BaseView";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditSession.style";
+import { RaceState } from "../../../store/reducers/raceReducer";
+import { useConfirmation } from "../../../hooks/confirmation";
 
 const TOGGLE_DRIVER = "[edit sessions] toggle driver";
 const SELECT_ALL_DRIVERS = "[edit sessions] select all drivers";
@@ -57,11 +60,15 @@ const reducer = (state: number[], action: any) => {
 };
 
 const EditSession = () => {
+  useConfirmation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const driversReducer = useSelector<RootReducerType, DriversState>(
     (state) => state.driversReducer
+  );
+  const raceReducer = useSelector<RootReducerType, RaceState>(
+    (state) => state.raceReducer
   );
   const sessionsReducer = useSelector<RootReducerType, SessionsState>(
     (state) => state.sessionsReducer
@@ -108,6 +115,22 @@ const EditSession = () => {
     navigation.goBack();
   };
 
+  const openDriverDialogIfAvailable = () => {
+    if (typeof sessionId !== "undefined") {
+      const sessionRaces = raceReducer.races.filter(
+        (race) => race.session === session.id
+      );
+
+      if (sessionRaces.length > 0)
+        ToastAndroid.showWithGravity(
+          t("toasts.change_driver_failed"),
+          ToastAndroid.SHORT,
+          ToastAndroid.BOTTOM
+        );
+      else setVisible(true);
+    } else setVisible(true);
+  };
+
   return (
     <BaseView>
       <BaseScrollView>
@@ -129,9 +152,9 @@ const EditSession = () => {
               {t("screens.drivers.list")}
             </Subheading>
             <IconButton
-              icon="plus"
+              icon="cog"
               size={16}
-              onPress={() => setVisible(true)}
+              onPress={() => openDriverDialogIfAvailable()}
             />
           </View>
 

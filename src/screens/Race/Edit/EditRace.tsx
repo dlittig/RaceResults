@@ -27,6 +27,11 @@ import { SettingsState } from "../../../store/reducers/settingsReducer";
 import { useTranslation } from "react-i18next";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
+import {
+  sessionsReducer,
+  SessionsState,
+} from "../../../store/reducers/sessionsReducer";
+import { useConfirmation } from "../../../hooks/confirmation";
 
 type EditRaceRouteParams = {
   session: number;
@@ -34,6 +39,7 @@ type EditRaceRouteParams = {
 };
 
 const EditRace = () => {
+  useConfirmation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -42,6 +48,9 @@ const EditRace = () => {
   );
   const raceReducer = useSelector<RootReducerType, RaceState>(
     (state) => state.raceReducer
+  );
+  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
+    (state) => state.sessionsReducer
   );
   const settingsReducer = useSelector<RootReducerType, SettingsState>(
     (state) => state.settingsReducer
@@ -52,6 +61,10 @@ const EditRace = () => {
 
   const race = raceReducer.races.filter(
     (item) => item.id === routeParams.race
+  )[0];
+
+  const session = sessionsReducer.sessions.filter(
+    (item) => item.id === routeParams.session
   )[0];
 
   const take = (key: string, fallback: any) =>
@@ -95,7 +108,7 @@ const EditRace = () => {
     take("location", RACE_CURCUIT[0])
   );
   const [drivers, setDrivers] = useState<number[]>(
-    take("order", Object.keys(driversReducer.drivers))
+    take("order", session.participants)
   );
   const [cars, setCars] = useState<{ [x: string]: any }>(initCars());
   const [bannerVisible, setBannerVisible] = useState<boolean>(true);

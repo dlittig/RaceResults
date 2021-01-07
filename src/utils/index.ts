@@ -98,9 +98,15 @@ export const exportSession = (s: number) => {
 
     // Order and points
     Object.values(race.order).forEach((driverId, index) => {
+      const car =
+        typeof race.cars[driverId] !== "undefined" &&
+        race.cars[driverId].length > 0
+          ? `[${race.cars[driverId]}]`
+          : "";
+
       resultString += `${index + 1}. ${
         state.driversReducer.drivers[driverId].name
-      } (${
+      } ${car} (${
         pointsMap[index + 1] + pointsForFastestRound(race, driverId)
       } Points${pointsForFastestRound(race, driverId) === 1 ? " *" : ""})\n`;
     });

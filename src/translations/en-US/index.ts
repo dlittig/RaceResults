@@ -12,6 +12,8 @@ export const en_US = {
       close: "Close",
       toggle_all: "Toggle all",
       got_it: "Got it",
+      leave: "Leave",
+      stay: "Stay",
     },
     empty: {
       drivers: "Get started by creating some drivers.",
@@ -64,10 +66,17 @@ export const en_US = {
         title: "Confirm deletion",
         content: "Are you sure you want to delete the session",
       },
+      leave: {
+        title: "Leave screen?",
+        content:
+          "You might have unsaved changes. Are you sure you want to leave the screen?",
+      },
     },
     toasts: {
       delete_driver_in_use:
         "Can not delete driver who participated in sessions",
+      change_driver_failed:
+        "You can't edit the drivers list, because there are races already.",
     },
     banner: {
       fastest_lap:
@@ -77,6 +86,7 @@ export const en_US = {
       driver: {
         history: "History",
         color: "Color",
+        positions: "Positions",
       },
       session: { pointScheme: "Point scheme" },
       race: {

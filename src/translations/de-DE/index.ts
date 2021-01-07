@@ -12,6 +12,8 @@ export const de_DE = {
       close: "Schließen",
       toggle_all: "Umschalten",
       got_it: "Verstanden",
+      leave: "Verlassen",
+      stay: "Bleiben",
     },
     empty: {
       drivers: "Starten Sie, indem Sie einige Fahrer anlegen.",
@@ -46,7 +48,7 @@ export const de_DE = {
       name: "Name",
       car: "Fahrzeug von",
       linear: "Linear",
-      gapped: "Mit Abstand",
+      gapped: "Abgestuft",
       race_track: "Rennstrecke",
       driver_color: "Farbe des Fahrers",
       selected_color: "Gewählte Farbe",
@@ -67,10 +69,17 @@ export const de_DE = {
         content:
           "Sind Sie sicher, dass Sie diese Sitzung löschen wollen mit dem Namen",
       },
+      leave: {
+        title: "Seite verlassen?",
+        content:
+          "Es könnten nicht gespeicherte Änderungen vorhanden sein. Seite wirklich verlassen?",
+      },
     },
     toasts: {
       delete_driver_in_use:
         "Der Fahrer kann nicht gelöscht werden, da dieser an einer Sitzung teilnimmt.",
+      change_driver_failed:
+        "Sie können die Fahrerliste nicht ändern, da schon Rennen angelegt wurden.",
     },
     banner: {
       fastest_lap:
@@ -80,6 +89,7 @@ export const de_DE = {
       driver: {
         history: "Verlauf",
         color: "Farbe",
+        positions: "Positionen",
       },
       session: { pointScheme: "Punkteschema" },
       race: {
