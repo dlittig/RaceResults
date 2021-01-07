@@ -39,7 +39,7 @@ const colors = [
 ];
 
 const EditDriver = () => {
-  useConfirmation();
+  const { setDisableConfirmation } = useConfirmation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -77,6 +77,7 @@ const EditDriver = () => {
       dispatch(addDriver(driver));
     }
 
+    setDisableConfirmation(true);
     navigation.goBack();
   };
 

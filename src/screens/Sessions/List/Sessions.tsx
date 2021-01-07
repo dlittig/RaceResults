@@ -15,12 +15,14 @@ import BaseView from "../../../components/BaseView/BaseView";
 import { View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
+import { HOOK, useStore } from "../../../hooks/store";
 
 const Sessions = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
-    (state) => state.sessionsReducer
+  const { sessions: sessionsReducer } = useStore<{ sessions: SessionsState }>(
+    [HOOK.SESSIONS],
+    {}
   );
 
   return (
@@ -33,9 +35,9 @@ const Sessions = () => {
           </Text>
         </View>
       )}
-      {sessionsReducer.sessions.length > 0 && (
+      {sessionsReducer!!.sessions.length > 0 && (
         <BaseScrollView>
-          {sessionsReducer.sessions.map((session, index) => (
+          {sessionsReducer!!.sessions.map((session, index) => (
             <SessionCard
               key={index}
               onPress={() =>

@@ -60,7 +60,7 @@ const reducer = (state: number[], action: any) => {
 };
 
 const EditSession = () => {
-  useConfirmation();
+  const { setDisableConfirmation } = useConfirmation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -112,6 +112,7 @@ const EditSession = () => {
       dispatch(addSession(session));
     }
 
+    setDisableConfirmation(true);
     navigation.goBack();
   };
 

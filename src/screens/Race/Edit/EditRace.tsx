@@ -39,7 +39,7 @@ type EditRaceRouteParams = {
 };
 
 const EditRace = () => {
-  useConfirmation();
+  const { setDisableConfirmation } = useConfirmation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -90,7 +90,6 @@ const EditRace = () => {
         // If sessions are available, read cars from previous races
         const lastRace = sessionRaces[sessionRaces.length - 1];
         lastRace.order.forEach((driverId, index, array) => {
-          console.log(driverId, index, array.length - 1);
           if (index === array.length - 1) {
             cars[driverId] = "";
           } else cars[driverId] = lastRace.cars[driverId];
@@ -131,6 +130,7 @@ const EditRace = () => {
       dispatch(addRace(race));
     }
 
+    setDisableConfirmation(true);
     navigation.goBack();
   };
 

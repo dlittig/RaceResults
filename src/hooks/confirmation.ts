@@ -1,13 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";
 
-export const useConfirmation = () => {
+export const useConfirmation = (): {
+  setDisableConfirmation: (value: boolean) => void;
+} => {
+  const disabled = useRef<boolean>(false);
   const navigation = useNavigation();
   const { t } = useTranslation();
+
   useEffect(() => {
     navigation.addListener("beforeRemove", (e) => {
+      if (disabled.current) return;
       // Prevent default behavior of leaving the screen
       e.preventDefault();
 
@@ -23,5 +28,9 @@ export const useConfirmation = () => {
         },
       ]);
     });
-  }, [navigation]);
+  }, []);
+
+  return {
+    setDisableConfirmation: (val: boolean) => (disabled.current = val),
+  };
 };
