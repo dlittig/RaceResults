@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from "react";
-import { ScrollView, ToastAndroid, View } from "react-native";
+import { ToastAndroid, View } from "react-native";
 import {
   Button,
   Dialog,
@@ -14,26 +14,20 @@ import {
   RadioButton,
   IconButton,
 } from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Session,
-  sessionsReducer,
-  SessionsState,
-} from "../../../store/reducers/sessionsReducer";
+import { useDispatch } from "react-redux";
+import { Session } from "../../../store/reducers/sessionsReducer";
 import { useTranslation } from "react-i18next";
 import {
   addSession,
   updateSession,
 } from "../../../store/actions/sessionsActions";
 import { useNavigation } from "@react-navigation/native";
-import { DriversState } from "../../../store/reducers/driversReducer";
-import { RootReducerType } from "../../../store/reducers";
 import BaseView from "../../../components/BaseView/BaseView";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditSession.style";
-import { RaceState } from "../../../store/reducers/raceReducer";
 import { useConfirmation } from "../../../hooks/confirmation";
+import { HOOK, useStore, UseStateResult } from "../../../hooks/store";
 
 const TOGGLE_DRIVER = "[edit sessions] toggle driver";
 const SELECT_ALL_DRIVERS = "[edit sessions] select all drivers";
@@ -64,26 +58,18 @@ const EditSession = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const driversReducer = useSelector<RootReducerType, DriversState>(
-    (state) => state.driversReducer
-  );
-  const raceReducer = useSelector<RootReducerType, RaceState>(
-    (state) => state.raceReducer
-  );
-  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
-    (state) => state.sessionsReducer
-  );
-
   const state = navigation.dangerouslyGetState();
   const { session: sessionId } = state.routes[state.index].params || {
     session: undefined,
   };
-  const session = sessionsReducer.sessions.filter(
-    (item) => item.id === sessionId
-  )[0];
+
+  const { session, driversReducer, sessionRaces } = useStore<UseStateResult>(
+    [HOOK.SESSION_SPECIFIC, HOOK.RACES_OF_SESSION, HOOK.DRIVERS],
+    { sessionId }
+  );
 
   const take = (key: string, fallback: any) =>
-    typeof session !== "undefined" && typeof session[key] !== "undefined"
+    typeof session !== "undefined" && session !== null && typeof session[key] !== "undefined"
       ? session[key]
       : fallback;
 
@@ -118,11 +104,7 @@ const EditSession = () => {
 
   const openDriverDialogIfAvailable = () => {
     if (typeof sessionId !== "undefined") {
-      const sessionRaces = raceReducer.races.filter(
-        (race) => race.session === session.id
-      );
-
-      if (sessionRaces.length > 0)
+      if (sessionRaces && sessionRaces.length > 0)
         ToastAndroid.showWithGravity(
           t("toasts.change_driver_failed"),
           ToastAndroid.SHORT,
@@ -160,21 +142,21 @@ const EditSession = () => {
           </View>
 
           <View style={style.participants}>
-            {participants.map((participant, index) => (
+            {participants.map((participant: number, index: number) => (
               <Chip
                 mode="outlined"
                 avatar={
                   <Badge
                     size={10}
                     style={{
-                      backgroundColor:
-                        driversReducer.drivers[participant].color,
+                      backgroundColor: driversReducer!!.drivers[participant]
+                        .color,
                     }}
                   ></Badge>
                 }
                 key={`${participant}-${index}`}
               >
-                {driversReducer.drivers[participant].name}
+                {driversReducer!!.drivers[participant].name}
               </Chip>
             ))}
           </View>
@@ -232,7 +214,7 @@ const EditSession = () => {
                 onPress={() =>
                   dispatchParticipants({
                     type: SELECT_ALL_DRIVERS,
-                    payload: Object.values(driversReducer.drivers),
+                    payload: Object.values(driversReducer!!.drivers),
                   })
                 }
               >

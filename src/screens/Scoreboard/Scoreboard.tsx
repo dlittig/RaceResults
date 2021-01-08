@@ -1,35 +1,28 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { DataTable, ProgressBar, Text } from "react-native-paper";
-import { useSelector } from "react-redux";
-import BaseScrollView from "../../components/BaseScrollView/BaseScrollView";
+import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
+import { DataTable, ProgressBar } from "react-native-paper";
+
+import { calculateScores } from "../../utils";
+import { HOOK, useStore } from "../../hooks/store";
 import BaseView from "../../components/BaseView/BaseView";
-import { RootReducerType } from "../../store/reducers";
-import { DriversState } from "../../store/reducers/driversReducer";
-import { RaceState } from "../../store/reducers/raceReducer";
-import { Session, SessionsState } from "../../store/reducers/sessionsReducer";
-import { calculateScores, getPointsMap } from "../../utils";
+import BaseScrollView from "../../components/BaseScrollView/BaseScrollView";
 
 const Scoreboard = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation?.dangerouslyGetState();
   const { session: sessionId } = state.routes[state.index].params;
-  const driversReducer = useSelector<RootReducerType, DriversState>(
-    (state) => state.driversReducer
+  const { driversReducer, session } = useStore(
+    [HOOK.DRIVERS, HOOK.SESSION_SPECIFIC],
+    { sessionId }
   );
-  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
-    (state) => state.sessionsReducer
-  );
+
   const [doneLoading, setDoneLoading] = useState<boolean>(false);
   const [sessionResults, setSessionResults] = useState<
     Array<{ [x: number]: number }>
   >([]);
-  const session = sessionsReducer.sessions.filter(
-    (item) => item.id === sessionId
-  )[0];
 
   useEffect(() => {
     const { finalOrder } = calculateScores(session);
@@ -53,7 +46,9 @@ const Scoreboard = () => {
             <DataTable.Header>
               <DataTable.Title>#</DataTable.Title>
               <DataTable.Title>{t("text.scoreboard.driver")}</DataTable.Title>
-              <DataTable.Title numeric>{t("text.scoreboard.points")}</DataTable.Title>
+              <DataTable.Title numeric>
+                {t("text.scoreboard.points")}
+              </DataTable.Title>
             </DataTable.Header>
 
             {sessionResults.map((res, index) => (

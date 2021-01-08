@@ -1,15 +1,14 @@
 import React, { FC } from "react";
 import { Badge, Text } from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Alert, View, ToastAndroid } from "react-native";
 import BaseCard from "../BaseCard";
-import { RootReducerType } from "../../../store/reducers";
 import { Driver } from "../../../store/reducers/driversReducer";
 import { deleteDriver } from "../../../store/actions/driversActions";
-import { SessionsState } from "../../../store/reducers/sessionsReducer";
 
 import style from "./Driver.style";
 import { useTranslation } from "react-i18next";
+import { HOOK, useStore } from "../../../hooks/store";
 
 type DriverCardType = {
   driver: Driver;
@@ -18,9 +17,7 @@ type DriverCardType = {
 };
 
 const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
-  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
-    (state) => state.sessionsReducer
-  );
+  const { sessionsReducer } = useStore([HOOK.SESSIONS], {});
   const { t } = useTranslation();
 
   const confirmDelete = () => {

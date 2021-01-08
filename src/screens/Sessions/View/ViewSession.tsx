@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { Button, Text, FAB } from "react-native-paper";
 import styles from "./ViewSession.style";
 import {
@@ -8,13 +8,7 @@ import {
   APP_RANDOM_MAP,
   APP_VIEW_RACE,
 } from "../../../navigator/RouteConstants";
-import {
-  Session,
-  SessionsState,
-} from "../../../store/reducers/sessionsReducer";
-import { useSelector } from "react-redux";
-import { RootReducerType } from "../../../store/reducers";
-import { RaceState } from "../../../store/reducers/raceReducer";
+import { Race as RaceType } from "../../../store/reducers/raceReducer";
 import BaseView from "../../../components/BaseView/BaseView";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import NavSeparator from "../../../components/NavSeparator/NavSeparator";
@@ -23,22 +17,19 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
+import { HOOK, useStore } from "../../../hooks/store";
 
 const ViewSession = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const state = navigation.dangerouslyGetState();
   const { session: sessionId } = state.routes[state.index].params;
-  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
-    (state) => state.sessionsReducer
+  const { sessionRaces: races, session } = useStore(
+    [HOOK.SESSION_SPECIFIC, HOOK.RACES_OF_SESSION],
+    {
+      sessionId,
+    }
   );
-  const raceReducer = useSelector<RootReducerType, RaceState>(
-    (state) => state.raceReducer
-  );
-  const session = sessionsReducer.sessions.filter(
-    (el) => el.id === sessionId
-  )[0];
-  const races = raceReducer.races.filter((race) => race.session === session.id);
 
   return (
     <BaseView>
@@ -68,7 +59,7 @@ const ViewSession = () => {
             </Button>
           </View>
         )}
-        {races.map((race, index) => (
+        {races.map((race: RaceType, index: number) => (
           <Race
             key={race.id}
             position={index + 1}

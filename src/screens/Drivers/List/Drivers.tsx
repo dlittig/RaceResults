@@ -1,6 +1,5 @@
 import React from "react";
 import { View } from "react-native";
-import { useSelector } from "react-redux";
 import { FAB, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
@@ -10,16 +9,13 @@ import {
   APP_EDIT_DRIVER,
   APP_VIEW_DRIVER,
 } from "../../../navigator/RouteConstants";
-import { RootReducerType } from "../../../store/reducers";
-import { DriversState } from "../../../store/reducers/driversReducer";
 
 import styles from "./Drivers.style";
 import { useTranslation } from "react-i18next";
+import { HOOK, useStore } from "../../../hooks/store";
 
 const Drivers = () => {
-  const driversState: DriversState = useSelector<RootReducerType, DriversState>(
-    (state) => state.driversReducer
-  );
+  const { driversReducer: driversState } = useStore([HOOK.DRIVERS], {});
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -32,16 +28,18 @@ const Drivers = () => {
       )}
       {Object.keys(driversState.drivers).length > 0 && (
         <BaseScrollView>
-          {Object.values(driversState.drivers).map((driver, index) => (
-            <DriverCard
-              key={index}
-              allowDelete={true}
-              onPress={() =>
-                navigation.navigate(t(APP_VIEW_DRIVER), { driver: driver.id })
-              }
-              driver={driver}
-            />
-          ))}
+          {Object.values(driversState.drivers).map(
+            (driver: any, index: number) => (
+              <DriverCard
+                key={index}
+                allowDelete={true}
+                onPress={() =>
+                  navigation.navigate(t(APP_VIEW_DRIVER), { driver: driver.id })
+                }
+                driver={driver}
+              />
+            )
+          )}
         </BaseScrollView>
       )}
       <FAB

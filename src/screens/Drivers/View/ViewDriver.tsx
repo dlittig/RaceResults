@@ -1,41 +1,33 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Badge,
-  ProgressBar,
-  Subheading,
-  Text,
-} from "react-native-paper";
-import { useSelector } from "react-redux";
-import DriverCard from "../../../components/Cards/Driver";
-import BaseScrollView from "../../../components/BaseScrollView";
-import BaseView from "../../../components/BaseView";
-import { RootReducerType } from "../../../store/reducers";
-import { Race, RaceState } from "../../../store/reducers/raceReducer";
-import { Dimensions, View } from "react-native";
+import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
+import { ProgressBar, Subheading } from "react-native-paper";
 import {
   VictoryChart,
   VictoryLine,
   VictoryTheme,
   VictoryAxis,
 } from "victory-native";
-import { DriversState } from "../../../store/reducers/driversReducer";
-import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
+
+import BaseView from "../../../components/BaseView";
+import { HOOK, useStore } from "../../../hooks/store";
+import DriverCard from "../../../components/Cards/Driver";
+import { Race } from "../../../store/reducers/raceReducer";
+import BaseScrollView from "../../../components/BaseScrollView";
 import { THEMES } from "../../../store/constants/settingsConstants";
-import { useTranslation } from "react-i18next";
+import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 
 const ViewDriver = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation.dangerouslyGetState();
-  const { driver } = state.routes[state.index].params;
-  const driversReducer = useSelector<RootReducerType, DriversState>(
-    (state) => state.driversReducer
-  );
-
-  const raceReducer = useSelector<RootReducerType, RaceState>(
-    (state) => state.raceReducer
+  const { driver: driverId } = state.routes[state.index].params || {
+    driver: undefined,
+  };
+  const { driversReducer, racesReducer, driver } = useStore(
+    [HOOK.DRIVERS, HOOK.RACES, HOOK.DRIVER_SPECIFIC],
+    { driverId }
   );
 
   const [showChart, setShowChart] = useState(false);
@@ -46,12 +38,12 @@ const ViewDriver = () => {
 
     let index = 0;
     // Collect history of all races of that user
-    for (let i = 0; i < raceReducer.races.length; i++) {
-      const race: Race = raceReducer.races[i];
-      if (race.order.includes(`${driver}`)) {
+    for (let i = 0; i < racesReducer.races.length; i++) {
+      const race: Race = racesReducer.races[i];
+      if (race.order.includes(`${driverId}`)) {
         const item = {
           x: ++index,
-          y: race.order.findIndex((item) => item === `${driver}`) + 1,
+          y: race.order.findIndex((item) => item === `${driverId}`) + 1,
         };
 
         pos.push(item);
@@ -75,7 +67,7 @@ const ViewDriver = () => {
             )}
             <BaseScrollView>
               <DriverCard
-                driver={driversReducer.drivers[driver]}
+                driver={driver}
                 allowDelete={false}
                 onPress={() => {}}
               />
@@ -99,7 +91,7 @@ const ViewDriver = () => {
                         onLoad: { duration: 500 },
                       }}
                       domain={{
-                        x: [0.5, raceReducer.races.length + 0.5],
+                        x: [0.5, racesReducer.races.length + 0.5],
                         y: [
                           0.5,
                           Object.keys(driversReducer.drivers).length + 0.5,
@@ -123,6 +115,7 @@ const ViewDriver = () => {
                                 fill: "#fff",
                               },
                               axis: { stroke: "#fff" },
+                              axisLabel: { fill: "#fff" },
                             }
                           : {}
                       }

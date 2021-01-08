@@ -1,26 +1,16 @@
 import React, { useState } from "react";
-import { ScrollView, View } from "react-native";
-import {
-  Badge,
-  Button,
-  Dialog,
-  FAB,
-  List,
-  Portal,
-  Text,
-  TextInput,
-} from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
-import { Driver, DriversState } from "../../../store/reducers/driversReducer";
+import { FAB, List, Text, TextInput } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { Driver } from "../../../store/reducers/driversReducer";
 import { addDriver, updateDriver } from "../../../store/actions/driversActions";
 import { useNavigation } from "@react-navigation/native";
 import BaseView from "../../../components/BaseView/BaseView";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditDriver.style";
-import { RootReducerType } from "../../../store/reducers";
 import { useTranslation } from "react-i18next";
 import { useConfirmation } from "../../../hooks/confirmation";
+import { HOOK, useStore } from "../../../hooks/store";
 
 const colors = [
   "#d73964",
@@ -49,14 +39,13 @@ const EditDriver = () => {
   const { driver: driverId } = state.routes[state.index].params || {
     driver: undefined,
   };
-  const driversReducer = useSelector<RootReducerType, DriversState>(
-    (state) => state.driversReducer
-  );
+  const { driver } = useStore([HOOK.DRIVER_SPECIFIC], { driverId });
 
   const take = (key: string, fallback: any) =>
     typeof driverId !== "undefined" &&
-    typeof driversReducer.drivers[driverId][key] !== "undefined"
-      ? driversReducer.drivers[driverId][key]
+    driver !== null &&
+    typeof driver[key] !== "undefined"
+      ? driver[key]
       : fallback;
 
   const [name, setName] = useState<string>(take("name", ""));

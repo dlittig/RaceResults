@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import {
@@ -13,25 +13,19 @@ import {
   Banner,
 } from "react-native-paper";
 
-import { RootReducerType } from "../../../store/reducers";
 import BaseView from "../../../components/BaseView/BaseView";
-import { DriversState } from "../../../store/reducers/driversReducer";
-import { Race, RaceState } from "../../../store/reducers/raceReducer";
+import { Race } from "../../../store/reducers/raceReducer";
 import { RACE_CURCUIT } from "../../../store/constants/racesConstants";
 import { addRace, updateRace } from "../../../store/actions/raceActions";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditRace.style";
 import { setSeenTipFastest } from "../../../store/actions/settingsActions";
-import { SettingsState } from "../../../store/reducers/settingsReducer";
 import { useTranslation } from "react-i18next";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
-import {
-  sessionsReducer,
-  SessionsState,
-} from "../../../store/reducers/sessionsReducer";
 import { useConfirmation } from "../../../hooks/confirmation";
+import { HOOK, useStore } from "../../../hooks/store";
 
 type EditRaceRouteParams = {
   session: number;
@@ -43,32 +37,30 @@ const EditRace = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const driversReducer = useSelector<RootReducerType, DriversState>(
-    (state) => state.driversReducer
-  );
-  const raceReducer = useSelector<RootReducerType, RaceState>(
-    (state) => state.raceReducer
-  );
-  const sessionsReducer = useSelector<RootReducerType, SessionsState>(
-    (state) => state.sessionsReducer
-  );
-  const settingsReducer = useSelector<RootReducerType, SettingsState>(
-    (state) => state.settingsReducer
-  );
 
   const state = navigation?.dangerouslyGetState();
   const routeParams = state.routes[state.index].params as EditRaceRouteParams;
-
-  const race = raceReducer.races.filter(
-    (item) => item.id === routeParams.race
-  )[0];
-
-  const session = sessionsReducer.sessions.filter(
-    (item) => item.id === routeParams.session
-  )[0];
+  const {
+    race,
+    session,
+    sessionRaces,
+    driversReducer,
+    settingsReducer,
+  } = useStore(
+    [
+      HOOK.RACE_SPECIFIC,
+      HOOK.SESSION_SPECIFIC,
+      HOOK.RACES_OF_SESSION,
+      HOOK.DRIVERS,
+      HOOK.SETTINGS,
+    ],
+    { raceId: routeParams.race, sessionId: routeParams.session }
+  );
 
   const take = (key: string, fallback: any) =>
-    typeof race !== "undefined" && typeof race[key] !== "undefined"
+    typeof race !== "undefined" &&
+    race !== null &&
+    typeof race[key] !== "undefined"
       ? race[key]
       : fallback;
 
@@ -77,10 +69,6 @@ const EditRace = () => {
 
     // If we are creating a new race, get the "winning" cars from the previous race of that session
     if (Object.keys(cars).length === 0) {
-      const sessionRaces = raceReducer.races.filter(
-        (race) => race.session === routeParams.session
-      );
-
       // If there are no previous sessions, initialize with default
       if (sessionRaces.length === 0) {
         Object.keys(driversReducer.drivers).forEach((driverId) => {

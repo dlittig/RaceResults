@@ -3,6 +3,7 @@ import { RootReducerType } from "../store/reducers";
 import { Driver, DriversState } from "../store/reducers/driversReducer";
 import { Race, RaceState } from "../store/reducers/raceReducer";
 import { Session, SessionsState } from "../store/reducers/sessionsReducer";
+import { SettingsState } from "../store/reducers/settingsReducer";
 
 export enum HOOK {
   RACES = "[hook] get all races",
@@ -12,12 +13,14 @@ export enum HOOK {
   DRIVERS = "[hook] get all drivers",
   DRIVER_SPECIFIC = "[hook] get specific driver",
   RACES_OF_SESSION = "[hook] get races of session",
+  SETTINGS = "[hook] settings",
 }
 
-type UseStateResult = {
-  races?: RaceState;
-  drivers?: DriversState;
-  sessions?: SessionsState;
+export type UseStateResult = {
+  racesReducer?: RaceState;
+  driversReducer?: DriversState;
+  sessionsReducer?: SessionsState;
+  settingsReducer?: SettingsState;
   driver?: Driver | null;
   session?: Session | null;
   race?: Race | null;
@@ -35,7 +38,7 @@ export const useStore = <T extends unknown>(
   query.forEach((prop) => {
     switch (prop) {
       case HOOK.RACES:
-        result.races = useSelector<RootReducerType, RaceState>(
+        result.racesReducer = useSelector<RootReducerType, RaceState>(
           (state) => state.raceReducer
         );
         break;
@@ -47,7 +50,7 @@ export const useStore = <T extends unknown>(
         result.race = races.length > 0 ? races[0] : null;
         break;
       case HOOK.SESSIONS:
-        result.sessions = useSelector<RootReducerType, SessionsState>(
+        result.sessionsReducer = useSelector<RootReducerType, SessionsState>(
           (state) => state.sessionsReducer
         );
         break;
@@ -61,7 +64,7 @@ export const useStore = <T extends unknown>(
         result.session = sessions.length > 0 ? sessions[0] : null;
         break;
       case HOOK.DRIVERS:
-        result.drivers = useSelector<RootReducerType, DriversState>(
+        result.driversReducer = useSelector<RootReducerType, DriversState>(
           (state) => state.driversReducer
         );
         break;
@@ -80,6 +83,10 @@ export const useStore = <T extends unknown>(
         );
         result.sessionRaces = race_reducer.races.filter(
           (race) => race.session === sessionId
+        );
+      case HOOK.SETTINGS:
+        result.settingsReducer = useSelector<RootReducerType, SettingsState>(
+          (state) => state.settingsReducer
         );
     }
   });
