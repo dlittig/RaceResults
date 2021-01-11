@@ -19,6 +19,16 @@ const EditSessionStyle = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
   },
+  selectDriver: {
+    flexDirection: "row",
+    marginTop: 20,
+    alignItems: "center",
+  },
+  driverSubheading: {
+    marginVertical: 10,
+    marginEnd: 10,
+  },
+  pointSchemeSubheading: { marginVertical: 10 },
 });
 
 export default EditSessionStyle;

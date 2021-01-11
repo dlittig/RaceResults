@@ -121,7 +121,7 @@ const ViewDriver = () => {
                       }
                       dependentAxis={true}
                       invertAxis={true}
-                      tickValues={Object.keys(driversReducer.drivers).map(
+                      tickValues={positions.map(
                         (key, index) => index + 1
                       )}
                     />

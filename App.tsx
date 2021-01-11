@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import * as Updates from "expo-updates";
 import { PersistGate } from "redux-persist/integration/react";
-import { Provider as PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Navigator from "./src/navigator";

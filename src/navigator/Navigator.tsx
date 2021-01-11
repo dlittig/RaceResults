@@ -29,6 +29,7 @@ import ThemeProvider from "../provider/ThemeProvider/ThemeProvider";
 import getNavigationTheme from "../theme/navigation";
 import { useTranslation } from "react-i18next";
 
+import styles from "./Navigator.style";
 const Stack = createStackNavigator();
 
 const options = {
@@ -57,7 +58,7 @@ const Navigator = () => {
               name={t(APP_VIEW_DRIVER)}
               options={({ navigation, route }) => ({
                 headerRight: (props: any) => (
-                  <View style={{ flex: 1, flexDirection: "row" }}>
+                  <View style={styles.actions}>
                     <IconButton
                       icon="pencil"
                       accessibilityLabel="Edit"
@@ -80,13 +81,15 @@ const Navigator = () => {
               component={ViewRace}
               options={({ navigation, route }) => ({
                 headerRight: (props: any) => (
-                  <View style={{ flex: 1, flexDirection: "row" }}>
+                  <View style={styles.actions}>
                     <IconButton
                       icon="pencil"
                       accessibilityLabel="Edit"
                       size={24}
                       onPress={() =>
-                        navigation.navigate(t(APP_EDIT_RACE), { ...route.params })
+                        navigation.navigate(t(APP_EDIT_RACE), {
+                          ...route.params,
+                        })
                       }
                     />
                   </View>
@@ -99,13 +102,15 @@ const Navigator = () => {
               name={t(APP_VIEW_SESSION)}
               options={({ navigation, route }) => ({
                 headerRight: (props: any) => (
-                  <View style={{ flex: 1, flexDirection: "row" }}>
+                  <View style={styles.actions}>
                     <IconButton
                       icon="scoreboard"
                       accessibilityLabel="Scoreboard"
                       size={24}
                       onPress={() =>
-                        navigation.navigate(t(APP_SCOREBOARD), { ...route.params })
+                        navigation.navigate(t(APP_SCOREBOARD), {
+                          ...route.params,
+                        })
                       }
                     />
                     <IconButton
@@ -127,7 +132,7 @@ const Navigator = () => {
               name={t(APP_SCOREBOARD)}
               options={({ navigation, route }) => ({
                 headerRight: (props: any) => (
-                  <View style={{ flex: 1, flexDirection: "row" }}>
+                  <View style={styles.actions}>
                     <IconButton
                       icon="export"
                       accessibilityLabel="Export"

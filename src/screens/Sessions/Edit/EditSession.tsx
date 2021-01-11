@@ -69,7 +69,9 @@ const EditSession = () => {
   );
 
   const take = (key: string, fallback: any) =>
-    typeof session !== "undefined" && session !== null && typeof session[key] !== "undefined"
+    typeof session !== "undefined" &&
+    session !== null &&
+    typeof session[key] !== "undefined"
       ? session[key]
       : fallback;
 
@@ -124,14 +126,8 @@ const EditSession = () => {
         />
 
         <View>
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 20,
-              alignItems: "center",
-            }}
-          >
-            <Subheading style={{ marginVertical: 10, marginEnd: 10 }}>
+          <View style={style.selectDriver}>
+            <Subheading style={style.driverSubheading}>
               {t("screens.drivers.list")}
             </Subheading>
             <IconButton
@@ -163,11 +159,11 @@ const EditSession = () => {
         </View>
 
         <View>
-          <Subheading style={{ marginVertical: 10 }}>
+          <Subheading style={style.pointSchemeSubheading}>
             {t("text.session.pointScheme")}
           </Subheading>
           <RadioButton.Group
-            onValueChange={(newValue) => setPointScheme(newValue)}
+            onValueChange={(newValue: string) => setPointScheme(newValue)}
             value={pointScheme}
           >
             <View style={style.radioButtonField}>

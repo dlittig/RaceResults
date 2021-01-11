@@ -8,6 +8,8 @@ import BaseScrollView from "../../components/BaseScrollView";
 import { THEMES } from "../../store/constants/settingsConstants";
 import { useTranslation } from "react-i18next";
 
+import style from "./Settings.style";
+
 interface ISettings {
   theme: string;
   reduxApplyTheme: (s: {}) => void;
@@ -22,7 +24,7 @@ const Settings: FC<ISettings> = ({ theme, reduxApplyTheme }) => {
 
   leftProps[theme] = {
     left: (props) => (
-      <List.Icon {...props} icon="check" style={{ height: 15 }} />
+      <List.Icon {...props} icon="check" style={style.checkMark} />
     ),
   };
 

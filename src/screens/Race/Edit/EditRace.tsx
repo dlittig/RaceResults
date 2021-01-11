@@ -122,37 +122,33 @@ const EditRace = () => {
     navigation.goBack();
   };
 
+  console.log(style);
+
   const renderItem = ({ item: id, index, drag, isActive }) => (
     <ThemeProvider.Consumer>
       {(theme) => (
         <TouchableOpacity
           key={id}
-          style={{
-            backgroundColor: isActive
-              ? theme === THEMES.LIGHT
-                ? "#F0F0F0"
-                : "#666666"
-              : id?.backgroundColor,
-            borderRadius: 10,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
+          style={[
+            {
+              backgroundColor: isActive
+                ? style[`${theme}Active`]
+                : id?.backgroundColor,
+            },
+            style.touchableDrag,
+          ]}
           onLongPress={drag}
           delayLongPress={200}
         >
-          <View style={{ width: 40, justifyContent: "center" }}>
+          <View style={style.dragContainer}>
             <MaterialIcons
               name="drag-handle"
               size={24}
-              color={theme === THEMES.LIGHT ? "#333" : "#fff"}
+              color={style[`${theme}Icon`].color}
             ></MaterialIcons>
           </View>
-          <View style={{ flex: 1 }}>
-            <Text
-              style={{
-                color: theme === THEMES.LIGHT ? "#333" : "#fff",
-              }}
-            >
+          <View style={style.inputContainer}>
+            <Text style={style[`${theme}Icon`].color}>
               {`${index + 1}: ${driversReducer.drivers[id].name}`}
             </Text>
             <TextInput
@@ -192,12 +188,7 @@ const EditRace = () => {
       <BaseScrollView>
         {settingsReducer.tipFastestSeen === false && (
           <Banner
-            style={{
-              elevation: 4,
-              margin: 8,
-              marginBottom: 20,
-              borderRadius: 8,
-            }}
+            style={style.banner}
             visible={bannerVisible}
             actions={[
               {

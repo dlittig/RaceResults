@@ -91,7 +91,7 @@ const EditDriver = () => {
             <List.Item
               key={index}
               title={t("text.driver.color")}
-              titleStyle={{ color: color }}
+              titleStyle={{ color }}
               right={(props) =>
                 selectedColor === color ? (
                   <List.Icon {...props} icon="check" />
