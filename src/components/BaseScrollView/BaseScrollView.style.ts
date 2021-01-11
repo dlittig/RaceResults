@@ -5,7 +5,7 @@ const BaseScrollViewStyle = StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
-    margin: 16,
+    padding: 16,
   },
   lightContainer: {
     backgroundColor: ThemeColors.LightColors.background,
