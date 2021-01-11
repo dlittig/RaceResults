@@ -9,6 +9,7 @@ import { deleteDriver } from "../../../store/actions/driversActions";
 import style from "./Driver.style";
 import { useTranslation } from "react-i18next";
 import { HOOK, useStore } from "../../../hooks/store";
+import { Session } from "../../../store/reducers/sessionsReducer";
 
 type DriverCardType = {
   driver: Driver;
@@ -21,7 +22,7 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
   const { t } = useTranslation();
 
   const confirmDelete = () => {
-    const participating = sessionsReducer.sessions.filter((session) =>
+    const participating = sessionsReducer.sessions.filter((session: Session) =>
       session.participants.includes(driver.id)
     );
 
@@ -59,9 +60,10 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
     >
       <View style={style.container}>
         <Badge
+          visible={true}
           size={10}
           style={{ backgroundColor: driver.color, ...style.badge }}
-        ></Badge>
+        />
         <Text>{driver.name}</Text>
       </View>
     </BaseCard>

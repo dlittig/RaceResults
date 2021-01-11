@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 import BaseView from "../../components/BaseView";
@@ -7,7 +7,7 @@ import pack from "../../../package.json";
 import style from "./About.style";
 import { useTranslation } from "react-i18next";
 
-const About = () => {
+const About: FC = () => {
   const { t } = useTranslation();
 
   return (

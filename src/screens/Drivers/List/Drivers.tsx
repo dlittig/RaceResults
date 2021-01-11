@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { View } from "react-native";
 import { FAB, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -14,7 +14,7 @@ import styles from "./Drivers.style";
 import { useTranslation } from "react-i18next";
 import { HOOK, useStore } from "../../../hooks/store";
 
-const Drivers = () => {
+const Drivers: FC = () => {
   const { driversReducer: driversState } = useStore([HOOK.DRIVERS], {});
   const navigation = useNavigation();
   const { t } = useTranslation();

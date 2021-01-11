@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import DraggableFlatList from "react-native-draggable-flatlist";
+import DraggableFlatList, {
+  RenderItemParams,
+} from "react-native-draggable-flatlist";
 import {
   FAB,
   List,
@@ -77,11 +79,13 @@ const EditRace = () => {
       } else {
         // If sessions are available, read cars from previous races
         const lastRace = sessionRaces[sessionRaces.length - 1];
-        lastRace.order.forEach((driverId, index, array) => {
-          if (index === array.length - 1) {
-            cars[driverId] = "";
-          } else cars[driverId] = lastRace.cars[driverId];
-        });
+        lastRace.order.forEach(
+          (driverId: number, index: number, array: number[]) => {
+            if (index === array.length - 1) {
+              cars[driverId] = "";
+            } else cars[driverId] = lastRace.cars[driverId];
+          }
+        );
       }
     }
 
@@ -124,7 +128,12 @@ const EditRace = () => {
 
   console.log(style);
 
-  const renderItem = ({ item: id, index, drag, isActive }) => (
+  const renderItem: ReactNode = ({
+    item: id,
+    index,
+    drag,
+    isActive,
+  }: RenderItemParams<any>) => (
     <ThemeProvider.Consumer>
       {(theme) => (
         <TouchableOpacity
@@ -149,7 +158,7 @@ const EditRace = () => {
           </View>
           <View style={style.inputContainer}>
             <Text style={style[`${theme}Icon`].color}>
-              {`${index + 1}: ${driversReducer.drivers[id].name}`}
+              {`${index!! + 1}: ${driversReducer.drivers[id].name}`}
             </Text>
             <TextInput
               mode="flat"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
@@ -18,7 +18,7 @@ import BaseScrollView from "../../../components/BaseScrollView";
 import { THEMES } from "../../../store/constants/settingsConstants";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 
-const ViewDriver = () => {
+const ViewDriver: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation.dangerouslyGetState();
@@ -121,9 +121,7 @@ const ViewDriver = () => {
                       }
                       dependentAxis={true}
                       invertAxis={true}
-                      tickValues={positions.map(
-                        (key, index) => index + 1
-                      )}
+                      tickValues={positions.map((key, index) => index + 1)}
                     />
                   </VictoryChart>
                 </View>

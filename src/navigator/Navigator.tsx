@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionSpecs } from "@react-navigation/stack";
 import DrawerNavigator from "./DrawerNavigator";
 import EditDriver from "../screens/Drivers/Edit";
 import {
@@ -34,6 +34,10 @@ const Stack = createStackNavigator();
 
 const options = {
   headerShown: false,
+  transitionSpec: {
+    open: TransitionSpecs.FadeInFromBottomAndroidSpec,
+    close: TransitionSpecs.FadeOutToBottomAndroidSpec,
+  },
 };
 
 const headerStyle = {
@@ -138,7 +142,7 @@ const Navigator = () => {
                       accessibilityLabel="Export"
                       size={24}
                       onPress={() =>
-                        exportSession(route.params.session as number)
+                        exportSession(route?.params?.session as number)
                       }
                     />
                   </View>

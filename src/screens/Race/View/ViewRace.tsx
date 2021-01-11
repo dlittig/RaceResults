@@ -6,7 +6,7 @@ import { DataTable, Text } from "react-native-paper";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import BaseView from "../../../components/BaseView/BaseView";
 import NavSeparator from "../../../components/NavSeparator/NavSeparator";
-import { HOOK, useStore } from "../../../hooks/store";
+import { HOOK, UseStateResult, useStore } from "../../../hooks/store";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
 import { getPointsMap } from "../../../utils";
@@ -76,12 +76,16 @@ const ViewRace = () => {
               {typeof race.cars[driverId] !== undefined &&
                 race.cars[driverId].length > 0 && (
                   <DataTable.Row key={`${index}-car`}>
-                    <DataTable.Cell></DataTable.Cell>
+                    <DataTable.Cell>
+                      <></>
+                    </DataTable.Cell>
                     <DataTable.Cell>
                       <Ionicons name="car-sport" />
                       {` ${race.cars[driverId]}`}
                     </DataTable.Cell>
-                    <DataTable.Cell numeric></DataTable.Cell>
+                    <DataTable.Cell numeric>
+                      <></>
+                    </DataTable.Cell>
                   </DataTable.Row>
                 )}
             </React.Fragment>

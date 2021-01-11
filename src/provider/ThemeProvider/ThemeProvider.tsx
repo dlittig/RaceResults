@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, ReactNode, ReactNodeArray } from "react";
 import getPaperTheme from "../../theme/paper";
 import { Provider as PaperProvider } from "react-native-paper";
 import { store } from "../../store/";
@@ -8,7 +8,11 @@ export const ThemeContext = React.createContext(
   store.getState().settingsReducer.theme
 );
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({
+  children,
+}: {
+  children: ReactNode | ReactNodeArray;
+}): ReactNode => {
   const { settingsReducer } = useStore([HOOK.SETTINGS], {});
   let scheme = settingsReducer.theme;
 

@@ -1,7 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 import { ThemeColors } from "../../theme/colors/values";
 
-const BaseScrollViewStyle = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  lightContainer: ViewStyle;
+  darkContainer: ViewStyle;
+}
+
+const BaseScrollViewStyle = StyleSheet.create<Styles>({
   container: {
     display: "flex",
     flex: 1,

@@ -82,7 +82,7 @@ const EditDriver = () => {
         <List.Accordion
           title={t("form.driver_color")}
           description={
-            <Text size={10} style={{ color: selectedColor }}>
+            <Text style={{ color: selectedColor }}>
               {t("form.selected_color")}
             </Text>
           }

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import { View } from "react-native";
 import ThemeProvider from "../../provider/ThemeProvider/ThemeProvider";
 
 import style from "./NavSeparator.style";
 
-const NavSeparator = () => (
+const NavSeparator: FC = () => (
   <ThemeProvider.Consumer>
     {(theme) => (
       <View style={[style.separator, style[`${theme}Separator`]]}></View>

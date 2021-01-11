@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { View } from "react-native";
 import { Fontisto, MaterialCommunityIcons } from "@expo/vector-icons";
 import BaseView from "../../components/BaseView";
@@ -16,7 +16,7 @@ type CurrentTrackType = {
   track: string;
 } | null;
 
-const RandomMap = () => {
+const RandomMap: FC = () => {
   const { t } = useTranslation();
   const [currentTrack, setCurrentTrack] = useState<CurrentTrackType>(null);
 
@@ -25,7 +25,7 @@ const RandomMap = () => {
     setCurrentTrack(null);
 
     // Get random track that isnt the previous one
-    let random = Math.floor(Math.random() * RACE_CURCUIT.length);
+    let random: number = Math.floor(Math.random() * RACE_CURCUIT.length);
     while (random === currentTrackId) {
       random = Math.floor(Math.random() * RACE_CURCUIT.length);
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
@@ -9,7 +9,12 @@ import { HOOK, useStore } from "../../hooks/store";
 import BaseView from "../../components/BaseView/BaseView";
 import BaseScrollView from "../../components/BaseScrollView/BaseScrollView";
 
-const Scoreboard = () => {
+type SessionResultType = {
+  id: number;
+  points: number;
+};
+
+const Scoreboard: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation?.dangerouslyGetState();
@@ -21,7 +26,7 @@ const Scoreboard = () => {
 
   const [doneLoading, setDoneLoading] = useState<boolean>(false);
   const [sessionResults, setSessionResults] = useState<
-    Array<{ [x: number]: number }>
+    Array<SessionResultType>
   >([]);
 
   useEffect(() => {
