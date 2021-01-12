@@ -116,8 +116,6 @@ const EditRace = () => {
       fastest: fastestDrivers,
     };
 
-    console.log("R", race)
-
     if (typeof routeParams.race !== "undefined") {
       dispatch(updateRace(race));
     } else {
@@ -218,10 +216,7 @@ const EditRace = () => {
           keyExtractor={(item: number, index: number) =>
             `draggable-item-${item}-${index}`
           }
-          onDragEnd={({ data }) => {
-            console.log("D", data);
-            setDrivers(data);
-          }}
+          onDragEnd={({ data }) => setDrivers(data)}
         />
 
         <List.Accordion
