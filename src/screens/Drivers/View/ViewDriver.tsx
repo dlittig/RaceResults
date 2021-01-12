@@ -40,10 +40,10 @@ const ViewDriver: FC = () => {
     // Collect history of all races of that user
     for (let i = 0; i < racesReducer.races.length; i++) {
       const race: Race = racesReducer.races[i];
-      if (race.order.includes(`${driverId}`)) {
+      if (race.order.includes(driverId)) {
         const item = {
           x: ++index,
-          y: race.order.findIndex((item) => item === `${driverId}`) + 1,
+          y: race.order.findIndex((item) => item === driverId) + 1,
         };
 
         pos.push(item);
@@ -121,7 +121,9 @@ const ViewDriver: FC = () => {
                       }
                       dependentAxis={true}
                       invertAxis={true}
-                      tickValues={positions.map((key, index) => index + 1)}
+                      tickValues={Object.keys(driversReducer.drivers).map(
+                        (key, index) => index + 1
+                      )}
                     />
                   </VictoryChart>
                 </View>

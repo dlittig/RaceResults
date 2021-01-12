@@ -11,7 +11,7 @@ export type Race = {
   time: number;
   session: number; // session id
   cars: {
-    [x: number]: string; // index is the id of the driver
+    [x: string]: string; // index is the id of the driver
   };
   order: number[]; // index is the order from 1-X, second number is the id
   fastest?: number[]; // id of the fastest driver

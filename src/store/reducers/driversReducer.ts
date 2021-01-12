@@ -23,6 +23,7 @@ const initialState: DriversState = {
 
 export const driversReducer = (state = initialState, action: Action<any>) => {
   let newState: DriversState = { drivers: [] };
+
   switch (action.type) {
     case DRIVERS_ADD:
       let driver = action.payload;

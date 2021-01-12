@@ -101,7 +101,7 @@ const EditRace = () => {
   const [drivers, setDrivers] = useState<number[]>(
     take("order", session.participants)
   );
-  const [cars, setCars] = useState<{ [x: string]: any }>(initCars());
+  const [cars, setCars] = useState<{ [x: number]: string }>(initCars());
   const [bannerVisible, setBannerVisible] = useState<boolean>(true);
   const [accordionOpen, setAccordionOpen] = useState<boolean>(false);
 
@@ -116,6 +116,8 @@ const EditRace = () => {
       fastest: fastestDrivers,
     };
 
+    console.log("R", race)
+
     if (typeof routeParams.race !== "undefined") {
       dispatch(updateRace(race));
     } else {
@@ -125,8 +127,6 @@ const EditRace = () => {
     setDisableConfirmation(true);
     navigation.goBack();
   };
-
-  console.log(style);
 
   const renderItem: ReactNode = ({
     item: id,
@@ -218,7 +218,10 @@ const EditRace = () => {
           keyExtractor={(item: number, index: number) =>
             `draggable-item-${item}-${index}`
           }
-          onDragEnd={({ data }) => setDrivers(data)}
+          onDragEnd={({ data }) => {
+            console.log("D", data);
+            setDrivers(data);
+          }}
         />
 
         <List.Accordion

@@ -63,8 +63,14 @@ const EditSession = () => {
     session: undefined,
   };
 
-  const { session, driversReducer, sessionRaces } = useStore<UseStateResult>(
-    [HOOK.SESSION_SPECIFIC, HOOK.RACES_OF_SESSION, HOOK.DRIVERS],
+  const {
+    session,
+    driversReducer,
+    sessionRaces,
+    racesReducer,
+    sessionsReducer
+  } = useStore<UseStateResult>(
+    [HOOK.SESSION_SPECIFIC, HOOK.RACES_OF_SESSION, HOOK.DRIVERS, HOOK.RACES, HOOK.SESSIONS],
     { sessionId }
   );
 
