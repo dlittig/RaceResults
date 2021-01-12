@@ -1,13 +1,14 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "lint": "eslint ./src/",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.2",
@@ -44,6 +45,7 @@
     "@babel/core": "~7.9.0",
     "@testing-library/jest-native": "^3.4.3",
     "@testing-library/react-native": "^7.1.0",
+    "@types/jest": "^26.0.20",
     "@types/react": "~16.9.35",
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "0.63.40",

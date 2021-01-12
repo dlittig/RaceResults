@@ -3,7 +3,6 @@ import {
   SESSIONS_DELETE,
   SESSIONS_UPDATE,
 } from "../constants/sessionsConstants";
-import { Driver } from "./driversReducer";
 
 export type Session = {
   id: number;

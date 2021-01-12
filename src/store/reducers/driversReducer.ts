@@ -1,4 +1,3 @@
-import { Action } from "redux";
 import {
   DRIVERS_ADD,
   DRIVERS_DELETE,
@@ -21,7 +20,7 @@ const initialState: DriversState = {
   drivers: {},
 };
 
-export const driversReducer = (state = initialState, action: Action<any>) => {
+export const driversReducer = (state = initialState, action) => {
   let newState: DriversState = { drivers: [] };
 
   switch (action.type) {
