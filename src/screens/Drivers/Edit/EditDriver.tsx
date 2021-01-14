@@ -11,6 +11,7 @@ import style from "./EditDriver.style";
 import { useTranslation } from "react-i18next";
 import { useConfirmation } from "../../../hooks/confirmation";
 import { HOOK, useStore } from "../../../hooks/store";
+import { ToastAndroid } from "react-native";
 
 const colors = [
   "#d73964",
@@ -54,6 +55,18 @@ const EditDriver = () => {
   );
 
   const onSave = () => {
+    if (name.length <= 3) {
+      ToastAndroid.showWithGravityAndOffset(
+        t("toasts.driver_name_empty"),
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM,
+        0,
+        100
+      );
+
+      return;
+    }
+
     const driver: Driver = {
       id: take("id", Date.now()),
       name,

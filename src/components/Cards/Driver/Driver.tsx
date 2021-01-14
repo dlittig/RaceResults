@@ -44,10 +44,12 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
         { cancelable: false }
       );
     } else {
-      ToastAndroid.showWithGravity(
+      ToastAndroid.showWithGravityAndOffset(
         t("toasts.delete_driver_in_use"),
         ToastAndroid.SHORT,
-        ToastAndroid.BOTTOM
+        ToastAndroid.BOTTOM,
+        0,
+        100
       );
     }
   };
@@ -64,7 +66,7 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
           size={10}
           style={{ backgroundColor: driver.color, ...style.badge }}
         />
-        <Text>{driver.name}</Text>
+        <Text accessibilityLabel="driver name">{driver.name}</Text>
       </View>
     </BaseCard>
   );

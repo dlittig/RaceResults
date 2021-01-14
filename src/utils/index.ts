@@ -128,9 +128,11 @@ export const exportSession = (s: number) => {
   }!`;
 
   Clipboard.setString(resultString);
-  ToastAndroid.showWithGravity(
+  ToastAndroid.showWithGravityAndOffset(
     "Copied results to clipboard",
     ToastAndroid.SHORT,
-    ToastAndroid.BOTTOM
+    ToastAndroid.BOTTOM,
+    0,
+    100
   );
 };

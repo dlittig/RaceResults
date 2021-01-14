@@ -80,6 +80,7 @@ export const de_DE = {
         "Der Fahrer kann nicht gelöscht werden, da dieser an einer Sitzung teilnimmt.",
       change_driver_failed:
         "Sie können die Fahrerliste nicht ändern, da schon Rennen angelegt wurden.",
+      driver_name_empty: "Der Name des Fahrers darf nicht leer sein!",
     },
     banner: {
       fastest_lap:

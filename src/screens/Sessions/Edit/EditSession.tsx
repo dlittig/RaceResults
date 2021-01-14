@@ -107,10 +107,12 @@ const EditSession = () => {
   const openDriverDialogIfAvailable = () => {
     if (typeof sessionId !== "undefined") {
       if (sessionRaces && sessionRaces.length > 0)
-        ToastAndroid.showWithGravity(
+        ToastAndroid.showWithGravityAndOffset(
           t("toasts.change_driver_failed"),
           ToastAndroid.SHORT,
-          ToastAndroid.BOTTOM
+          ToastAndroid.BOTTOM,
+          0,
+          100
         );
       else setVisible(true);
     } else setVisible(true);

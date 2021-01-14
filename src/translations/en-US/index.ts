@@ -77,6 +77,7 @@ export const en_US = {
         "Can not delete driver who participated in sessions",
       change_driver_failed:
         "You can't edit the drivers list, because there are races already.",
+      driver_name_empty: "The driver's name can't be empty!",
     },
     banner: {
       fastest_lap:

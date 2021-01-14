@@ -1,14 +1,22 @@
 import React, { ReactNode, ReactNodeArray, FC } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import ThemeProvider from "../../provider/ThemeProvider/ThemeProvider";
 
 import style from "./BaseScrollView.style";
 
-const BaseScrollView: FC = ({ children }) => (
+type BaseScrollViewType = {
+  spacer?: boolean;
+};
+
+const BaseScrollView: FC<BaseScrollViewType> = ({
+  children,
+  spacer = false,
+}) => (
   <ThemeProvider.Consumer>
     {(theme) => (
       <ScrollView style={[style.container, style[`${theme}Container`]]}>
         {children}
+        {spacer && <View style={style.spacer} />}
       </ScrollView>
     )}
   </ThemeProvider.Consumer>

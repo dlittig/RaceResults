@@ -27,7 +27,7 @@ const Drivers: FC = () => {
         </View>
       )}
       {Object.keys(driversState.drivers).length > 0 && (
-        <BaseScrollView>
+        <BaseScrollView spacer>
           {Object.values(driversState.drivers).map(
             (driver: any, index: number) => (
               <DriverCard

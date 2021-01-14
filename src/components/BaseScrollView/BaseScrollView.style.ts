@@ -5,6 +5,7 @@ interface Styles {
   container: ViewStyle;
   lightContainer: ViewStyle;
   darkContainer: ViewStyle;
+  spacer: ViewStyle;
 }
 
 const BaseScrollViewStyle = StyleSheet.create<Styles>({
@@ -15,11 +16,13 @@ const BaseScrollViewStyle = StyleSheet.create<Styles>({
   },
   lightContainer: {
     backgroundColor: ThemeColors.LightColors.background,
-
   },
   darkContainer: {
-    backgroundColor: ThemeColors.DarkColors.background
-  }
+    backgroundColor: ThemeColors.DarkColors.background,
+  },
+  spacer: {
+    height: 90,
+  },
 });
 
 export default BaseScrollViewStyle;
