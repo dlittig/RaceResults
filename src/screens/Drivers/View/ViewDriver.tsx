@@ -40,10 +40,14 @@ const ViewDriver: FC = () => {
     // Collect history of all races of that user
     for (let i = 0; i < racesReducer.races.length; i++) {
       const race: Race = racesReducer.races[i];
-      if (race.order.includes(driverId)) {
+      if (race.order.includes(`${driverId}`) || race.order.includes(driverId)) {
+        // String conversion or legacy reasons
         const item = {
           x: ++index,
-          y: race.order.findIndex((item) => item === driverId) + 1,
+          y:
+            race.order.findIndex(
+              (item) => item === `${driverId}` || item === driverId
+            ) + 1,
         };
 
         pos.push(item);

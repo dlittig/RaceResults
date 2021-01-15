@@ -25,7 +25,6 @@ import style from "./EditRace.style";
 import { setSeenTipFastest } from "../../../store/actions/settingsActions";
 import { useTranslation } from "react-i18next";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
-import { THEMES } from "../../../store/constants/settingsConstants";
 import { useConfirmation } from "../../../hooks/confirmation";
 import { HOOK, useStore } from "../../../hooks/store";
 
@@ -101,7 +100,7 @@ const EditRace = () => {
   const [drivers, setDrivers] = useState<number[]>(
     take("order", session.participants)
   );
-  const [cars, setCars] = useState<{ [x: number]: string }>(initCars());
+  const [cars, setCars] = useState<Race["cars"]>(initCars());
   const [bannerVisible, setBannerVisible] = useState<boolean>(true);
   const [accordionOpen, setAccordionOpen] = useState<boolean>(false);
 
