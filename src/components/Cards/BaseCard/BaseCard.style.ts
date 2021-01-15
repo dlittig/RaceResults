@@ -6,9 +6,14 @@ const BaseCardStyle = StyleSheet.create({
     borderRadius: 8,
   },
   touchable: {
-    margin: 5,
+    margin: 2,
+    padding: 3,
     marginBottom: 12,
-  }
+    borderRadius: 8,
+  },
+  parentView: {
+    borderRadius: 8,
+  },
 });
 
 export default BaseCardStyle;
