@@ -78,7 +78,7 @@ export const calculateScores = (s: Session) => {
   // Transform result into sorted order
   const finalOrder: { id: number; points: number }[] = Object.values(
     results
-  ).sort((a, b) => a.points < b.points);
+  ).sort((a, b) => b.points - a.points);
 
   return { finalOrder, races, results, pointsMap };
 };
