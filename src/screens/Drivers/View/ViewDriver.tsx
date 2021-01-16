@@ -8,6 +8,7 @@ import {
   VictoryLine,
   VictoryTheme,
   VictoryAxis,
+  VictoryScatter,
 } from "victory-native";
 
 import BaseView from "../../../components/BaseView";
@@ -125,6 +126,29 @@ const ViewDriver: FC = () => {
                 <View>
                   <Subheading>{t("text.driver.history")}</Subheading>
                   <VictoryChart>
+                    <VictoryScatter
+                      style={
+                        theme === THEMES.DARK
+                          ? {
+                              data: { fill: "#fff" },
+                            }
+                          : {}
+                      }
+                      size={4}
+                      theme={VictoryTheme.grayscale}
+                      data={positions}
+                      animate={{
+                        duration: 500,
+                        onLoad: { duration: 500 },
+                      }}
+                      domain={{
+                        x: [0.5, racesReducer.races.length + 0.5],
+                        y: [
+                          0.5,
+                          Object.keys(driversReducer.drivers).length + 0.5,
+                        ],
+                      }}
+                    />
                     <VictoryLine
                       style={
                         theme === THEMES.DARK
