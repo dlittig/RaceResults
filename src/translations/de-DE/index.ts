@@ -91,6 +91,11 @@ export const de_DE = {
         history: "Verlauf",
         color: "Farbe",
         positions: "Positionen",
+        stats: "Statistiken",
+        all: "Gesamt",
+        fastest: "Schnellste",
+        races: "Rennen",
+        place: "Platz",
       },
       session: { pointScheme: "Punkteschema" },
       race: {

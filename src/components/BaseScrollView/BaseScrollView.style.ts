@@ -6,6 +6,7 @@ interface Styles {
   lightContainer: ViewStyle;
   darkContainer: ViewStyle;
   spacer: ViewStyle;
+  miniSpacer: ViewStyle;
 }
 
 const BaseScrollViewStyle = StyleSheet.create<Styles>({
@@ -22,6 +23,9 @@ const BaseScrollViewStyle = StyleSheet.create<Styles>({
   },
   spacer: {
     height: 90,
+  },
+  miniSpacer: {
+    height: 50,
   },
 });
 

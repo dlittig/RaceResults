@@ -17,6 +17,7 @@ const BaseScrollView: FC<BaseScrollViewType> = ({
       <ScrollView style={[style.container, style[`${theme}Container`]]}>
         {children}
         {spacer && <View style={style.spacer} />}
+        {!spacer && <View style={style.miniSpacer} />}
       </ScrollView>
     )}
   </ThemeProvider.Consumer>

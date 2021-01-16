@@ -88,6 +88,11 @@ export const en_US = {
         history: "History",
         color: "Color",
         positions: "Positions",
+        stats: "Statistics",
+        all: "All",
+        fastest: "Fastest",
+        races: "Races",
+        place: "Place",
       },
       session: { pointScheme: "Point scheme" },
       race: {

@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { ProgressBar, Subheading } from "react-native-paper";
+import { DataTable, ProgressBar, Subheading } from "react-native-paper";
 import {
   VictoryChart,
   VictoryLine,
@@ -17,6 +17,15 @@ import { Race } from "../../../store/reducers/raceReducer";
 import BaseScrollView from "../../../components/BaseScrollView";
 import { THEMES } from "../../../store/constants/settingsConstants";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
+import BaseCard from "../../../components/Cards/BaseCard";
+
+import style from "./ViewDriver.style";
+
+type StatsType = {
+  positionsOverRaces: { [x: number]: number };
+  racesOfDriver: Race[];
+  fastestRaces: Race[];
+};
 
 const ViewDriver: FC = () => {
   const { t } = useTranslation();
@@ -32,6 +41,14 @@ const ViewDriver: FC = () => {
 
   const [showChart, setShowChart] = useState(false);
   const [positions, setPositions] = useState<{ x: number; y: number }[]>([]);
+  const [stats, setStats] = useState<StatsType>({
+    positionsOverRaces: {},
+    racesOfDriver: [],
+    fastestRaces: [],
+  });
+
+  const percent = (val: number, max: number): number =>
+    Math.round(((val / max) * 100 + Number.EPSILON) * 100) / 100;
 
   useEffect(() => {
     const pos = [];
@@ -55,6 +72,34 @@ const ViewDriver: FC = () => {
     }
 
     setPositions(pos);
+
+    const racesOfDriver = racesReducer.races.filter(
+      (race: Race) =>
+        race.order.includes(driverId) || race.order.includes(`${driverId}`)
+    );
+
+    const fastestRaces = racesOfDriver.filter(
+      (race: Race) =>
+        race.fastest?.includes(driverId) ||
+        race.fastest?.includes(`${driverId}`)
+    );
+
+    const positionsOverRaces = {};
+    Object.values(driversReducer.drivers).map(
+      (_, index) => (positionsOverRaces[index + 1] = 0)
+    );
+    racesOfDriver.forEach((race: Race) => {
+      const pos = race.order.findIndex(
+        (driver) => driver === driverId || driver === `${driverId}`
+      );
+      positionsOverRaces[pos + 1] += 1;
+    });
+
+    setStats({
+      racesOfDriver,
+      fastestRaces,
+      positionsOverRaces,
+    });
 
     setShowChart(true);
   }, []);
@@ -131,6 +176,76 @@ const ViewDriver: FC = () => {
                     />
                   </VictoryChart>
                 </View>
+              )}
+              {stats.racesOfDriver.length > 1 && showChart && (
+                <BaseCard touchable={false}>
+                  <View style={style.statsContainer}>
+                    <Subheading style={style.bold}>
+                      {t("text.driver.stats")}
+                    </Subheading>
+                    <DataTable>
+                      <DataTable.Header>
+                        <DataTable.Title>
+                          {t("text.driver.races")}
+                        </DataTable.Title>
+                        <DataTable.Title numeric>#</DataTable.Title>
+                        <DataTable.Title numeric>%</DataTable.Title>
+                      </DataTable.Header>
+                      <DataTable.Row>
+                        <DataTable.Cell>{t("text.driver.all")}</DataTable.Cell>
+                        <DataTable.Cell numeric>
+                          {stats.racesOfDriver.length}
+                        </DataTable.Cell>
+                        <DataTable.Cell numeric>-</DataTable.Cell>
+                      </DataTable.Row>
+                      <DataTable.Row>
+                        <DataTable.Cell>
+                          {t("text.driver.fastest")}
+                        </DataTable.Cell>
+                        <DataTable.Cell numeric>
+                          {stats.fastestRaces.length}
+                        </DataTable.Cell>
+                        <DataTable.Cell numeric>
+                          {percent(
+                            stats.fastestRaces.length,
+                            stats.racesOfDriver.length
+                          )}
+                          %
+                        </DataTable.Cell>
+                      </DataTable.Row>
+                    </DataTable>
+                    <Subheading style={[style.bold, style.marginTop]}>
+                      {t("text.driver.positions")}
+                    </Subheading>
+                    <DataTable>
+                      <DataTable.Header>
+                        <DataTable.Title>
+                          {t("text.driver.place")}
+                        </DataTable.Title>
+                        <DataTable.Title numeric>#</DataTable.Title>
+                        <DataTable.Title numeric>%</DataTable.Title>
+                      </DataTable.Header>
+                      {Object.keys(stats.positionsOverRaces)
+                        .filter(
+                          (position) => stats.positionsOverRaces[position] !== 0
+                        )
+                        .map((position) => (
+                          <DataTable.Row key={position}>
+                            <DataTable.Cell>{position}</DataTable.Cell>
+                            <DataTable.Cell numeric>
+                              {stats.positionsOverRaces[position]}
+                            </DataTable.Cell>
+                            <DataTable.Cell numeric>
+                              {percent(
+                                stats.positionsOverRaces[position],
+                                stats.racesOfDriver.length
+                              )}
+                            </DataTable.Cell>
+                          </DataTable.Row>
+                        ))}
+                    </DataTable>
+                  </View>
+                </BaseCard>
               )}
             </BaseScrollView>
           </>
