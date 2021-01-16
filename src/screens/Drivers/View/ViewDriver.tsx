@@ -210,7 +210,6 @@ const ViewDriver: FC = () => {
                             stats.fastestRaces.length,
                             stats.racesOfDriver.length
                           )}
-                          %
                         </DataTable.Cell>
                       </DataTable.Row>
                     </DataTable>
