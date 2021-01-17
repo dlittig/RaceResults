@@ -1,5 +1,5 @@
 import { Session } from "../store/reducers/sessionsReducer";
-import { Race } from "../store/reducers/raceReducer";
+import { CONDITION, Race } from "../store/reducers/raceReducer";
 import Clipboard from "expo-clipboard";
 import { ToastAndroid } from "react-native";
 import { store } from "../store/Store";
@@ -94,7 +94,17 @@ export const exportSession = (s: number) => {
   let resultString = `Name: ${session.label}\n\n`;
 
   races.forEach((race: Race, index: number) => {
-    resultString += `Track: ${race.location}\n`;
+    let weather = "";
+    switch (race.condition) {
+      case CONDITION.DRY:
+        weather = "Dry";
+      case CONDITION.NIGHT:
+        weather = "Night";
+      case CONDITION.RAIN:
+        weather = "Rain";
+    }
+
+    resultString += `Track: ${race.location} (${weather})\n\n`;
 
     // Order and points
     Object.values(race.order).forEach((driverId, index) => {
