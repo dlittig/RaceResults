@@ -1,4 +1,8 @@
-import { raceReducer, RaceState } from "../../src/store/reducers/raceReducer";
+import {
+  CONDITION,
+  raceReducer,
+  RaceState,
+} from "../../src/store/reducers/raceReducer";
 import * as types from "../../src/store/constants/racesConstants";
 
 describe("races reducer", () => {
@@ -65,6 +69,7 @@ describe("races reducer", () => {
           order: [1610430413534, 1610430420760, 1610430426534, 1610430450383],
           session: 1610430495170,
           time: 1610430546152,
+          condition: CONDITION.DRY,
         },
       ],
     };
@@ -85,6 +90,7 @@ describe("races reducer", () => {
           order: [1610430426534, 1610430450383, 1610430413534, 1610430420760],
           session: 1610430495170,
           time: 1610430546400,
+          condition: CONDITION.RAIN,
         },
       })
     ).toEqual({
@@ -102,6 +108,7 @@ describe("races reducer", () => {
           order: [1610430426534, 1610430450383, 1610430413534, 1610430420760],
           session: 1610430495170,
           time: 1610430546400,
+          condition: CONDITION.RAIN,
         },
       ],
     });
@@ -124,6 +131,7 @@ describe("races reducer", () => {
           order: [1610430413534, 1610430420760, 1610430426534, 1610430450383],
           session: 1610430495170,
           time: 1610430546152,
+          condition: CONDITION.DRY,
         },
       })
     ).toEqual({ races: [] });

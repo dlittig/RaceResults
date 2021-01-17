@@ -9,8 +9,8 @@ const RaceStyle = StyleSheet.create({
     borderRadius: 10,
   },
   boldText: {
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });
 
 export default RaceStyle;

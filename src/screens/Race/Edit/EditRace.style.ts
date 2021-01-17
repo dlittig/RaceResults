@@ -35,6 +35,16 @@ const EditRaceStyle = StyleSheet.create({
     justifyContent: "center",
   },
   inputContainer: { flex: 1 },
+  radioButtonField: {
+    display: "flex",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "baseline",
+  },
+  conditionSubheading: { marginVertical: 10 },
+  conditionContainer: {
+    marginVertical: 10,
+  },
 });
 
 export default EditRaceStyle;

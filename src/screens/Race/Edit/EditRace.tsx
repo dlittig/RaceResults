@@ -13,10 +13,12 @@ import {
   TextInput,
   Checkbox,
   Banner,
+  Subheading,
+  RadioButton,
 } from "react-native-paper";
 
 import BaseView from "../../../components/BaseView/BaseView";
-import { Race } from "../../../store/reducers/raceReducer";
+import { CONDITION, Race } from "../../../store/reducers/raceReducer";
 import { RACE_CURCUIT } from "../../../store/constants/racesConstants";
 import { addRace, updateRace } from "../../../store/actions/raceActions";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
@@ -101,6 +103,9 @@ const EditRace = () => {
     take("order", session.participants)
   );
   const [cars, setCars] = useState<Race["cars"]>(initCars());
+  const [condition, setCondition] = useState<CONDITION>(
+    take("condition", CONDITION.DRY)
+  );
   const [bannerVisible, setBannerVisible] = useState<boolean>(true);
   const [accordionOpen, setAccordionOpen] = useState<boolean>(false);
 
@@ -113,6 +118,7 @@ const EditRace = () => {
       cars,
       order: drivers,
       fastest: fastestDrivers,
+      condition,
     };
 
     if (typeof routeParams.race !== "undefined") {
@@ -191,7 +197,7 @@ const EditRace = () => {
 
   return (
     <BaseView>
-      <BaseScrollView>
+      <BaseScrollView spacer>
         {settingsReducer.tipFastestSeen === false && (
           <Banner
             style={style.banner}
@@ -217,6 +223,30 @@ const EditRace = () => {
           }
           onDragEnd={({ data }) => setDrivers(data)}
         />
+
+        <View style={style.conditionContainer}>
+          <Subheading style={style.conditionSubheading}>Condition</Subheading>
+          <RadioButton.Group
+            onValueChange={(newValue: string) =>
+              setCondition(newValue as CONDITION)
+            }
+            value={condition}
+          >
+            <View style={style.radioButtonField}>
+              <RadioButton value={CONDITION.DRY} />
+              <Text onPress={() => setCondition(CONDITION.DRY)}>Dry</Text>
+            </View>
+            <View style={style.radioButtonField}>
+              <RadioButton value={CONDITION.NIGHT} />
+              <Text onPress={() => setCondition(CONDITION.NIGHT)}>Night</Text>
+            </View>
+            <View style={style.radioButtonField}>
+              <RadioButton value={CONDITION.RAIN} />
+              <Text onPress={() => setCondition(CONDITION.RAIN)}>Rain</Text>
+            </View>
+          </RadioButton.Group>
+          {/* </View> */}
+        </View>
 
         <List.Accordion
           title={t("form.race_track")}

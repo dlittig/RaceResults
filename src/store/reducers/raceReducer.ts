@@ -4,7 +4,12 @@ import {
   RACE_DELETE_BY_SESSION_ID,
   RACE_UPDATE,
 } from "../constants/racesConstants";
-import { Driver } from "./driversReducer";
+
+export enum CONDITION {
+  DRY = "WEATHER_DRY",
+  NIGHT = "WEATHER_NIGHT",
+  RAIN = "WEATHER_RAIN",
+}
 
 export type Race = {
   id: number;
@@ -16,6 +21,7 @@ export type Race = {
   order: number[]; // index is the order from 1-X, second number is the id
   fastest?: number[]; // id of the fastest driver
   location: string;
+  condition: CONDITION;
 };
 
 export type RaceState = {

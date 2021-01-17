@@ -1,10 +1,11 @@
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { deleteRace } from "../../../store/actions/raceActions";
-import { Race } from "../../../store/reducers/raceReducer";
+import { CONDITION, Race } from "../../../store/reducers/raceReducer";
 import { humanReadableDate } from "../../../utils";
 import BaseCard from "../BaseCard";
 
@@ -46,7 +47,17 @@ const RaceCard: FC<RaceCardType> = ({ race, onPress, position }) => {
           race.location
         }`}</Text>
         <Text>
-          {t("text.race.started")}: {humanReadableDate(race.time)}
+          <MaterialCommunityIcons name="clock-time-five-outline" />
+          {` ${humanReadableDate(race.time)} `}
+          {race.condition === CONDITION.DRY && (
+            <Ionicons name="sunny" />
+          )}
+          {race.condition === CONDITION.NIGHT && (
+            <Ionicons name="moon" />
+          )}
+          {race.condition === CONDITION.RAIN && (
+            <Ionicons name="rainy" />
+          )}
         </Text>
       </View>
     </BaseCard>
