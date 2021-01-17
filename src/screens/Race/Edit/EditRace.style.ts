@@ -16,7 +16,7 @@ const EditRaceStyle = StyleSheet.create({
     backgroundColor: "#F0F0F0",
   },
   darkActive: {
-    backgroundColor: "#666666",
+    backgroundColor: "#555555",
   },
   darkIcon: {
     color: "#fff",

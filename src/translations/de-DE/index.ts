@@ -100,7 +100,12 @@ export const de_DE = {
       session: { pointScheme: "Punkteschema" },
       race: {
         race: "Rennen",
-        started: "Gestartet",
+        condition: {
+          title: "Wetterverhältnisse",
+          dry: "Trocken",
+          rain: "Regen",
+          night: "Nacht",
+        },
       },
       scoreboard: {
         driver: "Fahrer",

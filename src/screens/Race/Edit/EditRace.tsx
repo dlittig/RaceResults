@@ -142,11 +142,11 @@ const EditRace = () => {
         <TouchableOpacity
           key={id}
           style={[
-            {
-              backgroundColor: isActive
-                ? style[`${theme}Active`]
-                : id?.backgroundColor,
-            },
+            isActive
+              ? style[`${theme}Active`]
+              : {
+                  backgroundColor: id?.backgroundColor,
+                },
             style.touchableDrag,
           ]}
           onLongPress={drag}
@@ -225,7 +225,9 @@ const EditRace = () => {
         />
 
         <View style={style.conditionContainer}>
-          <Subheading style={style.conditionSubheading}>Condition</Subheading>
+          <Subheading style={style.conditionSubheading}>
+            {t("text.race.condition.title")}
+          </Subheading>
           <RadioButton.Group
             onValueChange={(newValue: string) =>
               setCondition(newValue as CONDITION)
@@ -234,15 +236,21 @@ const EditRace = () => {
           >
             <View style={style.radioButtonField}>
               <RadioButton value={CONDITION.DRY} />
-              <Text onPress={() => setCondition(CONDITION.DRY)}>Dry</Text>
+              <Text onPress={() => setCondition(CONDITION.DRY)}>
+                {t("text.race.condition.dry")}
+              </Text>
             </View>
             <View style={style.radioButtonField}>
               <RadioButton value={CONDITION.NIGHT} />
-              <Text onPress={() => setCondition(CONDITION.NIGHT)}>Night</Text>
+              <Text onPress={() => setCondition(CONDITION.NIGHT)}>
+                {t("text.race.condition.night")}
+              </Text>
             </View>
             <View style={style.radioButtonField}>
               <RadioButton value={CONDITION.RAIN} />
-              <Text onPress={() => setCondition(CONDITION.RAIN)}>Rain</Text>
+              <Text onPress={() => setCondition(CONDITION.RAIN)}>
+                {t("text.race.condition.rain")}
+              </Text>
             </View>
           </RadioButton.Group>
           {/* </View> */}

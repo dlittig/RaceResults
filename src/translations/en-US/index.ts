@@ -97,7 +97,12 @@ export const en_US = {
       session: { pointScheme: "Point scheme" },
       race: {
         race: "Race",
-        started: "Started",
+        condition: {
+          title: "Weater condition",
+          dry: "Dry",
+          rain: "Rain",
+          night: "Night",
+        },
       },
       scoreboard: {
         driver: "Driver",
