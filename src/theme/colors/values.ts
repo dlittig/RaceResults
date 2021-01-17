@@ -17,12 +17,12 @@ interface IThemeColors {
 const DarkColors: IColors = {
   primary: "#077aff",
   accent: "#077aff",
-  card: "#333333",
+  card: "#222",
   cardHighlight: "#444444",
   cardShadow: "#3f3f3f",
   text: "#ffffff",
   textInactive: "#bbbbbb",
-  background: "#333",
+  background: "#222",
 };
 
 const LightColors: IColors = {
