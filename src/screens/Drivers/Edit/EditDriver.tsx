@@ -85,7 +85,7 @@ const EditDriver = () => {
 
   return (
     <BaseView>
-      <BaseScrollView>
+      <BaseScrollView spacer>
         <TextInput
           label={t("form.name")}
           value={name}

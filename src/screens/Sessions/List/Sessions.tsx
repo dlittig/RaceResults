@@ -34,7 +34,7 @@ const Sessions = () => {
         </View>
       )}
       {sessionsReducer.sessions.length > 0 && (
-        <BaseScrollView>
+        <BaseScrollView spacer>
           {sessionsReducer!!.sessions.map((session, index) => (
             <SessionCard
               key={index}

@@ -120,7 +120,7 @@ const EditSession = () => {
 
   return (
     <BaseView>
-      <BaseScrollView>
+      <BaseScrollView spacer>
         <TextInput
           label={t("form.name")}
           value={label}

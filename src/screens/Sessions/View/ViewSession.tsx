@@ -46,7 +46,7 @@ const ViewSession = () => {
         {` ${session.label}`}
       </Text>
       <NavSeparator />
-      <BaseScrollView>
+      <BaseScrollView spacer>
         {races.length === 0 && (
           <View style={styles.emptyState}>
             <Text style={styles.text}>{t("empty.session_view")}</Text>
