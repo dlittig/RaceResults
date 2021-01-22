@@ -197,87 +197,93 @@ const EditRace = () => {
 
   return (
     <BaseView>
-      <BaseScrollView spacer>
-        {settingsReducer.tipFastestSeen === false && (
-          <Banner
-            style={style.banner}
-            visible={bannerVisible}
-            actions={[
-              {
-                label: t("actions.got_it"),
-                onPress: () => {
-                  setBannerVisible(false), dispatch(setSeenTipFastest());
+      <DraggableFlatList
+        data={drivers}
+        ListHeaderComponent={
+          settingsReducer.tipFastestSeen === false ? (
+            <Banner
+              style={style.banner}
+              visible={bannerVisible}
+              actions={[
+                {
+                  label: t("actions.got_it"),
+                  onPress: () => {
+                    setBannerVisible(false), dispatch(setSeenTipFastest());
+                  },
                 },
-              },
-            ]}
-          >
-            {t("banner.fastest_lap")}
-          </Banner>
-        )}
-
-        <DraggableFlatList
-          data={drivers}
-          renderItem={renderItem}
-          keyExtractor={(item: number, index: number) =>
-            `draggable-item-${item}-${index}`
-          }
-          onDragEnd={({ data }) => setDrivers(data)}
-        />
-
-        <View style={style.conditionContainer}>
-          <Subheading style={style.conditionSubheading}>
-            {t("text.race.condition.title")}
-          </Subheading>
-          <RadioButton.Group
-            onValueChange={(newValue: string) =>
-              setCondition(newValue as CONDITION)
-            }
-            value={condition}
-          >
-            <View style={style.radioButtonField}>
-              <RadioButton value={CONDITION.DRY} />
-              <Text onPress={() => setCondition(CONDITION.DRY)}>
-                {t("text.race.condition.dry")}
-              </Text>
+              ]}
+            >
+              {t("banner.fastest_lap")}
+            </Banner>
+          ) : null
+        }
+        renderItem={renderItem}
+        keyExtractor={(item: number, index: number) =>
+          `draggable-item-${item}-${index}`
+        }
+        onDragEnd={({ data }) => setDrivers(data)}
+        style={{ padding: 16 }}
+        ListFooterComponentStyle={{
+          marginBottom: 90,
+        }}
+        ListFooterComponent={
+          <>
+            <View style={style.conditionContainer}>
+              <Subheading style={style.conditionSubheading}>
+                {t("text.race.condition.title")}
+              </Subheading>
+              <RadioButton.Group
+                onValueChange={(newValue: string) =>
+                  setCondition(newValue as CONDITION)
+                }
+                value={condition}
+              >
+                <View style={style.radioButtonField}>
+                  <RadioButton value={CONDITION.DRY} />
+                  <Text onPress={() => setCondition(CONDITION.DRY)}>
+                    {t("text.race.condition.dry")}
+                  </Text>
+                </View>
+                <View style={style.radioButtonField}>
+                  <RadioButton value={CONDITION.NIGHT} />
+                  <Text onPress={() => setCondition(CONDITION.NIGHT)}>
+                    {t("text.race.condition.night")}
+                  </Text>
+                </View>
+                <View style={style.radioButtonField}>
+                  <RadioButton value={CONDITION.RAIN} />
+                  <Text onPress={() => setCondition(CONDITION.RAIN)}>
+                    {t("text.race.condition.rain")}
+                  </Text>
+                </View>
+              </RadioButton.Group>
+              {/* </View> */}
             </View>
-            <View style={style.radioButtonField}>
-              <RadioButton value={CONDITION.NIGHT} />
-              <Text onPress={() => setCondition(CONDITION.NIGHT)}>
-                {t("text.race.condition.night")}
-              </Text>
-            </View>
-            <View style={style.radioButtonField}>
-              <RadioButton value={CONDITION.RAIN} />
-              <Text onPress={() => setCondition(CONDITION.RAIN)}>
-                {t("text.race.condition.rain")}
-              </Text>
-            </View>
-          </RadioButton.Group>
-          {/* </View> */}
-        </View>
 
-        <List.Accordion
-          title={t("form.race_track")}
-          description={location}
-          expanded={accordionOpen}
-          onPress={() => setAccordionOpen(!accordionOpen)}
-        >
-          {RACE_CURCUIT.map((track, index) => (
-            <List.Item
-              key={index}
-              title={track}
-              right={(props) =>
-                location === track ? (
-                  <List.Icon {...props} icon="check" />
-                ) : null
-              }
-              onPress={() => {
-                setLocation(track), setAccordionOpen(false);
-              }}
-            />
-          ))}
-        </List.Accordion>
-      </BaseScrollView>
+            <List.Accordion
+              title={t("form.race_track")}
+              description={location}
+              expanded={accordionOpen}
+              onPress={() => setAccordionOpen(!accordionOpen)}
+            >
+              {RACE_CURCUIT.map((track, index) => (
+                <List.Item
+                  key={index}
+                  title={track}
+                  right={(props) =>
+                    location === track ? (
+                      <List.Icon {...props} icon="check" />
+                    ) : null
+                  }
+                  onPress={() => {
+                    setLocation(track), setAccordionOpen(false);
+                  }}
+                />
+              ))}
+            </List.Accordion>
+          </>
+        }
+      />
       <FAB
         style={style.fab}
         label={t("actions.save")}
