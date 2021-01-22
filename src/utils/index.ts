@@ -98,10 +98,13 @@ export const exportSession = (s: number) => {
     switch (race.condition) {
       case CONDITION.DRY:
         weather = "Dry";
+        break;
       case CONDITION.NIGHT:
         weather = "Night";
+        break;
       case CONDITION.RAIN:
         weather = "Rain";
+        break;
     }
 
     resultString += `Track: ${race.location} (${weather})\n\n`;
