@@ -4,12 +4,18 @@ import {
   SESSIONS_UPDATE,
 } from "../constants/sessionsConstants";
 
+export enum TYPE_PRESET {
+  STATIC = "static",
+  SHIFT = "shift"
+}
+
 export type Session = {
   id: number;
   participants: number[];
   pointScheme: "gapped" | "linear";
   label?: string;
   startTime: number;
+  type: TYPE_PRESET;
 };
 
 export type SessionsState = {

@@ -13,12 +13,6 @@ const EditSessionStyle = StyleSheet.create({
     flexWrap: "wrap",
     flexGrow: 2,
   },
-  radioButtonField: {
-    display: "flex",
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "baseline",
-  },
   selectDriver: {
     flexDirection: "row",
     marginTop: 20,

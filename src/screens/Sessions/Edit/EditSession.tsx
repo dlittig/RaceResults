@@ -5,17 +5,16 @@ import {
   Dialog,
   FAB,
   Portal,
-  Text,
   Checkbox,
   TextInput,
   Chip,
   Badge,
   Subheading,
-  RadioButton,
   IconButton,
+  Caption,
 } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { Session } from "../../../store/reducers/sessionsReducer";
+import { Session, TYPE_PRESET } from "../../../store/reducers/sessionsReducer";
 import { useTranslation } from "react-i18next";
 import {
   addSession,
@@ -28,6 +27,9 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import style from "./EditSession.style";
 import { useConfirmation } from "../../../hooks/confirmation";
 import { HOOK, useStore, UseStateResult } from "../../../hooks/store";
+import ToggleButtonContainer from "../../../components/ToggleButton/Container";
+import ToggleButton from "../../../components/ToggleButton";
+import { Driver } from "../../../store/reducers/driversReducer";
 
 const TOGGLE_DRIVER = "[edit sessions] toggle driver";
 const SELECT_ALL_DRIVERS = "[edit sessions] select all drivers";
@@ -47,7 +49,7 @@ const reducer = (state: number[], action: any) => {
 
       if (state.length === drivers.length) {
         return [];
-      } else return drivers.map((driver) => driver.id);
+      } else return drivers.map((driver: Driver) => driver.id);
     default:
       throw new Error();
   }
@@ -85,6 +87,10 @@ const EditSession = () => {
     take("participants", [])
   );
 
+  const [type, setType] = useState<TYPE_PRESET>(
+    take("type", TYPE_PRESET.SHIFT)
+  );
+
   const onSave = () => {
     const session: Session = {
       id: take("id", Date.now()),
@@ -92,6 +98,7 @@ const EditSession = () => {
       participants,
       label,
       pointScheme,
+      type,
     };
 
     if (typeof sessionId !== "undefined") {
@@ -162,26 +169,50 @@ const EditSession = () => {
 
         <View>
           <Subheading style={style.pointSchemeSubheading}>
-            {t("text.session.pointScheme")}
+            {t("text.session.carPolicy.title")}
           </Subheading>
-          <RadioButton.Group
-            onValueChange={(newValue: string) => setPointScheme(newValue)}
-            value={pointScheme}
+          <ToggleButtonContainer
+            value={type}
+            onChange={(value) => setType(value as TYPE_PRESET)}
           >
-            <View style={style.radioButtonField}>
-              <RadioButton value="linear" />
-              <Text onPress={() => setPointScheme("linear")}>
-                {t("form.linear")}
-              </Text>
-            </View>
-            <View style={style.radioButtonField}>
-              <RadioButton value="gapped" />
-              <Text onPress={() => setPointScheme("gapped")}>
-                {t("form.gapped")}
-              </Text>
-            </View>
-          </RadioButton.Group>
-          {/* </View> */}
+            <ToggleButton
+              label={t("text.session.carPolicy.shift")}
+              value={TYPE_PRESET.SHIFT}
+            />
+            <ToggleButton
+              label={t("text.session.carPolicy.static")}
+              value={TYPE_PRESET.STATIC}
+            />
+          </ToggleButtonContainer>
+          <Caption>
+            {type === TYPE_PRESET.SHIFT &&
+              t("text.session.carPolicy.shiftHint")}
+            {type === TYPE_PRESET.STATIC &&
+              t("text.session.carPolicy.staticHint")}
+          </Caption>
+
+          <Subheading style={style.pointSchemeSubheading}>
+            {t("text.session.pointScheme.title")}
+          </Subheading>
+          <ToggleButtonContainer
+            value={pointScheme}
+            onChange={(value) => setPointScheme(value as "gapped" | "linear")}
+          >
+            <ToggleButton
+              label={t("text.session.pointScheme.linear")}
+              value="linear"
+            />
+            <ToggleButton
+              label={t("text.session.pointScheme.gapped")}
+              value="gapped"
+            />
+          </ToggleButtonContainer>
+          <Caption>
+            {pointScheme === "linear" &&
+              t("text.session.pointScheme.linearHint")}
+            {pointScheme === "gapped" &&
+              t("text.session.pointScheme.gappedHint")}
+          </Caption>
         </View>
 
         <Portal>

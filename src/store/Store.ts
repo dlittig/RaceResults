@@ -8,6 +8,7 @@ import ExpoFileSystemStorage from "redux-persist-expo-filesystem";
 
 import reducers, { RootReducerType } from "./reducers";
 import { CONDITION, Race } from "./reducers/raceReducer";
+import { Session, TYPE_PRESET } from "./reducers/sessionsReducer";
 
 const migrations = {
   0: (state: RootReducerType) => {
@@ -29,13 +30,33 @@ const migrations = {
       raceReducer: { races: newRaces },
     };
   },
+  5: (state: RootReducerType) => {
+    // Add type to session wether new cars should
+    // be copied or cars stay the same in session
+    const {
+      sessionsReducer: { sessions },
+    } = state;
+
+    const newSessions = sessions.map((session: Session) => {
+      if (typeof session.type === "undefined" || session.type === null) {
+        session.type = TYPE_PRESET.SHIFT;
+      }
+
+      return session;
+    });
+
+    return {
+      ...state,
+      sessionsReducer: { sessions: newSessions },
+    };
+  },
 };
 
 const persistConfig = {
   key: "race_results",
-  version: 1,
+  version: 5, // key has to match the version specified in the migration above
   storage: ExpoFileSystemStorage,
-  migrate: createMigrate(migrations, { debug: false }),
+  migrate: createMigrate(migrations, { debug: true }),
 };
 
 const persistedReducer = persistCombineReducers(persistConfig, reducers);

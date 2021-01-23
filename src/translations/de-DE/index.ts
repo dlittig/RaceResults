@@ -97,7 +97,26 @@ export const de_DE = {
         races: "Rennen",
         place: "Platz",
       },
-      session: { pointScheme: "Punkteschema" },
+      session: {
+        pointScheme: {
+          title: "Punkteschema",
+          linear: "Linear",
+          gapped: "Abgestuft",
+          linearHint:
+            "Alle Fahrer erhalten einen Punkt für jede Position, die sie gewinnen.",
+          gappedHint:
+            "Jede Position gibt einen weiteren Punkt, wobei der erste Fahrer einen Weiteren erhält.",
+        },
+        carPolicy: {
+          title: "Fahrzeugregeln",
+          shift: "Wechsel",
+          static: "Statisch",
+          staticHint:
+            "Alle Fahrzeuge werden für das nächste Rennen vorgeschlagen.",
+          shiftHint:
+            "Alle Fahrzeuge, außer das des letzten Fahrers, werden vorgeschlagen.",
+        },
+      },
       race: {
         race: "Rennen",
         condition: {

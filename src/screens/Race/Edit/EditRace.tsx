@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
@@ -14,14 +14,12 @@ import {
   Checkbox,
   Banner,
   Subheading,
-  RadioButton,
 } from "react-native-paper";
 
 import BaseView from "../../../components/BaseView/BaseView";
 import { CONDITION, Race } from "../../../store/reducers/raceReducer";
 import { RACE_CURCUIT } from "../../../store/constants/racesConstants";
 import { addRace, updateRace } from "../../../store/actions/raceActions";
-import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 
 import style from "./EditRace.style";
 import { setSeenTipFastest } from "../../../store/actions/settingsActions";
@@ -29,6 +27,9 @@ import { useTranslation } from "react-i18next";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { useConfirmation } from "../../../hooks/confirmation";
 import { HOOK, useStore } from "../../../hooks/store";
+import ToggleButtonContainer from "../../../components/ToggleButton/Container";
+import ToggleButton from "../../../components/ToggleButton";
+import { TYPE_PRESET } from "../../../store/reducers/sessionsReducer";
 
 type EditRaceRouteParams = {
   session: number;
@@ -82,7 +83,10 @@ const EditRace = () => {
         const lastRace = sessionRaces[sessionRaces.length - 1];
         lastRace.order.forEach(
           (driverId: number, index: number, array: number[]) => {
-            if (index === array.length - 1) {
+            if (
+              index === array.length - 1 &&
+              session.type === TYPE_PRESET.SHIFT
+            ) {
               cars[driverId] = "";
             } else cars[driverId] = lastRace.cars[driverId];
           }
@@ -232,32 +236,23 @@ const EditRace = () => {
               <Subheading style={style.conditionSubheading}>
                 {t("text.race.condition.title")}
               </Subheading>
-              <RadioButton.Group
-                onValueChange={(newValue: string) =>
-                  setCondition(newValue as CONDITION)
-                }
+              <ToggleButtonContainer
                 value={condition}
+                onChange={(value) => setCondition(value as CONDITION)}
               >
-                <View style={style.radioButtonField}>
-                  <RadioButton value={CONDITION.DRY} />
-                  <Text onPress={() => setCondition(CONDITION.DRY)}>
-                    {t("text.race.condition.dry")}
-                  </Text>
-                </View>
-                <View style={style.radioButtonField}>
-                  <RadioButton value={CONDITION.NIGHT} />
-                  <Text onPress={() => setCondition(CONDITION.NIGHT)}>
-                    {t("text.race.condition.night")}
-                  </Text>
-                </View>
-                <View style={style.radioButtonField}>
-                  <RadioButton value={CONDITION.RAIN} />
-                  <Text onPress={() => setCondition(CONDITION.RAIN)}>
-                    {t("text.race.condition.rain")}
-                  </Text>
-                </View>
-              </RadioButton.Group>
-              {/* </View> */}
+                <ToggleButton
+                  label={t("text.race.condition.dry")}
+                  value={CONDITION.DRY}
+                />
+                <ToggleButton
+                  label={t("text.race.condition.night")}
+                  value={CONDITION.NIGHT}
+                />
+                <ToggleButton
+                  label={t("text.race.condition.rain")}
+                  value={CONDITION.RAIN}
+                />
+              </ToggleButtonContainer>
             </View>
 
             <List.Accordion

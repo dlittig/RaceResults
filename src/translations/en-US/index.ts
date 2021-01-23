@@ -46,8 +46,6 @@ export const en_US = {
     form: {
       name: "Name",
       car: "Car of",
-      linear: "Linear",
-      gapped: "Gapped",
       race_track: "Race track",
       driver_color: "Driver color",
       selected_color: "Selected color",
@@ -94,7 +92,25 @@ export const en_US = {
         races: "Races",
         place: "Place",
       },
-      session: { pointScheme: "Point scheme" },
+      session: {
+        pointScheme: {
+          title: "Point scheme",
+          linear: "Linear",
+          gapped: "Gapped",
+          linearHint:
+            "All drivers get a single point for a position they gain.",
+          gappedHint:
+            "Each position gain gives one point whereas the first gets one additional point.",
+        },
+        carPolicy: {
+          title: "Car policy",
+          shift: "Shift",
+          static: "Static",
+          staticHint: "All cars will appear as suggestion for a new race.",
+          shiftHint:
+            "All cars except the last one will be suggested for a new race.",
+        },
+      },
       race: {
         race: "Race",
         condition: {
