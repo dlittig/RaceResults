@@ -14,7 +14,7 @@ const ThemeProvider = ({
   children: ReactNode | ReactNodeArray;
 }): ReactNode => {
   const { settingsReducer } = useStore([HOOK.SETTINGS], {});
-  let scheme = settingsReducer.theme;
+  const scheme = settingsReducer.theme;
 
   return (
     <ThemeContext.Provider value={scheme}>

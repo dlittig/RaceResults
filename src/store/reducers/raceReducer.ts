@@ -32,7 +32,7 @@ const initialState: RaceState = {
   races: [],
 };
 
-export const raceReducer = (state = initialState, action) => {
+export const raceReducer = (state = initialState, action): RaceState => {
   let newState: RaceState = { races: [] };
 
   switch (action.type) {

@@ -2,8 +2,8 @@ import { DefaultTheme, DarkTheme, Theme } from "@react-navigation/native";
 import { THEMES } from "../store/constants/settingsConstants";
 import { ThemeColors, IColors } from "./colors/values";
 
-const get = (scheme: string) => {
-  let values: IColors = {};
+const get = (scheme: string): Record<string, unknown>=> {
+  let values: IColors | null = null;
 
   switch (scheme) {
     case THEMES.LIGHT:

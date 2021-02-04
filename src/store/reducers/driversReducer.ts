@@ -20,7 +20,7 @@ const initialState: DriversState = {
   drivers: {},
 };
 
-export const driversReducer = (state = initialState, action) => {
+export const driversReducer = (state = initialState, action): DriversState => {
   let newState: DriversState = { drivers: [] };
 
   switch (action.type) {

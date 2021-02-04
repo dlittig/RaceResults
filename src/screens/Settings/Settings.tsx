@@ -1,29 +1,31 @@
-import React, { FC } from "react";
-import BaseView from "../../components/BaseView";
-import { applyTheme } from "../../store/actions/settingsActions";
-
+import React, { FC, ReactNode } from "react";
+import { useDispatch } from "react-redux";
 import { List } from "react-native-paper";
-import { connect } from "react-redux";
-import BaseScrollView from "../../components/BaseScrollView";
-import { THEMES } from "../../store/constants/settingsConstants";
 import { useTranslation } from "react-i18next";
+
+import BaseView from "../../components/BaseView";
+import BaseScrollView from "../../components/BaseScrollView";
+import { applyTheme } from "../../store/actions/settingsActions";
+import { THEMES } from "../../store/constants/settingsConstants";
+import { useStore, HOOK } from "../../hooks/store";
 
 import style from "./Settings.style";
 
-interface ISettings {
-  theme: string;
-  reduxApplyTheme: (s: {}) => void;
-}
+type LeftPropsType = {
+  [x: string]: { left: ((props: any) => ReactNode) | undefined };
+};
 
-const Settings: FC<ISettings> = ({ theme, reduxApplyTheme }) => {
-  const leftProps = {
-    [THEMES.LIGHT]: undefined,
-    [THEMES.DARK]: undefined,
+const Settings: FC = () => {
+  const { settingsReducer } = useStore([HOOK.SETTINGS], {});
+  const dispatch = useDispatch();
+  const leftProps: LeftPropsType = {
+    [THEMES.LIGHT]: { left: undefined },
+    [THEMES.DARK]: { left: undefined },
   };
   const { t } = useTranslation();
 
-  leftProps[theme] = {
-    left: (props) => (
+  leftProps[settingsReducer.theme] = {
+    left: (props: Record<string, unknown>) => (
       <List.Icon {...props} icon="check" style={style.checkMark} />
     ),
   };
@@ -39,14 +41,14 @@ const Settings: FC<ISettings> = ({ theme, reduxApplyTheme }) => {
           >
             <List.Item
               title={t("text.settings.theme.light")}
-              {...leftProps.light}
-              onPress={() => reduxApplyTheme(THEMES.LIGHT)}
+              {...leftProps[THEMES.LIGHT]}
+              onPress={() => dispatch(applyTheme(THEMES.LIGHT))}
             />
 
             <List.Item
               title={t("text.settings.theme.dark")}
-              {...leftProps.dark}
-              onPress={() => reduxApplyTheme(THEMES.DARK)}
+              {...leftProps[THEMES.DARK]}
+              onPress={() => dispatch(applyTheme(THEMES.DARK))}
             />
           </List.Accordion>
         </List.Section>
@@ -55,10 +57,4 @@ const Settings: FC<ISettings> = ({ theme, reduxApplyTheme }) => {
   );
 };
 
-const mapStateToProps = ({ settingsReducer: { theme } }) => ({ theme });
-
-const mapDispatchToProps = {
-  reduxApplyTheme: applyTheme,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default Settings;

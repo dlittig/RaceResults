@@ -165,7 +165,7 @@ const EditRace = () => {
           </View>
           <View style={style.inputContainer}>
             <Text style={style[`${theme}Icon`].color}>
-              {`${index!! + 1}: ${driversReducer.drivers[id].name}`}
+              {`${index! + 1}: ${driversReducer.drivers[id].name}`}
             </Text>
             <TextInput
               mode="flat"

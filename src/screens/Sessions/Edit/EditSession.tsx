@@ -154,14 +154,14 @@ const EditSession = () => {
                   <Badge
                     size={10}
                     style={{
-                      backgroundColor: driversReducer!!.drivers[participant]
+                      backgroundColor: driversReducer!.drivers[participant]
                         .color,
                     }}
                   ></Badge>
                 }
                 key={`${participant}-${index}`}
               >
-                {driversReducer!!.drivers[participant].name}
+                {driversReducer!.drivers[participant].name}
               </Chip>
             ))}
           </View>
@@ -243,7 +243,7 @@ const EditSession = () => {
                 onPress={() =>
                   dispatchParticipants({
                     type: SELECT_ALL_DRIVERS,
-                    payload: Object.values(driversReducer!!.drivers),
+                    payload: Object.values(driversReducer!.drivers),
                   })
                 }
               >

@@ -6,7 +6,7 @@ import {
 
 export enum TYPE_PRESET {
   STATIC = "static",
-  SHIFT = "shift"
+  SHIFT = "shift",
 }
 
 export type Session = {
@@ -26,7 +26,10 @@ const initialState: SessionsState = {
   sessions: [],
 };
 
-export const sessionsReducer = (state = initialState, action) => {
+export const sessionsReducer = (
+  state = initialState,
+  action
+): SessionsState => {
   let newState: SessionsState = { sessions: [] };
 
   switch (action.type) {

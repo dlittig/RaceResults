@@ -4,7 +4,7 @@ import Clipboard from "expo-clipboard";
 import { ToastAndroid } from "react-native";
 import { store } from "../store/Store";
 
-export const humanReadableDate = (time: number) => {
+export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
   return `${padd(date.getHours())}:${padd(date.getMinutes())} ${padd(
     date.getDate()
@@ -17,8 +17,8 @@ export const padd = (elem: number): string =>
 export const getPointsMap = (
   scheme: "gapped" | "linear",
   participants: number
-) => {
-  const pointsMap = {};
+): Record<number, number> => {
+  const pointsMap: Record<number, number> = {};
 
   if (scheme === "gapped") {
     for (let i = 0; i < participants; i++) {
@@ -44,7 +44,18 @@ export const getPointsMap = (
 const pointsForFastestRound = (race: Race, driverId: number): number =>
   race.fastest?.includes(driverId) ? 1 : 0;
 
-export const calculateScores = (s: Session) => {
+type RaceResultsType = {
+  [x: number]: { id: number; points: number };
+};
+
+type ScoresType = {
+  results: RaceResultsType;
+  finalOrder: { id: number; points: number }[];
+  races: Race[];
+  pointsMap: Record<number, number>;
+};
+
+export const calculateScores = (s: Session): ScoresType => {
   const state = store.getState();
   // Get all races of this session
   const races = state.raceReducer.races.filter((race) => race.session === s.id);
@@ -57,7 +68,7 @@ export const calculateScores = (s: Session) => {
   const pointsMap = getPointsMap(s.pointScheme, s.participants.length);
 
   // Iterate through all the races and accumulate all the values
-  const results: { [x: number]: { id: number; points: number } } = {};
+  const results: RaceResultsType = {};
 
   races.forEach((race) => {
     Object.values(race.order).forEach((driverId: number, position) => {
@@ -83,7 +94,7 @@ export const calculateScores = (s: Session) => {
   return { finalOrder, races, results, pointsMap };
 };
 
-export const exportSession = (s: number) => {
+export const exportSession = (s: number): void => {
   const state = store.getState();
   const session = state.sessionsReducer.sessions.filter(
     (item) => item.id === s
@@ -93,7 +104,7 @@ export const exportSession = (s: number) => {
 
   let resultString = `Name: ${session.label}\n\n`;
 
-  races.forEach((race: Race, index: number) => {
+  races.forEach((race: Race) => {
     let weather = "";
     switch (race.condition) {
       case CONDITION.DRY:

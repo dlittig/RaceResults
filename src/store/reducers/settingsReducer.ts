@@ -13,12 +13,13 @@ const initialState: SettingsState = {
   tipFastestSeen: false,
 };
 
-export const settingsReducer = (state = initialState, action) => {
-  let newState: SettingsState = {};
+export const settingsReducer = (state = initialState, action): SettingsState => {
+  let newState: SettingsState | null = null;
+  let theme;
 
   switch (action.type) {
     case SETTINGS_APPLY_THEME:
-      let theme = action.payload;
+      theme = action.payload;
       newState = { ...state, theme };
 
       return newState;

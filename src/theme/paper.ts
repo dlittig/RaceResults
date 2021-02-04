@@ -2,8 +2,8 @@ import { DefaultTheme, DarkTheme } from "react-native-paper";
 import { THEMES } from "../store/constants/settingsConstants";
 import { ThemeColors, IColors } from "./colors/values";
 
-const get = (scheme: string) => {
-  let values: IColors = null;
+const get = (scheme: string): Record<string, unknown> => {
+  let values: IColors | null = null;
 
   switch (scheme) {
     case THEMES.LIGHT:

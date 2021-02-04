@@ -9,6 +9,7 @@ import ExpoFileSystemStorage from "redux-persist-expo-filesystem";
 import reducers, { RootReducerType } from "./reducers";
 import { CONDITION, Race } from "./reducers/raceReducer";
 import { Session, TYPE_PRESET } from "./reducers/sessionsReducer";
+import { SettingsState } from "./reducers/settingsReducer";
 
 const migrations = {
   0: (state: RootReducerType) => {
@@ -61,7 +62,12 @@ const persistConfig = {
 
 const persistedReducer = persistCombineReducers(persistConfig, reducers);
 
-const initialState = {};
+const initialState: RootReducerType = {
+  driversReducer: { drivers: {} },
+  raceReducer: { races: [] },
+  sessionsReducer: { sessions: [] },
+  settingsReducer: {} as SettingsState,
+};
 
 const store = createStore(persistedReducer, initialState);
 const persistor = persistStore(store);

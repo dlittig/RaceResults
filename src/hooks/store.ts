@@ -73,8 +73,8 @@ export const useStore = <T extends unknown>(
           (state) => state.driversReducer
         );
         result.driver =
-          typeof driversReducer.drivers[driverId!!] !== "undefined"
-            ? driversReducer.drivers[driverId!!]
+          typeof driversReducer.drivers[driverId!] !== "undefined"
+            ? driversReducer.drivers[driverId!]
             : null;
         break;
       case HOOK.RACES_OF_SESSION:

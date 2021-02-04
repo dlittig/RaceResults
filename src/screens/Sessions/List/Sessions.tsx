@@ -35,7 +35,7 @@ const Sessions = () => {
       )}
       {sessionsReducer.sessions.length > 0 && (
         <BaseScrollView spacer>
-          {sessionsReducer!!.sessions.map((session, index) => (
+          {sessionsReducer!.sessions.map((session, index) => (
             <SessionCard
               key={index}
               onPress={() =>
