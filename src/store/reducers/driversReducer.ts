@@ -3,11 +3,13 @@ import {
   DRIVERS_DELETE,
   DRIVERS_UPDATE,
 } from "../constants/driversConstants";
+import { DriversActionType } from "./actionTypes";
 
 export type Driver = {
   id: number;
   name: string;
   color: string;
+  [k: string]: unknown;
 };
 
 export type DriversState = {
@@ -20,12 +22,16 @@ const initialState: DriversState = {
   drivers: {},
 };
 
-export const driversReducer = (state = initialState, action): DriversState => {
+export const driversReducer = (
+  state = initialState,
+  action: DriversActionType
+): DriversState => {
   let newState: DriversState = { drivers: [] };
+  let driver;
 
   switch (action.type) {
     case DRIVERS_ADD:
-      let driver = action.payload;
+      driver = action.payload;
       newState = { ...state };
       newState.drivers[driver.id] = driver;
       return newState;

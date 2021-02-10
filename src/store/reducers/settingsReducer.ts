@@ -2,6 +2,7 @@ import {
   SETTINGS_APPLY_THEME,
   SETTINGS_SEEN_TIP_FASTEST,
 } from "../constants/settingsConstants";
+import { SettingsActionType } from "./actionTypes";
 
 export type SettingsState = {
   theme: "light" | "dark";
@@ -13,7 +14,10 @@ const initialState: SettingsState = {
   tipFastestSeen: false,
 };
 
-export const settingsReducer = (state = initialState, action): SettingsState => {
+export const settingsReducer = (
+  state = initialState,
+  action: SettingsActionType
+): SettingsState => {
   let newState: SettingsState | null = null;
   let theme;
 

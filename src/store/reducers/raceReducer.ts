@@ -4,6 +4,7 @@ import {
   RACE_DELETE_BY_SESSION_ID,
   RACE_UPDATE,
 } from "../constants/racesConstants";
+import { RacesActionType } from "./actionTypes";
 
 export enum CONDITION {
   DRY = "WEATHER_DRY",
@@ -22,6 +23,7 @@ export type Race = {
   fastest?: number[]; // id of the fastest driver
   location: string;
   condition: CONDITION;
+  [k: string]: unknown;
 };
 
 export type RaceState = {
@@ -32,19 +34,23 @@ const initialState: RaceState = {
   races: [],
 };
 
-export const raceReducer = (state = initialState, action): RaceState => {
+export const raceReducer = (
+  state = initialState,
+  action: RacesActionType
+): RaceState => {
   let newState: RaceState = { races: [] };
+  let race: Race, index, sessionId: number;
 
   switch (action.type) {
     case RACE_ADD:
-      let race = action.payload;
+      race = action.payload;
       newState = { ...state };
       newState.races.push(race);
       return newState;
     case RACE_UPDATE:
       race = action.payload;
       newState = { ...state };
-      const index = state.races.findIndex((item) => item.id === race.id);
+      index = state.races.findIndex((item) => item.id === race.id);
       newState.races[index] = race;
 
       return newState;
@@ -57,7 +63,7 @@ export const raceReducer = (state = initialState, action): RaceState => {
 
       return newState;
     case RACE_DELETE_BY_SESSION_ID:
-      const sessionId = action.payload;
+      sessionId = action.payload;
       newState = {
         ...state,
         races: state.races.filter((elem) => elem.session !== sessionId),

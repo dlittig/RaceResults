@@ -3,6 +3,7 @@ import {
   SESSIONS_DELETE,
   SESSIONS_UPDATE,
 } from "../constants/sessionsConstants";
+import { SessionsActionType } from "./actionTypes";
 
 export enum TYPE_PRESET {
   STATIC = "static",
@@ -16,6 +17,7 @@ export type Session = {
   label?: string;
   startTime: number;
   type: TYPE_PRESET;
+  [k: string]: unknown;
 };
 
 export type SessionsState = {
@@ -28,13 +30,14 @@ const initialState: SessionsState = {
 
 export const sessionsReducer = (
   state = initialState,
-  action
+  action: SessionsActionType
 ): SessionsState => {
   let newState: SessionsState = { sessions: [] };
+  let session: Session, index;
 
   switch (action.type) {
     case SESSIONS_ADD:
-      let session = action.payload;
+      session = action.payload;
       newState = { ...state };
       newState.sessions.push(session);
 
@@ -42,7 +45,7 @@ export const sessionsReducer = (
     case SESSIONS_UPDATE:
       session = action.payload;
       newState = { ...state };
-      const index = state.sessions.findIndex((item) => item.id === session.id);
+      index = state.sessions.findIndex((item) => item.id === session.id);
       newState.sessions[index] = session;
 
       return newState;

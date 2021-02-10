@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { FC, useReducer, useState } from "react";
 import { ToastAndroid, View } from "react-native";
 import {
   Button,
@@ -34,7 +34,20 @@ import { Driver } from "../../../store/reducers/driversReducer";
 const TOGGLE_DRIVER = "[edit sessions] toggle driver";
 const SELECT_ALL_DRIVERS = "[edit sessions] select all drivers";
 
-const reducer = (state: number[], action: any) => {
+type ToggleDriverAction = {
+  type: typeof TOGGLE_DRIVER;
+  driver: Driver;
+};
+
+type ToggleAllDriversAction = {
+  type: typeof SELECT_ALL_DRIVERS;
+  payload: Driver[];
+};
+
+type ActionType = ToggleDriverAction | ToggleAllDriversAction;
+
+const reducer = (state: number[], action: ActionType) => {
+  let drivers;
   switch (action.type) {
     case TOGGLE_DRIVER:
       if (!state.includes(action.driver.id)) {
@@ -45,7 +58,7 @@ const reducer = (state: number[], action: any) => {
         return [...state.filter((item) => item !== action.driver.id)];
       }
     case SELECT_ALL_DRIVERS:
-      const drivers = action.payload;
+      drivers = action.payload;
 
       if (state.length === drivers.length) {
         return [];
@@ -55,7 +68,7 @@ const reducer = (state: number[], action: any) => {
   }
 };
 
-const EditSession = () => {
+const EditSession: FC = () => {
   const { setDisableConfirmation } = useConfirmation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -70,15 +83,15 @@ const EditSession = () => {
     { sessionId }
   );
 
-  const take = (key: string, fallback: any) =>
+  const take = <T extends unknown>(key: string, fallback: T): T =>
     typeof session !== "undefined" &&
     session !== null &&
     typeof session[key] !== "undefined"
-      ? session[key]
+      ? (session[key] as T)
       : fallback;
 
   const [visible, setVisible] = useState<boolean>(false);
-  const [label, setLabel] = useState<string>(take("label", ""));
+  const [label, setLabel] = useState<string>(take<string>("label", ""));
   const [pointScheme, setPointScheme] = useState<"gapped" | "linear">(
     take("pointScheme", "linear")
   );
@@ -154,14 +167,14 @@ const EditSession = () => {
                   <Badge
                     size={10}
                     style={{
-                      backgroundColor: driversReducer!.drivers[participant]
-                        .color,
+                      backgroundColor:
+                        driversReducer.drivers[participant].color,
                     }}
                   ></Badge>
                 }
                 key={`${participant}-${index}`}
               >
-                {driversReducer!.drivers[participant].name}
+                {driversReducer.drivers[participant].name}
               </Chip>
             ))}
           </View>
@@ -232,7 +245,10 @@ const EditSession = () => {
                         : "unchecked"
                     }
                     onPress={() =>
-                      dispatchParticipants({ type: TOGGLE_DRIVER, driver })
+                      dispatchParticipants({
+                        type: TOGGLE_DRIVER,
+                        driver,
+                      })
                     }
                   />
                 ))}
@@ -243,7 +259,7 @@ const EditSession = () => {
                 onPress={() =>
                   dispatchParticipants({
                     type: SELECT_ALL_DRIVERS,
-                    payload: Object.values(driversReducer!.drivers),
+                    payload: Object.values(driversReducer.drivers),
                   })
                 }
               >
