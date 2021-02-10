@@ -41,7 +41,8 @@ const EditDriver: FC = () => {
 
   const state = navigation?.dangerouslyGetState();
 
-  const { driver: driverId } = state.routes[state.index].params as RouteParams;
+  const { driver: driverId } = (state.routes[state.index]
+    .params as RouteParams) || { driver: undefined };
   const { driver } = useStore([HOOK.DRIVER_SPECIFIC], { driverId });
 
   const take = <T extends unknown>(key: string, fallback: T): T =>
@@ -57,7 +58,7 @@ const EditDriver: FC = () => {
   );
 
   const onSave = () => {
-    if (name.length <= 3) {
+    if (name.length === 0) {
       ToastAndroid.showWithGravityAndOffset(
         t("toasts.driver_name_empty"),
         ToastAndroid.SHORT,

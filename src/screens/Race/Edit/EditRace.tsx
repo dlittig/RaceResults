@@ -76,7 +76,7 @@ const EditRace: FC = () => {
     { raceId: routeParams.race, sessionId: routeParams.session }
   );
 
-  if (session === null || race === null) {
+  if (session === null) {
     return <Error />;
   }
 

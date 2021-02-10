@@ -68,13 +68,18 @@ const reducer = (state: number[], action: ActionType) => {
   }
 };
 
+type RouteParams = {
+  session: number;
+};
+
 const EditSession: FC = () => {
   const { setDisableConfirmation } = useConfirmation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const state = navigation.dangerouslyGetState();
-  const { session: sessionId } = state.routes[state.index].params || {
+  const { session: sessionId } = (state.routes[state.index]
+    .params as RouteParams) || {
     session: undefined,
   };
 
