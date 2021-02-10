@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, TouchableOpacity, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { deleteRaceBySession } from "../../../store/actions/raceActions";
@@ -12,7 +12,12 @@ import BaseCard from "../BaseCard";
 
 import style from "./Session.style";
 
-const SessionCard: FC = ({ session, onPress }) => {
+type SessionCardProps = {
+  session: Session;
+  onPress: () => void;
+};
+
+const SessionCard: FC<SessionCardProps> = ({ session, onPress }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -25,7 +30,7 @@ const SessionCard: FC = ({ session, onPress }) => {
       [
         {
           text: t("actions.cancel"),
-          onPress: () => {},
+          onPress: () => undefined,
           style: "cancel",
         },
         {

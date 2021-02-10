@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactNodeArray, FC } from "react";
+import React, { FC } from "react";
 import { View } from "react-native";
 import ThemeProvider from "../../provider/ThemeProvider/ThemeProvider";
 

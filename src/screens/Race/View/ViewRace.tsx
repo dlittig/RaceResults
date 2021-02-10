@@ -1,34 +1,47 @@
-import React from "react";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { FC } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { DataTable, Text } from "react-native-paper";
 import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import BaseView from "../../../components/BaseView/BaseView";
 import NavSeparator from "../../../components/NavSeparator/NavSeparator";
-import { HOOK, UseStateResult, useStore } from "../../../hooks/store";
+import {
+  DriversResult,
+  HOOK,
+  RaceSpecificResult,
+  SessionSpecificResult,
+  useStore,
+} from "../../../hooks/store";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
 import { getPointsMap } from "../../../utils";
 
 import style from "./ViewRace.style";
 import { CONDITION } from "../../../store/reducers/raceReducer";
+import Error from "../../../components/Error";
 
 type ViewRaceRouteParams = {
   session: number;
   race?: number;
 };
 
-const ViewRace = () => {
+const ViewRace: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation?.dangerouslyGetState();
 
   const routeParams = state.routes[state.index].params as ViewRaceRouteParams;
-  const { session, race, driversReducer } = useStore(
-    [HOOK.RACE_SPECIFIC, HOOK.SESSION_SPECIFIC, HOOK.DRIVERS],
-    { sessionId: routeParams.session, raceId: routeParams.race }
-  );
+  const { session, race, driversReducer } = useStore<
+    SessionSpecificResult & RaceSpecificResult & DriversResult
+  >([HOOK.RACE_SPECIFIC, HOOK.SESSION_SPECIFIC, HOOK.DRIVERS], {
+    sessionId: routeParams.session,
+    raceId: routeParams.race,
+  });
+
+  if (session === null || race === null) {
+    return <Error />;
+  }
 
   const pointsMap = getPointsMap(
     session.pointScheme,
@@ -36,7 +49,7 @@ const ViewRace = () => {
   );
 
   const pointsForFastestRound = (driverId: number): number =>
-    race.fastest?.includes(driverId) ? 1 : 0;
+    race!.fastest?.includes(driverId) ? 1 : 0;
 
   const getWeatherIcon = () => {
     switch (race.condition) {

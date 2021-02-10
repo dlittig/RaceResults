@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, ReactNodeArray } from "react";
+import React, { ReactNode, ReactNodeArray } from "react";
 import getPaperTheme from "../../theme/paper";
 import { Provider as PaperProvider } from "react-native-paper";
 import { store } from "../../store/";

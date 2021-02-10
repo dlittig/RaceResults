@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import { Button, Text, FAB } from "react-native-paper";
@@ -19,11 +19,16 @@ import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
 import { HOOK, useStore } from "../../../hooks/store";
 
-const ViewSession = () => {
+type RouteParams = {
+  session: number;
+};
+
+const ViewSession: FC = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const state = navigation.dangerouslyGetState();
-  const { session: sessionId } = state.routes[state.index].params;
+  const { session: sessionId } = state.routes[state.index]
+    .params as RouteParams;
   const { sessionRaces: races, session } = useStore(
     [HOOK.SESSION_SPECIFIC, HOOK.RACES_OF_SESSION],
     {

@@ -16,3 +16,6 @@ plugins:
   - "@typescript-eslint"
 rules:
   react/display-name: off
+  react/prop-types: off
+  "@typescript-eslint/no-non-null-assertion": off
+

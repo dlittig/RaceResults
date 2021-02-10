@@ -1,7 +1,7 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, TouchableOpacity, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { deleteRace } from "../../../store/actions/raceActions";
@@ -28,7 +28,7 @@ const RaceCard: FC<RaceCardType> = ({ race, onPress, position }) => {
       [
         {
           text: t("actions.cancel"),
-          onPress: () => {},
+          onPress: () => undefined,
           style: "cancel",
         },
         {

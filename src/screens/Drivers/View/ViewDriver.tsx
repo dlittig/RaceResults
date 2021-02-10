@@ -28,13 +28,16 @@ type StatsType = {
   fastestRaces: Race[];
 };
 
+type RouteParams = {
+  driver: number;
+};
+
 const ViewDriver: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const state = navigation.dangerouslyGetState();
-  const { driver: driverId } = state.routes[state.index].params || {
-    driver: undefined,
-  };
+
+  const { driver: driverId } = state.routes[state.index].params as RouteParams;
   const { driversReducer, racesReducer, driver } = useStore(
     [HOOK.DRIVERS, HOOK.RACES, HOOK.DRIVER_SPECIFIC],
     { driverId }
@@ -58,12 +61,14 @@ const ViewDriver: FC = () => {
     // Collect history of all races of that user
     for (let i = 0; i < racesReducer.races.length; i++) {
       const race: Race = racesReducer.races[i];
+      /* eslint-disable */
       if (race.order.includes(`${driverId}`) || race.order.includes(driverId)) {
         // String conversion or legacy reasons
         const item = {
           x: ++index,
           y:
             race.order.findIndex(
+              /* eslint-disable */
               (item) => item === `${driverId}` || item === driverId
             ) + 1,
         };
@@ -76,21 +81,24 @@ const ViewDriver: FC = () => {
 
     const racesOfDriver = racesReducer.races.filter(
       (race: Race) =>
+        /* eslint-disable */
         race.order.includes(driverId) || race.order.includes(`${driverId}`)
     );
 
     const fastestRaces = racesOfDriver.filter(
       (race: Race) =>
         race.fastest?.includes(driverId) ||
+        /* eslint-disable */
         race.fastest?.includes(`${driverId}`)
     );
 
-    const positionsOverRaces = {};
+    const positionsOverRaces: Record<number, number> = {};
     Object.values(driversReducer.drivers).map(
       (_, index) => (positionsOverRaces[index + 1] = 0)
     );
     racesOfDriver.forEach((race: Race) => {
       const pos = race.order.findIndex(
+        /* eslint-disable */
         (driver) => driver === driverId || driver === `${driverId}`
       );
       positionsOverRaces[pos + 1] += 1;

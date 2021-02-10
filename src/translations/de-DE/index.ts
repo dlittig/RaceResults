@@ -15,6 +15,9 @@ export const de_DE = {
       leave: "Verlassen",
       stay: "Bleiben",
     },
+    error: {
+      component: "Da ist leider etwas schief gegangen..."
+    },
     empty: {
       drivers: "Starten Sie, indem Sie einige Fahrer anlegen.",
       sessions:

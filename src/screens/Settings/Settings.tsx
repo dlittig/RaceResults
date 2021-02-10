@@ -12,7 +12,9 @@ import { useStore, HOOK } from "../../hooks/store";
 import style from "./Settings.style";
 
 type LeftPropsType = {
-  [x: string]: { left: ((props: any) => ReactNode) | undefined };
+  [x: string]: {
+    left: ((props: Record<string, unknown>) => ReactNode) | undefined;
+  };
 };
 
 const Settings: FC = () => {

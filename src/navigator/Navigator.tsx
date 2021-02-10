@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, TransitionSpecs } from "@react-navigation/stack";
 import DrawerNavigator from "./DrawerNavigator";
@@ -22,7 +22,6 @@ import EditRace from "../screens/Race/Edit";
 import { View } from "react-native";
 import { IconButton } from "react-native-paper";
 import ViewRace from "../screens/Race/View";
-import { Session } from "../store/reducers/sessionsReducer";
 import { exportSession } from "../utils";
 import ViewDriver from "../screens/Drivers/View";
 import ThemeProvider from "../provider/ThemeProvider/ThemeProvider";
@@ -46,7 +45,7 @@ const headerStyle = {
   borderBottomWidth: 0,
 };
 
-const Navigator = () => {
+const Navigator: FC = () => {
   const { t } = useTranslation();
   return (
     <ThemeProvider.Consumer>
@@ -61,7 +60,7 @@ const Navigator = () => {
             <Stack.Screen
               name={t(APP_VIEW_DRIVER)}
               options={({ navigation, route }) => ({
-                headerRight: (props: any) => (
+                headerRight: () => (
                   <View style={styles.actions}>
                     <IconButton
                       icon="pencil"
@@ -84,7 +83,7 @@ const Navigator = () => {
               name={t(APP_VIEW_RACE)}
               component={ViewRace}
               options={({ navigation, route }) => ({
-                headerRight: (props: any) => (
+                headerRight: () => (
                   <View style={styles.actions}>
                     <IconButton
                       icon="pencil"
@@ -105,7 +104,7 @@ const Navigator = () => {
             <Stack.Screen
               name={t(APP_VIEW_SESSION)}
               options={({ navigation, route }) => ({
-                headerRight: (props: any) => (
+                headerRight: () => (
                   <View style={styles.actions}>
                     <IconButton
                       icon="scoreboard"
@@ -134,8 +133,8 @@ const Navigator = () => {
             />
             <Stack.Screen
               name={t(APP_SCOREBOARD)}
-              options={({ navigation, route }) => ({
-                headerRight: (props: any) => (
+              options={({ route }) => ({
+                headerRight: () => (
                   <View style={styles.actions}>
                     <IconButton
                       icon="export"

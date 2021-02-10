@@ -15,6 +15,9 @@ export const en_US = {
       leave: "Leave",
       stay: "Stay",
     },
+    error: {
+      component: "Sorry, something went wrong...",
+    },
     empty: {
       drivers: "Get started by creating some drivers.",
       sessions: "Get started by creating some drivers via the hamburger menu ",

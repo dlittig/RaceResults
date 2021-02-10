@@ -33,7 +33,7 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
         [
           {
             text: t("actions.cancel"),
-            onPress: () => {},
+            onPress: () => undefined,
             style: "cancel",
           },
           {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import SessionsList from "../screens/Sessions/List";
 import DriversList from "../screens/Drivers/List";
@@ -34,7 +34,7 @@ const headerStyle = {
   borderBottomWidth: 0,
 };
 
-const Navigator = () => {
+const Navigator: FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -48,7 +48,13 @@ const Navigator = () => {
             name={t(APP_SESSIONS)}
             options={{
               ...getOptions(theme),
-              drawerIcon: ({ focused, color, size }) => (
+              drawerIcon: ({
+                color,
+                size,
+              }: {
+                color: string;
+                size: number;
+              }) => (
                 <MaterialCommunityIcons
                   name="gamepad-variant"
                   color={color}
@@ -62,7 +68,13 @@ const Navigator = () => {
             name={t(APP_DRIVERS)}
             options={{
               ...getOptions(theme),
-              drawerIcon: ({ focused, color, size }) => (
+              drawerIcon: ({
+                color,
+                size,
+              }: {
+                color: string;
+                size: number;
+              }) => (
                 <MaterialCommunityIcons
                   name="racing-helmet"
                   color={color}
@@ -76,7 +88,13 @@ const Navigator = () => {
             name={t(APP_RANDOM_MAP)}
             options={{
               ...getOptions(theme),
-              drawerIcon: ({ focused, color, size }) => (
+              drawerIcon: ({
+                color,
+                size,
+              }: {
+                color: string;
+                size: number;
+              }) => (
                 <MaterialCommunityIcons name="map" color={color} size={size} />
               ),
             }}
@@ -86,7 +104,14 @@ const Navigator = () => {
             name={t(APP_SETTINGS)}
             options={{
               ...getOptions(theme),
-              drawerIcon: ({ focused, color, size }) => (
+              drawerIcon: ({
+                color,
+                size,
+              }: {
+                focused: boolean;
+                color: string;
+                size: number;
+              }) => (
                 <MaterialCommunityIcons name="cog" color={color} size={size} />
               ),
             }}
@@ -97,7 +122,13 @@ const Navigator = () => {
             component={About}
             options={{
               ...getOptions(theme),
-              drawerIcon: ({ focused, color, size }) => (
+              drawerIcon: ({
+                color,
+                size,
+              }: {
+                color: string;
+                size: number;
+              }) => (
                 <MaterialCommunityIcons
                   name="information-outline"
                   color={color}

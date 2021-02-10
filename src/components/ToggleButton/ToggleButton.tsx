@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Button } from "react-native-paper";
 import { ToggleContext } from "./Container";
 
@@ -9,7 +9,7 @@ type ToggleButtonProps = {
   value: string;
 };
 
-const ToggleButton = ({ label, value }: ToggleButtonProps) => (
+const ToggleButton: FC<ToggleButtonProps> = ({ label, value }) => (
   <ToggleContext.Consumer>
     {({ value: oldValue, onChange }) => (
       <Button

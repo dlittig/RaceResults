@@ -12,10 +12,14 @@ import {
 
 import styles from "./Drivers.style";
 import { useTranslation } from "react-i18next";
-import { HOOK, useStore } from "../../../hooks/store";
+import { DriversResult, HOOK, useStore } from "../../../hooks/store";
+import { Driver } from "../../../store/reducers/driversReducer";
 
 const Drivers: FC = () => {
-  const { driversReducer: driversState } = useStore([HOOK.DRIVERS], {});
+  const { driversReducer: driversState } = useStore<DriversResult>(
+    [HOOK.DRIVERS],
+    {}
+  );
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -29,7 +33,7 @@ const Drivers: FC = () => {
       {Object.keys(driversState.drivers).length > 0 && (
         <BaseScrollView spacer>
           {Object.values(driversState.drivers).map(
-            (driver: any, index: number) => (
+            (driver: Driver, index: number) => (
               <DriverCard
                 key={index}
                 allowDelete={true}

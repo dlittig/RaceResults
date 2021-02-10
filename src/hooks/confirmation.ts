@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";
 
@@ -18,7 +18,11 @@ export const useConfirmation = (): {
 
       // Prompt the user before leaving the screen
       Alert.alert(t("dialogs.leave.title"), t("dialogs.leave.content"), [
-        { text: t("actions.stay"), style: "cancel", onPress: () => {} },
+        {
+          text: t("actions.stay"),
+          style: "cancel",
+          onPress: () => undefined,
+        },
         {
           text: t("actions.leave"),
           style: "destructive",

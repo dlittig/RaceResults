@@ -5,7 +5,7 @@ import style from "./ToggleButtonContainer.style";
 
 export const ToggleContext = React.createContext<ToggleButtonContainerType>({
   value: "",
-  onChange: (_) => {},
+  onChange: () => undefined,
 });
 
 type ToggleButtonContainerType = {

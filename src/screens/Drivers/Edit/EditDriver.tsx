@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { FAB, List, Text, TextInput } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { Driver } from "../../../store/reducers/driversReducer";
@@ -29,7 +29,11 @@ const colors = [
   "#868ea3",
 ];
 
-const EditDriver = () => {
+type RouteParams = {
+  driver?: number;
+};
+
+const EditDriver: FC = () => {
   const { setDisableConfirmation } = useConfirmation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -37,12 +41,10 @@ const EditDriver = () => {
 
   const state = navigation?.dangerouslyGetState();
 
-  const { driver: driverId } = state.routes[state.index].params || {
-    driver: undefined,
-  };
+  const { driver: driverId } = state.routes[state.index].params as RouteParams;
   const { driver } = useStore([HOOK.DRIVER_SPECIFIC], { driverId });
 
-  const take = (key: string, fallback: any) =>
+  const take = <T extends unknown>(key: string, fallback: T): T =>
     typeof driverId !== "undefined" &&
     driver !== null &&
     typeof driver[key] !== "undefined"

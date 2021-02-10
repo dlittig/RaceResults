@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
@@ -26,17 +26,26 @@ import { setSeenTipFastest } from "../../../store/actions/settingsActions";
 import { useTranslation } from "react-i18next";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { useConfirmation } from "../../../hooks/confirmation";
-import { HOOK, useStore } from "../../../hooks/store";
+import {
+  DriversResult,
+  HOOK,
+  SessionSpecificResult,
+  SettingsResult,
+  RaceSpecificResult,
+  RacesOfSessionResult,
+  useStore,
+} from "../../../hooks/store";
 import ToggleButtonContainer from "../../../components/ToggleButton/Container";
 import ToggleButton from "../../../components/ToggleButton";
 import { TYPE_PRESET } from "../../../store/reducers/sessionsReducer";
+import Error from "../../../components/Error";
 
 type EditRaceRouteParams = {
   session: number;
   race?: number;
 };
 
-const EditRace = () => {
+const EditRace: FC = () => {
   const { setDisableConfirmation } = useConfirmation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -44,13 +53,19 @@ const EditRace = () => {
 
   const state = navigation?.dangerouslyGetState();
   const routeParams = state.routes[state.index].params as EditRaceRouteParams;
+  type ResultType = RaceSpecificResult &
+    SessionSpecificResult &
+    RacesOfSessionResult &
+    DriversResult &
+    SettingsResult;
+
   const {
     race,
     session,
     sessionRaces,
     driversReducer,
     settingsReducer,
-  } = useStore(
+  } = useStore<ResultType>(
     [
       HOOK.RACE_SPECIFIC,
       HOOK.SESSION_SPECIFIC,
@@ -61,15 +76,19 @@ const EditRace = () => {
     { raceId: routeParams.race, sessionId: routeParams.session }
   );
 
-  const take = (key: string, fallback: any) =>
+  if (session === null || race === null) {
+    return <Error />;
+  }
+
+  const take = <T extends unknown>(key: string, fallback: T): T =>
     typeof race !== "undefined" &&
     race !== null &&
     typeof race[key] !== "undefined"
-      ? race[key]
+      ? (race[key] as T)
       : fallback;
 
   const initCars = () => {
-    const cars = take("cars", {});
+    const cars = take<{ [x: number]: string }>("cars", {});
 
     // If we are creating a new race, get the "winning" cars from the previous race of that session
     if (Object.keys(cars).length === 0) {
@@ -135,22 +154,18 @@ const EditRace = () => {
     navigation.goBack();
   };
 
-  const renderItem: ReactNode = ({
+  const renderItem = ({
     item: id,
     index,
     drag,
     isActive,
-  }: RenderItemParams<any>) => (
+  }: RenderItemParams<number>): ReactNode => (
     <ThemeProvider.Consumer>
       {(theme) => (
         <TouchableOpacity
           key={id}
           style={[
-            isActive
-              ? style[`${theme}Active`]
-              : {
-                  backgroundColor: id?.backgroundColor,
-                },
+            isActive ? style[`${theme}Active`] : null,
             style.touchableDrag,
           ]}
           onLongPress={drag}
