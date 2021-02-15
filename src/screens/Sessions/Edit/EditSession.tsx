@@ -170,6 +170,7 @@ const EditSession: FC = () => {
                 mode="outlined"
                 avatar={
                   <Badge
+                    visible
                     size={10}
                     style={{
                       backgroundColor:
