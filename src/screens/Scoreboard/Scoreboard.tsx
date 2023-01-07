@@ -17,7 +17,7 @@ type SessionResultType = {
 const Scoreboard: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const state = navigation?.dangerouslyGetState();
+  const state = navigation?.getState();
   const { session: sessionId } = state.routes[state.index].params;
   const { driversReducer, session } = useStore(
     [HOOK.DRIVERS, HOOK.SESSION_SPECIFIC],

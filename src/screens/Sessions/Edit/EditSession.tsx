@@ -77,7 +77,7 @@ const EditSession: FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const state = navigation.dangerouslyGetState();
+  const state = navigation.getState();
   const { session: sessionId } = (state.routes[state.index]
     .params as RouteParams) || {
     session: undefined,

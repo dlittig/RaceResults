@@ -35,7 +35,7 @@ type RouteParams = {
 const ViewDriver: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const state = navigation.dangerouslyGetState();
+  const state = navigation.getState();
 
   const { driver: driverId } = state.routes[state.index].params as RouteParams;
   const { driversReducer, racesReducer, driver } = useStore(

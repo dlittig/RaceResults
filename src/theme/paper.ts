@@ -1,4 +1,4 @@
-import { DefaultTheme, DarkTheme } from "react-native-paper";
+import { DefaultTheme, MD3DarkTheme as DarkTheme } from "react-native-paper";
 import { THEMES } from "../store/constants/settingsConstants";
 import { ThemeColors, IColors } from "./colors/values";
 

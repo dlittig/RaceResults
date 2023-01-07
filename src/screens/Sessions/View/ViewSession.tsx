@@ -26,7 +26,7 @@ type RouteParams = {
 const ViewSession: FC = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const state = navigation.dangerouslyGetState();
+  const state = navigation.getState();
   const { session: sessionId } = state.routes[state.index]
     .params as RouteParams;
   const { sessionRaces: races, session } = useStore(

@@ -29,7 +29,7 @@ type ViewRaceRouteParams = {
 const ViewRace: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const state = navigation?.dangerouslyGetState();
+  const state = navigation?.getState();
 
   const routeParams = state.routes[state.index].params as ViewRaceRouteParams;
   const { session, race, driversReducer } = useStore<

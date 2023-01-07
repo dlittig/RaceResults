@@ -51,7 +51,7 @@ const EditRace: FC = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const state = navigation?.dangerouslyGetState();
+  const state = navigation?.getState();
   const routeParams = state.routes[state.index].params as EditRaceRouteParams;
   type ResultType = RaceSpecificResult &
     SessionSpecificResult &

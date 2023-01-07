@@ -39,7 +39,7 @@ const EditDriver: FC = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const state = navigation?.dangerouslyGetState();
+  const state = navigation?.getState();
 
   const { driver: driverId } = (state.routes[state.index]
     .params as RouteParams) || { driver: undefined };

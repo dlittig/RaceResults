@@ -13,11 +13,9 @@ type ToggleButtonContainerType = {
   onChange: (value: string) => void;
 };
 
-const ToggleButtonContainer: FC<ToggleButtonContainerType> = ({
-  children,
-  value,
-  onChange,
-}) => {
+const ToggleButtonContainer: FC<
+  ToggleButtonContainerType & { children: React.ReactNode }
+> = ({ children, value, onChange }) => {
   return (
     <ToggleContext.Provider value={{ value, onChange }}>
       <View style={style.container}>{children}</View>
