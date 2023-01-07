@@ -6,6 +6,7 @@ import style from "./BaseScrollView.style";
 
 type BaseScrollViewType = {
   spacer?: boolean;
+  children: React.ReactNode;
 };
 
 const BaseScrollView: FC<BaseScrollViewType> = ({

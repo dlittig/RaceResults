@@ -4,7 +4,7 @@ import ThemeProvider from "../../provider/ThemeProvider/ThemeProvider";
 
 import style from "./BaseView.style";
 
-const BaseView: FC = ({ children }) => (
+const BaseView: FC<{ children: React.ReactNode }> = ({ children }) => (
   <ThemeProvider.Consumer>
     {(theme) => (
       <View style={[style.container, style[`${theme}Container`]]}>
