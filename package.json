@@ -8,7 +8,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "build-apk:preview": "eas build -p android --profile preview",
+    "build-apk:prod": "eas build -p android --profile production",
+    "publish-update:preview": "eas update --channel prev",
+    "publish-update:prod": "eas update --channel prod"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
