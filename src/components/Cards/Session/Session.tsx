@@ -29,12 +29,12 @@ const SessionCard: FC<SessionCardProps> = ({ session, onPress }) => {
       `${t("dialogs.delete_session.content")} "${session.label}"?`,
       [
         {
-          text: t("actions.cancel"),
+          text: t("actions.cancel") || "",
           onPress: () => undefined,
           style: "cancel",
         },
         {
-          text: t("actions.accept"),
+          text: t("actions.accept") || "",
           onPress: () => {
             dispatch(deleteSession(session));
             dispatch(deleteRaceBySession(sessionId));

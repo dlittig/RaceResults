@@ -17,7 +17,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import ThemeProvider from "../../../provider/ThemeProvider/ThemeProvider";
 import { THEMES } from "../../../store/constants/settingsConstants";
-import { HOOK, useStore } from "../../../hooks/store";
+import { HOOK, UseStateResult, useStore } from "../../../hooks/store";
 
 type RouteParams = {
   session: number;
@@ -29,11 +29,9 @@ const ViewSession: FC = () => {
   const state = navigation.getState();
   const { session: sessionId } = state.routes[state.index]
     .params as RouteParams;
-  const { sessionRaces: races, session } = useStore(
+  const { sessionRaces: races, session } = useStore<UseStateResult>(
     [HOOK.SESSION_SPECIFIC, HOOK.RACES_OF_SESSION],
-    {
-      sessionId,
-    }
+    { sessionId }
   );
 
   return (
@@ -48,7 +46,7 @@ const ViewSession: FC = () => {
             />
           )}
         </ThemeProvider.Consumer>
-        {` ${session.label}`}
+        {session && ` ${session.label}`}
       </Text>
       <NavSeparator />
       <BaseScrollView spacer>
@@ -57,7 +55,7 @@ const ViewSession: FC = () => {
             <Text style={styles.text}>{t("empty.session_view")}</Text>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate(t(APP_RANDOM_MAP))}
+              onPress={() => navigation.navigate(t(APP_RANDOM_MAP) as never)}
             >
               <MaterialCommunityIcons name="sync" size={16} />
               {` ${t("actions.generate")}`}
@@ -70,20 +68,26 @@ const ViewSession: FC = () => {
             position={index + 1}
             race={race}
             onPress={() =>
-              navigation.navigate(t(APP_VIEW_RACE), {
-                race: race.id,
-                session: session.id,
-              })
+              navigation.navigate(
+                t(APP_VIEW_RACE) as never,
+                {
+                  race: race.id,
+                  session: session!.id,
+                } as never
+              )
             }
           />
         ))}
       </BaseScrollView>
       <FAB
         style={styles.fab}
-        label={t("actions.addRace")}
+        label={t("actions.addRace") || ""}
         icon="plus"
         onPress={() =>
-          navigation.navigate(t(APP_EDIT_RACE), { session: session.id })
+          navigation.navigate(
+            t(APP_EDIT_RACE) as never,
+            { session: session!.id } as never
+          )
         }
       />
     </BaseView>

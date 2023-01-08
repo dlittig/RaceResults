@@ -4,12 +4,13 @@ import {
   RaceState,
 } from "../../src/store/reducers/raceReducer";
 import * as types from "../../src/store/constants/racesConstants";
+import { RacesActionType } from "../../src/store/reducers/actionTypes";
 
 describe("races reducer", () => {
   let currentState: RaceState = { races: [] };
 
   it("should return the initial state", () => {
-    expect(raceReducer(undefined, {})).toEqual({
+    expect(raceReducer(undefined, {} as RacesActionType)).toEqual({
       races: [],
     });
   });
@@ -19,6 +20,7 @@ describe("races reducer", () => {
       raceReducer(undefined, {
         type: types.RACE_ADD,
         payload: {
+          condition: CONDITION.DRY,
           cars: {
             "1610430413534": "Mustang",
             "1610430420760": "GTR R34",
@@ -36,6 +38,7 @@ describe("races reducer", () => {
     ).toEqual({
       races: [
         {
+          condition: CONDITION.DRY,
           cars: {
             "1610430413534": "Mustang",
             "1610430420760": "GTR R34",

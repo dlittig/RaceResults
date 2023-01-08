@@ -17,14 +17,14 @@ export const useConfirmation = (): {
       e.preventDefault();
 
       // Prompt the user before leaving the screen
-      Alert.alert(t("dialogs.leave.title"), t("dialogs.leave.content"), [
+      Alert.alert(t("dialogs.leave.title"), t("dialogs.leave.content")!, [
         {
-          text: t("actions.stay"),
+          text: t("actions.stay")!,
           style: "cancel",
           onPress: () => undefined,
         },
         {
-          text: t("actions.leave"),
+          text: t("actions.leave")!,
           style: "destructive",
           // If the user confirmed, then we dispatch the action we blocked earlier
           // This will continue the action that had triggered the removal of the screen

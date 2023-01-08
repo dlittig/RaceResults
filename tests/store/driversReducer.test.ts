@@ -3,12 +3,13 @@ import {
   DriversState,
 } from "../../src/store/reducers/driversReducer";
 import * as types from "../../src/store/constants/driversConstants";
+import { DriversActionType } from "../../src/store/reducers/actionTypes";
 
 describe("drivers reducer", () => {
   let currentState: DriversState = { drivers: {} };
 
   it("should return the initial state", () => {
-    expect(driversReducer(undefined, {})).toEqual({
+    expect(driversReducer(undefined, {} as DriversActionType)).toEqual({
       drivers: {},
     });
   });

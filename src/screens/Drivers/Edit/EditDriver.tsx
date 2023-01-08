@@ -10,7 +10,7 @@ import BaseScrollView from "../../../components/BaseScrollView/BaseScrollView";
 import style from "./EditDriver.style";
 import { useTranslation } from "react-i18next";
 import { useConfirmation } from "../../../hooks/confirmation";
-import { HOOK, useStore } from "../../../hooks/store";
+import { HOOK, UseStateResult, useStore } from "../../../hooks/store";
 import { ToastAndroid } from "react-native";
 
 const colors = [
@@ -43,7 +43,9 @@ const EditDriver: FC = () => {
 
   const { driver: driverId } = (state.routes[state.index]
     .params as RouteParams) || { driver: undefined };
-  const { driver } = useStore([HOOK.DRIVER_SPECIFIC], { driverId });
+  const { driver } = useStore<UseStateResult>([HOOK.DRIVER_SPECIFIC], {
+    driverId,
+  });
 
   const take = <T extends unknown>(key: string, fallback: T): T =>
     typeof driverId !== "undefined" &&
@@ -52,7 +54,7 @@ const EditDriver: FC = () => {
       ? driver[key]
       : fallback;
 
-  const [name, setName] = useState<string>(take("name", ""));
+  const [name, setName] = useState(take("name", ""));
   const [selectedColor, setSelectedColor] = useState<string>(
     take("color", "#d73964")
   );
@@ -90,7 +92,7 @@ const EditDriver: FC = () => {
     <BaseView>
       <BaseScrollView spacer>
         <TextInput
-          label={t("form.name")}
+          label={t("form.name") || ""}
           value={name}
           onChangeText={(text) => setName(text)}
         />
@@ -120,7 +122,7 @@ const EditDriver: FC = () => {
       </BaseScrollView>
       <FAB
         style={style.fab}
-        label={t("actions.save")}
+        label={t("actions.save") || ""}
         icon="check"
         onPress={() => onSave()}
       />

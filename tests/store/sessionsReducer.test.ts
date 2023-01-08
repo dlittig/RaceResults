@@ -1,14 +1,16 @@
 import {
   sessionsReducer,
   SessionsState,
+  TYPE_PRESET,
 } from "../../src/store/reducers/sessionsReducer";
 import * as types from "../../src/store/constants/sessionsConstants";
+import { SessionsActionType } from "../../src/store/reducers/actionTypes";
 
 describe("sessions reducer", () => {
   let currentState: SessionsState = { sessions: [] };
 
   it("should return the initial state", () => {
-    expect(sessionsReducer(undefined, {})).toEqual({
+    expect(sessionsReducer(undefined, {} as SessionsActionType)).toEqual({
       sessions: [],
     });
   });
@@ -18,13 +20,11 @@ describe("sessions reducer", () => {
       sessionsReducer(undefined, {
         type: types.SESSIONS_ADD,
         payload: {
+          type: TYPE_PRESET.SHIFT,
           id: 1610430495170,
           label: "B600",
           participants: [
-            1610430413534,
-            1610430420760,
-            1610430426534,
-            1610430450383,
+            1610430413534, 1610430420760, 1610430426534, 1610430450383,
           ],
           pointScheme: "linear",
           startTime: 1610430495170,
@@ -33,13 +33,11 @@ describe("sessions reducer", () => {
     ).toEqual({
       sessions: [
         {
+          type: TYPE_PRESET.SHIFT,
           id: 1610430495170,
           label: "B600",
           participants: [
-            1610430413534,
-            1610430420760,
-            1610430426534,
-            1610430450383,
+            1610430413534, 1610430420760, 1610430426534, 1610430450383,
           ],
           pointScheme: "linear",
           startTime: 1610430495170,
@@ -52,13 +50,11 @@ describe("sessions reducer", () => {
     currentState = {
       sessions: [
         {
+          type: TYPE_PRESET.SHIFT,
           id: 1610430495170,
           label: "B600",
           participants: [
-            1610430413534,
-            1610430420760,
-            1610430426534,
-            1610430450383,
+            1610430413534, 1610430420760, 1610430426534, 1610430450383,
           ],
           pointScheme: "linear",
           startTime: 1610430495170,
@@ -70,6 +66,7 @@ describe("sessions reducer", () => {
       sessionsReducer(currentState, {
         type: types.SESSIONS_UPDATE,
         payload: {
+          type: TYPE_PRESET.SHIFT,
           id: 1610430495170,
           label: "A700",
           participants: [1610430450383],
@@ -80,6 +77,7 @@ describe("sessions reducer", () => {
     ).toEqual({
       sessions: [
         {
+          type: TYPE_PRESET.SHIFT,
           id: 1610430495170,
           label: "A700",
           participants: [1610430450383],
@@ -95,13 +93,11 @@ describe("sessions reducer", () => {
       sessionsReducer(currentState, {
         type: types.SESSIONS_DELETE,
         payload: {
+          type: TYPE_PRESET.STATIC,
           id: 1610430495170,
           label: "B600",
           participants: [
-            1610430413534,
-            1610430420760,
-            1610430426534,
-            1610430450383,
+            1610430413534, 1610430420760, 1610430426534, 1610430450383,
           ],
           pointScheme: "linear",
           startTime: 1610430495170,

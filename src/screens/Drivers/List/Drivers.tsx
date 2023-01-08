@@ -38,7 +38,10 @@ const Drivers: FC = () => {
                 key={index}
                 allowDelete={true}
                 onPress={() =>
-                  navigation.navigate(t(APP_VIEW_DRIVER), { driver: driver.id })
+                  navigation.navigate(
+                    t(APP_VIEW_DRIVER) as never,
+                    { driver: driver.id } as never
+                  )
                 }
                 driver={driver}
               />
@@ -48,9 +51,9 @@ const Drivers: FC = () => {
       )}
       <FAB
         style={styles.fab}
-        label={t("actions.add")}
+        label={t("actions.add") || ""}
         icon="plus"
-        onPress={() => navigation.navigate(t(APP_EDIT_DRIVER))}
+        onPress={() => navigation.navigate(t(APP_EDIT_DRIVER) as never)}
       />
     </BaseView>
   );

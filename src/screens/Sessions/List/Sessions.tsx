@@ -35,9 +35,12 @@ const Sessions: FC = () => {
             <SessionCard
               key={index}
               onPress={() =>
-                navigation.navigate(t(APP_VIEW_SESSION), {
-                  session: session.id,
-                })
+                navigation.navigate(
+                  t(APP_VIEW_SESSION) as never,
+                  {
+                    session: session.id,
+                  } as never
+                )
               }
               session={session}
             />
@@ -46,9 +49,9 @@ const Sessions: FC = () => {
       )}
       <FAB
         style={styles.fab}
-        label={t("actions.add")}
+        label={t("actions.add") || ""}
         icon="plus"
-        onPress={() => navigation.navigate(t(APP_EDIT_SESSION))}
+        onPress={() => navigation.navigate(t(APP_EDIT_SESSION) as never)}
       />
     </BaseView>
   );

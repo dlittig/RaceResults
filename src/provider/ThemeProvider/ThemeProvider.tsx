@@ -2,7 +2,7 @@ import React, { FC, PropsWithChildren } from "react";
 import getPaperTheme from "../../theme/paper";
 import { Provider as PaperProvider } from "react-native-paper";
 import { store } from "../../store/";
-import { HOOK, useStore } from "../../hooks/store";
+import { HOOK, UseStateResult, useStore } from "../../hooks/store";
 
 export const ThemeContext = React.createContext(
   store.getState().settingsReducer.theme
@@ -11,7 +11,7 @@ export const ThemeContext = React.createContext(
 const ThemeProvider: FC<PropsWithChildren> & {
   Consumer: typeof ThemeContext.Consumer;
 } = ({ children }) => {
-  const { settingsReducer } = useStore([HOOK.SETTINGS], {});
+  const { settingsReducer } = useStore<UseStateResult>([HOOK.SETTINGS], {});
   const scheme = settingsReducer.theme;
 
   return (

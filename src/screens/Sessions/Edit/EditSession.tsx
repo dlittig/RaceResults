@@ -147,7 +147,7 @@ const EditSession: FC = () => {
     <BaseView>
       <BaseScrollView spacer>
         <TextInput
-          label={t("form.name")}
+          label={t("form.name") || ""}
           value={label}
           onChangeText={(text) => setLabel(text)}
         />
@@ -280,7 +280,7 @@ const EditSession: FC = () => {
       </BaseScrollView>
       <FAB
         style={style.fab}
-        label={t("actions.save")}
+        label={t("actions.save") || ""}
         icon="check"
         onPress={() => onSave()}
       />

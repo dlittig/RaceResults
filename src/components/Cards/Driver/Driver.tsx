@@ -8,7 +8,7 @@ import { deleteDriver } from "../../../store/actions/driversActions";
 
 import style from "./Driver.style";
 import { useTranslation } from "react-i18next";
-import { HOOK, useStore } from "../../../hooks/store";
+import { HOOK, UseStateResult, useStore } from "../../../hooks/store";
 import { Session } from "../../../store/reducers/sessionsReducer";
 
 type DriverCardType = {
@@ -18,7 +18,7 @@ type DriverCardType = {
 };
 
 const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
-  const { sessionsReducer } = useStore([HOOK.SESSIONS], {});
+  const { sessionsReducer } = useStore<UseStateResult>([HOOK.SESSIONS], {});
   const { t } = useTranslation();
 
   const confirmDelete = () => {
@@ -32,12 +32,12 @@ const DriverCard: FC<DriverCardType> = ({ driver, onPress, allowDelete }) => {
         `${t("dialogs.delete_driver.content")} "${driver.name}"?`,
         [
           {
-            text: t("actions.cancel"),
+            text: t("actions.cancel") || "",
             onPress: () => undefined,
             style: "cancel",
           },
           {
-            text: t("actions.accept"),
+            text: t("actions.accept") || "",
             onPress: () => dispatch(deleteDriver(driver)),
           },
         ],

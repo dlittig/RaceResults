@@ -41,7 +41,7 @@ const Navigator: FC = () => {
     <ThemeProvider.Consumer>
       {(theme) => (
         <Drawer.Navigator
-          initialRouteName={t(APP_SESSIONS)}
+          initialRouteName={t(APP_SESSIONS) || ""}
           screenOptions={{ headerStyle }}
         >
           <Drawer.Screen

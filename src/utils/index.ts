@@ -3,6 +3,7 @@ import { CONDITION, Race } from "../store/reducers/raceReducer";
 import Clipboard from "expo-clipboard";
 import { ToastAndroid } from "react-native";
 import { store } from "../store/Store";
+import { RootReducerType } from "../store/reducers";
 
 export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
@@ -56,7 +57,7 @@ type ScoresType = {
 };
 
 export const calculateScores = (s: Session): ScoresType => {
-  const state = store.getState();
+  const state: RootReducerType = store.getState();
   // Get all races of this session
   const races = state.raceReducer.races.filter((race) => race.session === s.id);
 
@@ -95,7 +96,7 @@ export const calculateScores = (s: Session): ScoresType => {
 };
 
 export const exportSession = (s: number): void => {
-  const state = store.getState();
+  const state: RootReducerType = store.getState();
   const session = state.sessionsReducer.sessions.filter(
     (item) => item.id === s
   )[0];

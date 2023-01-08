@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 
 import { renderHook } from "@testing-library/react-hooks";
 
@@ -84,9 +84,10 @@ const settings = {
 };
 
 describe("useStore([HOOK], {})", () => {
-  const makeWrapper = (initialState?: any): FC => ({ children }) => (
-    <Provider store={setupStore(initialState)}>{children}</Provider>
-  );
+  const makeWrapper =
+    (initialState?: any): FC<PropsWithChildren> =>
+    ({ children }) =>
+      <Provider store={setupStore(initialState)}>{children}</Provider>;
 
   it("should retrieve empty sessions", () => {
     const { result } = renderHook(

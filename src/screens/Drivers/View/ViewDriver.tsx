@@ -12,7 +12,7 @@ import {
 } from "victory-native";
 
 import BaseView from "../../../components/BaseView";
-import { HOOK, useStore } from "../../../hooks/store";
+import { HOOK, UseStateResult, useStore } from "../../../hooks/store";
 import DriverCard from "../../../components/Cards/Driver";
 import { Race } from "../../../store/reducers/raceReducer";
 import BaseScrollView from "../../../components/BaseScrollView";
@@ -38,7 +38,7 @@ const ViewDriver: FC = () => {
   const state = navigation.getState();
 
   const { driver: driverId } = state.routes[state.index].params as RouteParams;
-  const { driversReducer, racesReducer, driver } = useStore(
+  const { driversReducer, racesReducer, driver } = useStore<UseStateResult>(
     [HOOK.DRIVERS, HOOK.RACES, HOOK.DRIVER_SPECIFIC],
     { driverId }
   );
@@ -62,15 +62,11 @@ const ViewDriver: FC = () => {
     for (let i = 0; i < racesReducer.races.length; i++) {
       const race: Race = racesReducer.races[i];
       /* eslint-disable */
-      if (race.order.includes(`${driverId}`) || race.order.includes(driverId)) {
+      if (race.order.includes(driverId)) {
         // String conversion or legacy reasons
         const item = {
           x: ++index,
-          y:
-            race.order.findIndex(
-              /* eslint-disable */
-              (item) => item === `${driverId}` || item === driverId
-            ) + 1,
+          y: race.order.findIndex((item) => item === driverId) + 1,
         };
 
         pos.push(item);
@@ -79,17 +75,13 @@ const ViewDriver: FC = () => {
 
     setPositions(pos);
 
-    const racesOfDriver = racesReducer.races.filter(
-      (race: Race) =>
-        /* eslint-disable */
-        race.order.includes(driverId) || race.order.includes(`${driverId}`)
+    const racesOfDriver = racesReducer.races.filter((race: Race) =>
+      /* eslint-disable */
+      race.order.includes(driverId)
     );
 
-    const fastestRaces = racesOfDriver.filter(
-      (race: Race) =>
-        race.fastest?.includes(driverId) ||
-        /* eslint-disable */
-        race.fastest?.includes(`${driverId}`)
+    const fastestRaces = racesOfDriver.filter((race: Race) =>
+      race.fastest?.includes(driverId)
     );
 
     const positionsOverRaces: Record<number, number> = {};
@@ -99,7 +91,7 @@ const ViewDriver: FC = () => {
     racesOfDriver.forEach((race: Race) => {
       const pos = race.order.findIndex(
         /* eslint-disable */
-        (driver) => driver === driverId || driver === `${driverId}`
+        (driver) => driver === driverId
       );
       positionsOverRaces[pos + 1] += 1;
     });
@@ -124,11 +116,13 @@ const ViewDriver: FC = () => {
               </View>
             )}
             <BaseScrollView>
-              <DriverCard
-                driver={driver}
-                allowDelete={false}
-                onPress={() => {}}
-              />
+              {driver && (
+                <DriverCard
+                  driver={driver}
+                  allowDelete={false}
+                  onPress={() => {}}
+                />
+              )}
 
               {showChart && positions.length > 1 && (
                 <View>
@@ -258,17 +252,18 @@ const ViewDriver: FC = () => {
                       </DataTable.Header>
                       {Object.keys(stats.positionsOverRaces)
                         .filter(
-                          (position) => stats.positionsOverRaces[position] !== 0
+                          (position) =>
+                            stats.positionsOverRaces[parseInt(position)] !== 0
                         )
                         .map((position) => (
                           <DataTable.Row key={position}>
                             <DataTable.Cell>{position}</DataTable.Cell>
                             <DataTable.Cell numeric>
-                              {stats.positionsOverRaces[position]}
+                              {stats.positionsOverRaces[parseInt(position)]}
                             </DataTable.Cell>
                             <DataTable.Cell numeric>
                               {percent(
-                                stats.positionsOverRaces[position],
+                                stats.positionsOverRaces[parseInt(position)],
                                 stats.racesOfDriver.length
                               )}
                             </DataTable.Cell>

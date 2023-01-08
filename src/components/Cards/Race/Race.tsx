@@ -24,15 +24,15 @@ const RaceCard: FC<RaceCardType> = ({ race, onPress, position }) => {
   const confirmDelete = () => {
     Alert.alert(
       t("dialogs.delete_race.title"),
-      t("dialogs.delete_race.content"),
+      t("dialogs.delete_race.content")!,
       [
         {
-          text: t("actions.cancel"),
+          text: t("actions.cancel")!,
           onPress: () => undefined,
           style: "cancel",
         },
         {
-          text: t("actions.accept"),
+          text: t("actions.accept")!,
           onPress: () => dispatch(deleteRace(race)),
         },
       ],
@@ -49,15 +49,9 @@ const RaceCard: FC<RaceCardType> = ({ race, onPress, position }) => {
         <Text>
           <MaterialCommunityIcons name="clock-time-five-outline" />
           {` ${humanReadableDate(race.time)} `}
-          {race.condition === CONDITION.DRY && (
-            <Ionicons name="sunny" />
-          )}
-          {race.condition === CONDITION.NIGHT && (
-            <Ionicons name="moon" />
-          )}
-          {race.condition === CONDITION.RAIN && (
-            <Ionicons name="rainy" />
-          )}
+          {race.condition === CONDITION.DRY && <Ionicons name="sunny" />}
+          {race.condition === CONDITION.NIGHT && <Ionicons name="moon" />}
+          {race.condition === CONDITION.RAIN && <Ionicons name="rainy" />}
         </Text>
       </View>
     </BaseCard>

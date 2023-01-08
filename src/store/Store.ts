@@ -1,15 +1,11 @@
-import { createStore } from "redux";
-import {
-  persistStore,
-  persistCombineReducers,
-  createMigrate,
-} from "redux-persist";
+import { persistStore, persistReducer, createMigrate } from "redux-persist";
 import ExpoFileSystemStorage from "redux-persist-expo-filesystem";
 
 import reducers, { RootReducerType } from "./reducers";
 import { CONDITION, Race } from "./reducers/raceReducer";
-import { Session, TYPE_PRESET } from "./reducers/sessionsReducer";
 import { SettingsState } from "./reducers/settingsReducer";
+import { Session, TYPE_PRESET } from "./reducers/sessionsReducer";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 const migrations = {
   0: (state: RootReducerType) => {
@@ -57,10 +53,13 @@ const persistConfig = {
   key: "race_results",
   version: 5, // key has to match the version specified in the migration above
   storage: ExpoFileSystemStorage,
-  migrate: createMigrate(migrations, { debug: true }),
+  migrate: createMigrate(migrations as any, { debug: true }),
 };
 
-const persistedReducer = persistCombineReducers(persistConfig, reducers);
+const persistedReducer = persistReducer(
+  persistConfig,
+  combineReducers(reducers)
+);
 
 const initialState: RootReducerType = {
   driversReducer: { drivers: {} },
@@ -69,7 +68,10 @@ const initialState: RootReducerType = {
   settingsReducer: {} as SettingsState,
 };
 
-const store = createStore(persistedReducer, initialState);
+const store = configureStore({
+  reducer: persistedReducer,
+  preloadedState: initialState,
+});
 const persistor = persistStore(store);
 
 export { store, persistor };

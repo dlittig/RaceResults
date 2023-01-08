@@ -7,7 +7,7 @@ import BaseView from "../../components/BaseView";
 import BaseScrollView from "../../components/BaseScrollView";
 import { applyTheme } from "../../store/actions/settingsActions";
 import { THEMES } from "../../store/constants/settingsConstants";
-import { useStore, HOOK } from "../../hooks/store";
+import { useStore, HOOK, UseStateResult } from "../../hooks/store";
 
 import style from "./Settings.style";
 
@@ -18,7 +18,7 @@ type LeftPropsType = {
 };
 
 const Settings: FC = () => {
-  const { settingsReducer } = useStore([HOOK.SETTINGS], {});
+  const { settingsReducer } = useStore<UseStateResult>([HOOK.SETTINGS], {});
   const dispatch = useDispatch();
   const leftProps: LeftPropsType = {
     [THEMES.LIGHT]: { left: undefined },

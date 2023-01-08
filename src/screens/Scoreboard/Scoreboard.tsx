@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { DataTable, ProgressBar } from "react-native-paper";
 
 import { calculateScores } from "../../utils";
-import { HOOK, useStore } from "../../hooks/store";
+import { HOOK, UseStateResult, useStore } from "../../hooks/store";
 import BaseView from "../../components/BaseView/BaseView";
 import BaseScrollView from "../../components/BaseScrollView/BaseScrollView";
 
@@ -19,7 +19,7 @@ const Scoreboard: FC = () => {
   const navigation = useNavigation();
   const state = navigation?.getState();
   const { session: sessionId } = state.routes[state.index].params;
-  const { driversReducer, session } = useStore(
+  const { driversReducer, session } = useStore<UseStateResult>(
     [HOOK.DRIVERS, HOOK.SESSION_SPECIFIC],
     { sessionId }
   );
@@ -30,7 +30,7 @@ const Scoreboard: FC = () => {
   >([]);
 
   useEffect(() => {
-    const { finalOrder } = calculateScores(session);
+    const { finalOrder } = calculateScores(session!);
 
     setSessionResults(finalOrder);
 

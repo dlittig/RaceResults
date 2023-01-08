@@ -59,22 +59,17 @@ const EditRace: FC = () => {
     DriversResult &
     SettingsResult;
 
-  const {
-    race,
-    session,
-    sessionRaces,
-    driversReducer,
-    settingsReducer,
-  } = useStore<ResultType>(
-    [
-      HOOK.RACE_SPECIFIC,
-      HOOK.SESSION_SPECIFIC,
-      HOOK.RACES_OF_SESSION,
-      HOOK.DRIVERS,
-      HOOK.SETTINGS,
-    ],
-    { raceId: routeParams.race, sessionId: routeParams.session }
-  );
+  const { race, session, sessionRaces, driversReducer, settingsReducer } =
+    useStore<ResultType>(
+      [
+        HOOK.RACE_SPECIFIC,
+        HOOK.SESSION_SPECIFIC,
+        HOOK.RACES_OF_SESSION,
+        HOOK.DRIVERS,
+        HOOK.SETTINGS,
+      ],
+      { raceId: routeParams.race, sessionId: routeParams.session }
+    );
 
   if (session === null) {
     return <Error />;
@@ -95,7 +90,7 @@ const EditRace: FC = () => {
       // If there are no previous sessions, initialize with default
       if (sessionRaces.length === 0) {
         Object.keys(driversReducer.drivers).forEach((driverId) => {
-          cars[driverId] = "";
+          cars[parseInt(driverId)] = "";
         });
       } else {
         // If sessions are available, read cars from previous races
@@ -156,7 +151,7 @@ const EditRace: FC = () => {
 
   const renderItem = ({
     item: id,
-    index,
+    getIndex,
     drag,
     isActive,
   }: RenderItemParams<number>): ReactNode => (
@@ -179,8 +174,9 @@ const EditRace: FC = () => {
             ></MaterialIcons>
           </View>
           <View style={style.inputContainer}>
-            <Text style={style[`${theme}Icon`].color}>
-              {`${index! + 1}: ${driversReducer.drivers[id].name}`}
+            {/* TODO: Fix coloring with theme //  style={style[`${theme}Icon`].color}*/}
+            <Text>
+              {`${getIndex()! + 1}: ${driversReducer.drivers[id].name}`}
             </Text>
             <TextInput
               mode="flat"
@@ -296,7 +292,7 @@ const EditRace: FC = () => {
       />
       <FAB
         style={style.fab}
-        label={t("actions.save")}
+        label={t("actions.save") || ""}
         icon="check"
         onPress={() => onSave()}
       />

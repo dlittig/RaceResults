@@ -141,7 +141,7 @@ const Navigator: FC = () => {
                       accessibilityLabel="Export"
                       size={24}
                       onPress={() =>
-                        exportSession(route?.params?.session as number)
+                        exportSession(parseInt((route?.params as any).session))
                       }
                     />
                   </View>
