@@ -23,9 +23,9 @@ const Drawer = createDrawerNavigator();
 const getOptions = (theme: string) => ({
   headerShown: true,
   headerTintColor:
-    theme === THEMES.LIGHT
-      ? ThemeColors.LightColors.text
-      : ThemeColors.DarkColors.text,
+    theme === THEMES.DARK
+      ? ThemeColors.DarkColors.text
+      : ThemeColors.LightColors.text,
 });
 
 const headerStyle = {
