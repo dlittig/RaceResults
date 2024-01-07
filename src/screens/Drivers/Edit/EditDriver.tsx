@@ -47,12 +47,17 @@ const EditDriver: FC = () => {
     driverId,
   });
 
-  const take = <T extends unknown>(key: string, fallback: T): T =>
-    typeof driverId !== "undefined" &&
-    driver !== null &&
-    typeof driver[key] !== "undefined"
-      ? driver[key]
-      : fallback;
+  const take = <T extends unknown>(key: string, fallback: T): T => {
+    if (
+      typeof driverId !== "undefined" &&
+      driver !== null &&
+      typeof driver[key] !== "undefined"
+    ) {
+      return driver[key] as T;
+    }
+
+    return fallback;
+  };
 
   const [name, setName] = useState(take("name", ""));
   const [selectedColor, setSelectedColor] = useState<string>(

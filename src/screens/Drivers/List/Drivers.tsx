@@ -39,8 +39,7 @@ const Drivers: FC = () => {
                 allowDelete={true}
                 onPress={() =>
                   navigation.navigate(
-                    t(APP_VIEW_DRIVER) as never,
-                    { driver: driver.id } as never
+                    ...([t(APP_VIEW_DRIVER), { driver: driver.id }] as never)
                   )
                 }
                 driver={driver}

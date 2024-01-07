@@ -36,10 +36,12 @@ const Sessions: FC = () => {
               key={index}
               onPress={() =>
                 navigation.navigate(
-                  t(APP_VIEW_SESSION) as never,
-                  {
-                    session: session.id,
-                  } as never
+                  ...([
+                    t(APP_VIEW_SESSION),
+                    {
+                      session: session.id,
+                    },
+                  ] as never)
                 )
               }
               session={session}

@@ -1,7 +1,6 @@
 import React, { FC } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import SessionsList from "../screens/Sessions/List";
-import DriversList from "../screens/Drivers/List";
 import {
   APP_ABOUT,
   APP_DRIVERS,
@@ -9,14 +8,15 @@ import {
   APP_SESSIONS,
   APP_SETTINGS,
 } from "./RouteConstants";
-import RandomMap from "../screens/RandomMap";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import About from "../screens/About";
 import Settings from "../screens/Settings";
+import RandomMap from "../screens/RandomMap";
 import { useTranslation } from "react-i18next";
-import ThemeProvider from "../provider/ThemeProvider/ThemeProvider";
-import { THEMES } from "../store/constants/settingsConstants";
+import DriversList from "../screens/Drivers/List";
+import SessionsList from "../screens/Sessions/List";
 import { ThemeColors } from "../theme/colors/values";
+import { THEMES } from "../store/constants/settingsConstants";
+import ThemeProvider from "../provider/ThemeProvider/ThemeProvider";
 
 const Drawer = createDrawerNavigator();
 

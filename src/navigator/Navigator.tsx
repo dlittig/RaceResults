@@ -1,8 +1,9 @@
 import React, { FC } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { IconButton } from "react-native-paper";
+import { NavigationContainer, Theme } from "@react-navigation/native";
 import { createStackNavigator, TransitionSpecs } from "@react-navigation/stack";
-import DrawerNavigator from "./DrawerNavigator";
-import EditDriver from "../screens/Drivers/Edit";
 import {
   APP_EDIT_DRIVER,
   APP_EDIT_RACE,
@@ -14,19 +15,18 @@ import {
   APP_VIEW_RACE,
   APP_VIEW_SESSION,
 } from "./RouteConstants";
-import RandomMap from "../screens/RandomMap";
-import ViewSession from "../screens/Sessions/View";
-import Scoreboard from "../screens/Scoreboard";
-import EditSession from "../screens/Sessions/Edit";
-import EditRace from "../screens/Race/Edit";
-import { View } from "react-native";
-import { IconButton } from "react-native-paper";
-import ViewRace from "../screens/Race/View";
 import { exportSession } from "../utils";
+import EditRace from "../screens/Race/Edit";
+import ViewRace from "../screens/Race/View";
+import RandomMap from "../screens/RandomMap";
+import Scoreboard from "../screens/Scoreboard";
+import DrawerNavigator from "./DrawerNavigator";
+import EditDriver from "../screens/Drivers/Edit";
 import ViewDriver from "../screens/Drivers/View";
-import ThemeProvider from "../provider/ThemeProvider/ThemeProvider";
+import ViewSession from "../screens/Sessions/View";
+import EditSession from "../screens/Sessions/Edit";
 import getNavigationTheme from "../theme/navigation";
-import { useTranslation } from "react-i18next";
+import ThemeProvider from "../provider/ThemeProvider/ThemeProvider";
 
 import styles from "./Navigator.style";
 const Stack = createStackNavigator();
@@ -50,7 +50,7 @@ const Navigator: FC = () => {
   return (
     <ThemeProvider.Consumer>
       {(theme) => (
-        <NavigationContainer theme={getNavigationTheme(theme)}>
+        <NavigationContainer theme={getNavigationTheme(theme) as Theme}>
           <Stack.Navigator screenOptions={{ headerStyle }}>
             <Stack.Screen
               name={t(APP_HOME)}

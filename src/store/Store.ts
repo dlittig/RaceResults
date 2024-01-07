@@ -5,7 +5,7 @@ import reducers, { RootReducerType } from "./reducers";
 import { CONDITION, Race } from "./reducers/raceReducer";
 import { SettingsState } from "./reducers/settingsReducer";
 import { Session, TYPE_PRESET } from "./reducers/sessionsReducer";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, createStore } from "redux";
 
 const migrations = {
   0: (state: RootReducerType) => {
@@ -61,17 +61,7 @@ const persistedReducer = persistReducer(
   combineReducers(reducers)
 );
 
-const initialState: RootReducerType = {
-  driversReducer: { drivers: {} },
-  raceReducer: { races: [] },
-  sessionsReducer: { sessions: [] },
-  settingsReducer: {} as SettingsState,
-};
-
-const store = configureStore({
-  reducer: persistedReducer,
-  preloadedState: initialState,
-});
+const store = createStore(persistedReducer);
 const persistor = persistStore(store);
 
 export { store, persistor };

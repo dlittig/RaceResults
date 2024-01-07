@@ -69,11 +69,13 @@ const ViewSession: FC = () => {
             race={race}
             onPress={() =>
               navigation.navigate(
-                t(APP_VIEW_RACE) as never,
-                {
-                  race: race.id,
-                  session: session!.id,
-                } as never
+                ...([
+                  t(APP_VIEW_RACE),
+                  {
+                    race: race.id,
+                    session: session!.id,
+                  },
+                ] as never)
               )
             }
           />
@@ -85,8 +87,7 @@ const ViewSession: FC = () => {
         icon="plus"
         onPress={() =>
           navigation.navigate(
-            t(APP_EDIT_RACE) as never,
-            { session: session!.id } as never
+            ...([t(APP_EDIT_RACE), { session: session!.id }] as never)
           )
         }
       />
