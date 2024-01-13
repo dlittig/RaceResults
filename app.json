@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "com.dlittig.race-results",
     "name": "RaceResults",
     "slug": "RaceResults",
     "version": "1.0.0",
@@ -39,7 +40,8 @@
       "policy": "sdkVersion"
     },
     "plugins": [
-      "expo-localization"
+      "expo-localization",
+      "expo-router"
     ]
   }
 }
